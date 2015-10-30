@@ -1,34 +1,58 @@
 
 <div class='vra-data'>
-    <h4>Global Attributes</h4>
-    <div class='global-attributes'>
-        <?php foreach($globalAttributes as $attr) :?>
-            <?php
-                if(array_key_exists($attr, $attributeValues)) {
-                    $value = $attributeValues[$attr];
-                } else {
-                    $value = '';
-                }
-            ?>
-            <label><?php echo ucfirst($attr); ?></label>
-            <input name='vra-attr[<?php echo $element->id; ?>][<?php echo $attr; ?>]' value='<?php echo $value ?>' type='text' />
-        <?php endforeach;?>
+<?php
 
-    </div>
-    <?php if (!empty($elementsData[$element->name]['attrs'])): ?>
-        <h4>Additional Attributes</h4>
-        <div>
-        <?php foreach($elementsData[$element->name]['attrs'] as $attr) :?>
+echo $this->partial('attribute-edit-form.php',
+            array('element'          => $element,
+                  'record'           => $record,
+                  'elementsData'     => $elementsData,
+                  'subelementsData'  => $subelementsData,
+                  'globalAttributes' => $globalAttributes,
+                  "attributeValues"  => $attributeValues
+            ));
+?>
+
+<?php if(isset($elementsData[$element->name]['subelements'])): ?>
+    <h3>Subelements</h3>
+    <div class='vra-subelements'>
+    <?php foreach($elementsData[$element->name]['subelements'] as $subelement ):?>
+    
+        <h3><?php echo $subelement?></h3>
+        <div class='vra-subelement'>
+            <textarea name='vra-subelement[<?php echo $element->id; ?>][<?php echo $subelement; ?>][0][content]'></textarea>
             <?php
-                if(array_key_exists($attr, $attributeValues)) {
-                    $value = $attributeValues[$attr];
-                } else {
-                    $value = '';
-                }
+            
+            echo $this->partial('attribute-edit-form.php',
+                        array('element'          => $element,
+                              'record'           => $record,
+                              'elementsData'     => $elementsData,
+                              'subelementsData'  => $subelementsData,
+                              'globalAttributes' => $globalAttributes,
+                              'attributeValues'  => $attributeValues,
+                              'subelement'       => $subelement
+                        ));
             ?>
-            <label><?php echo ucfirst($attr); ?></label>
-            <input name='vra-attr[<?php echo $element->id; ?>]["<?php echo $attr; ?>"]' type='text' />
-        <?php endforeach;?>
         </div>
-    <?php endif; ?>
+    
+        <?php foreach($elementsData[$element->name]['subelementObjects'] as $subelementObj ):?>
+        <div class='vra-subelement'>
+            <textarea name='vra-subelement[<?php echo $element->id; ?>][<?php echo $subelement; ?>][<?php echo $subelementObj->id; ?>][content]'></textarea>
+            <?php
+            
+            echo $this->partial('attribute-edit-form.php',
+                        array('element'          => $element,
+                              'record'           => $record,
+                              'elementsData'     => $elementsData,
+                              'subelementsData'  => $subelementsData,
+                              'globalAttributes' => $globalAttributes,
+                              'attributeValues'  => $attributeValues,
+                              'subelement'       => $subelementObj
+                        ));
+            ?>
+        </div>    
+        <?php endforeach; ?>
+    
+    <?php endforeach; ?>
+    </div>
+<?php endif; ?>
 </div>

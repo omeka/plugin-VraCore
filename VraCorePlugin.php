@@ -15,78 +15,86 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             );
     
     protected $elementsData = array(
-            'Title' => array('attrs' => array('type'), 'subelements' => array()),
+            'Title' => array('attrs' => array('type')),
             'Agent' => array(
                     'attrs' => array(), 
-                    'subelements' => array('name', 'culture', 'dates', 'role', 'attribution')
+                    'subelements' => array('name', 'culture', 'dates', 'role', 'attribution'),
+                    'subelementObjects' => array()
                     ),
             'Cultural Context' => array('attrs' => array(), 'subelements' => array()), 
             'Date' => array(
                     'attrs' => array('type'),
-                    'subelements' => array('earliestDate', 'latestDate')
+                    'subelements' => array('earliestDate', 'latestDate'),
+                    'subelementObjects' => array()
                     ),
-            'Description' => array('attrs' => array(), 'subelements' => array()),
+            'Description' => array('attrs' => array()),
             'Inscription' => array(
                     'attrs' => array(),
-                    'subelements' => array('author', 'position', 'text')
+                    'subelements' => array('author', 'position', 'text'),
+                    'subelementObjects' => array()
                     ),
             'Location' => array(
                     'attrs' => array('type'),
-                    'subelements' => array('name', 'refid')
+                    'subelements' => array('name', 'refid'),
+                    'subelementObjects' => array()
                     ),
-            'Material' => array('attrs' => array('type'), 'subelements' => array()),
-            'Measurements' => array('attrs' => array('type', 'unit'), 'subelements' => array()),
+            'Material' => array('attrs' => array('type')),
+            'Measurements' => array('attrs' => array('type', 'unit')),
             'Relation' => array(
                     'attrs' => array('type', 'relids'),
-                    'subelements' => array()
                     ),
             'Rights' => array(
                     'attrs' => array('type'),
-                    'subelements' => array('rightsHolder', 'text')
+                    'subelements' => array('rightsHolder', 'text'),
+                    'subelementObjects' => array()
                     ),
             'Source' => array(
                     'attrs' => array(), 
-                    'subelements' => array('name', 'refid')
+                    'subelements' => array('name', 'refid'),
+                    'subelementObjects' => array()
                     ),
             'State Edition' => array(
                     'attrs' => array('type', 'num', 'count'),
-                    'subelements' => array('name', 'description')
+                    'subelements' => array('name', 'description'),
+                    'subelementObjects' => array()
                     ),
             'Style Period' => array('attrs' => array(), 'subelements' => array()),
             'Subject' => array(
                     'attrs' => array(),
-                    'subelements' => array('term')
+                    'subelements' => array('term'),
+                    'subelementObjects' => array()
                     ),
             'Technique' => array('attrs' => array(), 'subelements' => array()),
             'Textref' => array(
                     'attrs' => array(),
-                    'subelements' => array('name', 'refid')
+                    'subelements' => array('name', 'refid'),
+                    'subelementObjects' => array()
                     ),
-            'Worktype' => array('attrs' => array(), 'subelements' => array())
+            'Worktype' => array('attrs' => array())
         );
     
     protected $subelementsData = array(
             'dates' => array(
-                    'attrs' => 'type',
+                    'attrs' => array('type'),
                     'subelements' => array('earliestDate', 'latestDate')
                     ),
             'name' => array(
-                    'attrs' => 'type'
+                    'attrs' => array('type')
                     ),
             'text' => array(
-                    'attrs' => 'type'
+                    'attrs' => array('type')
                     ),
             'refid' => array(
-                    'attrs' => 'type'
+                    'attrs' => array('type')
                     ),
             'term' => array(
-                    'attrs' => 'type'
+                    'attrs' => array('type')
                     ),
             'earliestDate' => array(
-                    'attrs' => 'circa'
+                    'attrs' => array('circa')
                     ),
             'latestDate' => array(
-                    'attrs' => 'circa'
+                    'attrs' => array('circa')
                     ),
             );
     
@@ -230,7 +238,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $element = $args['element'];
         $attributeValues = $this->_db->getTable('VraCoreAttribute')->findBy(array('element_id' => $element->id,
                                                                            'item_id ' => $record->id
-                
                                                             ));
         $keyedValues = array();
         foreach($attributeValues as $valueObject) {

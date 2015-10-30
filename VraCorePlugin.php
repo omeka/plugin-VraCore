@@ -6,7 +6,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             'install',
             'uninstall',
             'initialize',
-            'after_save_item'
+            'after_save_item',
+            'elements_show'
             );
     
     public $_filters = array(
@@ -101,6 +102,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         foreach ($elements as $element) {
             add_filter(array('ElementForm', 'Item', "VRA Core", $element), array($this, 'addVraInputs'), 1);
         }
+        $view = get_view();
+        $view->addHelperPath(__DIR__ . '/helpers', 'VraCore_View_Helper_');
     }
     
     public function hookInstall()
@@ -191,6 +194,30 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
     
+    public function hookElementsShow($args)
+    {
+        $record = $args['record'];
+        $element = $args['elementInfo']['element'];
+        $elementSet = $this->_db->getTable('ElementSet')->find($element->element_set_id);
+        if ($elementSet->name == 'VRA Core') {
+            $attributes = $this->_db->getTable('VraCoreAttribute')
+                            ->findBy(array('item_id'    => $record->id,
+                                           'element_id' => $element->id
+                               ));
+            if (empty($attributes)) {
+                return;
+            }
+            $html = '<h4>Attributes</h4>';
+            $html .= "<ul class='vra-core-attributes'>";
+            foreach($attributes as $attribute) {
+                $html .= "<li><span class='vra-core-attribute-name'>" . metadata($attribute, 'name') . "</span>";
+                $html .= metadata($attribute, 'content') . "</li>";
+            }
+            $html .= "</ul>";
+            echo $html;
+        }
+    }
+
     public function addVraInputs($components, $args)
     {
         $record = $args['record'];

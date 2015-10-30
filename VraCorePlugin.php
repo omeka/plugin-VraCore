@@ -81,7 +81,13 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                     ),
             'term' => array(
                     'attrs' => 'type'
-                    )
+                    ),
+            'earliestDate' => array(
+                    'attrs' => 'circa'
+                    ),
+            'latestDate' => array(
+                    'attrs' => 'circa'
+                    ),
             );
     
     protected $globalAttrs = array(

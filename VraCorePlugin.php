@@ -163,48 +163,19 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     
     public function hookAfterSaveItem($args)
     {
-        $post = $args['post'];
-        $record = $args['record'];
         $insert = $args['insert'];
-        $attrTable = $this->_db->getTable('VraCoreAttribute');
+        
+        //figure out whether there is a subelement in the data
+        //save subelement first, so I have the ID
+        //and make sure the data posted makes it possible to line up correct
+        //attributes with the right subelements, if they're there
+        
+        
+        $vraElement = null;
         if ($insert) {
-            foreach($post['vra-attr'] as $elementId => $attributeData) {
-                foreach($attributeData as $attr => $value) {
-                    if (empty($value)) {
-                        continue;
-                    }
-                    $vraAttribute = new VraCoreAttribute;
-                    $vraAttribute->item_id = $record->id;
-                    $vraAttribute->element_id = $elementId;
-                    $vraAttribute->name = $attr;
-                    $vraAttribute->content = $value;
-                    $vraAttribute->save();
-                }
-            }
+            $this->insertAttributes($args, $vraElement);
         } else {
-            foreach($post['vra-attr'] as $elementId => $attributeData) {
-                foreach($attributeData as $attr => $value) {
-                    if (empty($value)) {
-                        continue;
-                    }
-                    $attributes = $attrTable->findBy(
-                                    array('element_id' => $elementId,
-                                          'item_id' => $record->id,
-                                          'name' => $attr
-                                    ));
-                    if (empty($attributes)) {
-                        $vraAttribute = new VraCoreAttribute;
-                        $vraAttribute->item_id = $record->id;
-                        $vraAttribute->element_id = $elementId;
-                        $vraAttribute->name = $attr;
-                    } else {
-                        $vraAttribute = $attributes[0];
-                    }
-
-                    $vraAttribute->content = $value;
-                    $vraAttribute->save();
-                }
-            }
+            $this->updateAttributes($args, $vraElement);
         }
     }
     
@@ -234,15 +205,16 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
     public function addVraInputs($components, $args)
     {
+        
         $record = $args['record'];
         $element = $args['element'];
         $attributeValues = $this->_db->getTable('VraCoreAttribute')->findBy(array('element_id' => $element->id,
-                                                                           'item_id ' => $record->id
+                                                                           'item_id' => $record->id
                                                             ));
         $keyedValues = array();
         foreach($attributeValues as $valueObject) {
             $keyedValues[$valueObject->name] = metadata($valueObject, 'content');
-            $keyedValues['lang'] = metadata($valueObject, 'content');
+            //$keyedValues['xmllang'] = metadata($valueObject, 'content');
         }
 
         $view = get_view();
@@ -259,6 +231,65 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         
         $components['inputs'] .= $html;
         return $components;
+    }
+    
+    protected function insertAttributes($args, $subelement = null)
+    {
+        $post = $args['post'];
+        $record = $args['record'];
+        $insert = $args['insert'];
+        $attrTable = $this->_db->getTable('VraCoreAttribute');
+        
+        foreach($post['vra-attr'] as $elementId => $attributeData) {
+            foreach($attributeData as $attr => $valueData) {
+                if (empty($valueData['value'])) {
+                    continue;
+                }
+                $vraAttribute = new VraCoreAttribute;
+                $vraAttribute->item_id = $record->id;
+                $vraAttribute->element_id = $elementId;
+                $vraAttribute->name = $attr;
+                $vraAttribute->content = $valueData['value'];
+                if ($subelement) {
+                    $vraAttribute->vra_element_id = $subelement->id;
+                }
+                $vraAttribute->save();
+            }
+        }
+    }
+    
+    protected function updateAttributes($args, $subelement = null)
+    {
+        $post = $args['post'];
+        $record = $args['record'];
+        $insert = $args['insert'];
+        $attrTable = $this->_db->getTable('VraCoreAttribute');
+        
+        foreach($post['vra-attr'] as $elementId => $attributeData) {
+            foreach($attributeData as $attr => $valueData) {
+                if (empty($valueData['value'])) {
+                    continue;
+                }
+                $attributes = $attrTable->findBy(
+                                array('element_id' => $elementId,
+                                      'item_id' => $record->id,
+                                      'name' => $attr
+                                ));
+                if (empty($attributes)) {
+                    $vraAttribute = new VraCoreAttribute;
+                    $vraAttribute->item_id = $record->id;
+                    $vraAttribute->element_id = $elementId;
+                    $vraAttribute->name = $attr;
+                } else {
+                    $vraAttribute = $attributes[0];
+                }
+                if ($subelement) {
+                    $vraAttribute->vra_element_id = $subelement->id;
+                }
+                $vraAttribute->content = $valueData['value'];
+                $vraAttribute->save();
+            }
+        }
     }
     
     protected function installVraCoreElements()

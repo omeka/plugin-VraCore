@@ -13,15 +13,14 @@
             }
         ?>
         <label><?php echo ucfirst($attr); ?></label>
-        <input name='vra-attr[<?php echo $element->id; ?>][<?php echo $attr; ?>][value]' value='<?php echo $value ?>' type='text' />
         <?php if(isset($subelement)): ?>
             <?php if(is_numeric($subelement)): ?>
-            <input name='vra-attr[<?php echo $element->id; ?>][<?php echo $attr; ?>][subelementId][<?php echo $subelement->id; ?>]' value='<?php echo $subelement->id; ?>' type='hidden' />
-            
+                <input name='vra-subelement[<?php echo $element->id; ?>][<?php echo $subelement; ?>][0][attrs][<?php echo $element->id; ?>][<?php echo $attr; ?>][value]' value='<?php echo $value ?>' type='text' />
             <?php else: ?>
-            <?php //figure this shit out?>
-            <input name='vra-attr[<?php echo $element->id; ?>][<?php echo $attr; ?>][subelement][<?php echo $subelement; ?>]' value='<?php echo $subelement; ?>' type='hidden' />
+                <input name='vra-subelement[<?php echo $element->id; ?>][<?php echo $subelement; ?>][0][attrs][<?php echo $element->id; ?>][<?php echo $attr; ?>][value]' value='<?php echo $value ?>' type='text' />
             <?php endif; ?>
+        <?php else: ?>
+            <input name='vra-attr[<?php echo $element->id; ?>][<?php echo $attr; ?>][value]' value='<?php echo $value ?>' type='text' />
         <?php endif; ?>
     <?php endforeach;?>
 

@@ -13,6 +13,7 @@ echo $this->partial('attribute-edit-form.php',
 ?>
 
 <?php if(isset($elementsData[$element->name]['subelements'])): ?>
+<?php //if(false): ?>
     <h3>Subelements</h3>
     <div class='vra-subelements'>
     <?php foreach($elementsData[$element->name]['subelements'] as $subelement ):?>

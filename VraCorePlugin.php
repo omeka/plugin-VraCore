@@ -190,11 +190,24 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         if ($elementSet->name == 'VRA Core') {
             $attributes = $this->_db->getTable('VraCoreAttribute')
                             ->findBy(array('item_id'    => $record->id,
-                                           'element_id' => $element->id
+                                           'element_id' => $element->id,
+                                           'vra_element_id' => false
                                ));
-            if (empty($attributes)) {
+            $subElements = $this->_db->getTable('VraCoreSubelement')
+                            ->findBy(array('item_id'    => $record->id,
+                                           'element_id' => $element->id,
+                                           'vra_element_id' => false
+                               ));
+            
+            if (empty($attributes) && empty($subElements)) {
                 return;
             }
+            $groupedSubelements = array();
+            foreach($subElements as $subelement) {
+                $groupedSubelements[$subelement->name][] = $subelement;
+            }
+            
+            
             $html = '<h4>Attributes</h4>';
             $html .= "<ul class='vra-core-attributes'>";
             foreach($attributes as $attribute) {
@@ -202,6 +215,21 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 $html .= metadata($attribute, 'content') . "</li>";
             }
             $html .= "</ul>";
+            
+            $html .= '<h4>Subelements</h4>';
+            foreach($groupedSubelements as $name => $subelements) {
+                $html .= "<h5>$name</h5>";
+                foreach($subelements as $subelement) {
+                    $html .= metadata($subelement, 'content');
+                    $html .= "<ul class='vra-core-attributes'>";
+                    foreach($subelement->getAttributes() as $attribute) {
+                        $html .= "<li><span class='vra-core-attribute-name'>" . metadata($attribute, 'name') . "</span>";
+                        $html .= metadata($attribute, 'content') . "</li>";
+                    }
+                    $html .= "</ul>";
+                }
+
+            }
             echo $html;
         }
     }
@@ -249,8 +277,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         } else {
             $attributesArray = $post['vra-attr'];
         }
-        $attrTable = $this->_db->getTable('VraCoreAttribute');
-        
+
         foreach($attributesArray as $elementId => $attributeData) {
             foreach($attributeData as $attr => $valueData) {
                 if (empty($valueData['value'])) {
@@ -276,15 +303,29 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         foreach($post['vra-subelement'] as $elementId=>$subElementData) {
             foreach($subElementData as $subelementName=>$valuesData) {
                 foreach($valuesData as $id => $content) {
-                    if ($content['content'] != '') {
-                        $vraSubelement = new VraCoreSubelement();
-                        $vraSubelement->element_id = $elementId;
-                        $vraSubelement->item_id = $record->id;
-                        $vraSubelement->name = $subelementName;
-                        $vraSubelement->content = $content['content'];
-                        $vraSubelement->save();
-                        $args['attributes'] = $content['attrs'];
-                        $this->insertAttributes($args, $vraSubelement);
+                    if ($id == 'new') {
+                        //foreach for new vra elements
+                        foreach($content as $newContent) {
+                            if ($newContent['content'] != '') {
+                                $vraSubelement = new VraCoreSubelement();
+                                $vraSubelement->element_id = $elementId;
+                                $vraSubelement->item_id = $record->id;
+                                $vraSubelement->name = $subelementName;
+                                $vraSubelement->content = $newContent['content'];
+                                $vraSubelement->save();
+                                $args['attributes'] = $newContent['attrs'];
+                                $this->updateAttributes($args, $vraSubelement);
+                            }
+                        }
+                    } else {
+                        if ($content['content'] != '') {
+                            // lookup from subelement table
+                            $vraSubelement = $vraSubelementTable->find($id);
+                            $vraSubelement->content = $content['content'];
+                            $vraSubelement->save();
+                            $args['attributes'] = $content['attrs'];
+                            $this->updateAttributes($args, $vraSubelement);
+                        }
                     }
                 }
             }
@@ -295,18 +336,33 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         $post = $args['post'];
         $record = $args['record'];
+        $vraSubelementTable = $this->_db->getTable('VraCoreSubelement');
         foreach($post['vra-subelement'] as $elementId=>$subElementData) {
             foreach($subElementData as $subelementName=>$valuesData) {
                 foreach($valuesData as $id => $content) {
-                    if ($content['content'] != '') {
-                        $vraSubelement = new VraCoreSubelement();
-                        $vraSubelement->element_id = $elementId;
-                        $vraSubelement->item_id = $record->id;
-                        $vraSubelement->name = $subelementName;
-                        $vraSubelement->content = $content['content'];
-                        $vraSubelement->save();
-                        $args['attributes'] = $content['attrs'];
-                        $this->insertAttributes($args, $vraSubelement);
+                    if ($id == 'new') {
+                        //foreach for new vra elements
+                        foreach($content as $newContent) {
+                            if ($newContent['content'] != '') {
+                                $vraSubelement = new VraCoreSubelement();
+                                $vraSubelement->element_id = $elementId;
+                                $vraSubelement->item_id = $record->id;
+                                $vraSubelement->name = $subelementName;
+                                $vraSubelement->content = $newContent['content'];
+                                $vraSubelement->save();
+                                $args['attributes'] = $newContent['attrs'];
+                                $this->updateAttributes($args, $vraSubelement);
+                            }
+                        }
+                    } else {
+                        if ($content['content'] != '') {
+                            // lookup from subelement table
+                            $vraSubelement = $vraSubelementTable->find($id);
+                            $vraSubelement->content = $content['content'];
+                            $vraSubelement->save();
+                            $args['attributes'] = $content['attrs'];
+                            $this->updateAttributes($args, $vraSubelement);
+                        }
                     }
                 }
             }

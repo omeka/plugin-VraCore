@@ -15,9 +15,9 @@
         <label><?php echo ucfirst($attr); ?></label>
         <?php if(isset($subelement)): ?>
             <?php if(is_numeric($subelement)): ?>
-                <input name='vra-subelement[<?php echo $element->id; ?>][<?php echo $subelement; ?>][0][attrs][<?php echo $element->id; ?>][<?php echo $attr; ?>][value]' value='<?php echo $value ?>' type='text' />
+                <input name='vra-subelement[<?php echo $element->id; ?>][<?php echo $subelement; ?>][attrs][<?php echo $element->id; ?>][<?php echo $attr; ?>][value]' value='<?php echo $value ?>' type='text' />
             <?php else: ?>
-                <input name='vra-subelement[<?php echo $element->id; ?>][<?php echo $subelement; ?>][0][attrs][<?php echo $element->id; ?>][<?php echo $attr; ?>][value]' value='<?php echo $value ?>' type='text' />
+                <input name='vra-subelement[<?php echo $element->id; ?>][<?php echo $subelement->id; ?>][attrs][<?php echo $element->id; ?>][<?php echo $attr; ?>][value]' value='<?php echo $value ?>' type='text' />
             <?php endif; ?>
         <?php else: ?>
             <input name='vra-attr[<?php echo $element->id; ?>][<?php echo $attr; ?>][value]' value='<?php echo $value ?>' type='text' />

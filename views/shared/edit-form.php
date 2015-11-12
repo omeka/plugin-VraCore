@@ -1,7 +1,7 @@
 
 <div class='vra-data'>
 <?php
-
+// attributes for the vra:display for the {element}Set
 echo $this->partial('attribute-edit-form.php',
             array('element'          => $element,
                   'record'           => $record,
@@ -11,6 +11,30 @@ echo $this->partial('attribute-edit-form.php',
                   "attributeValues"  => $attributeValues
             ));
 ?>
+<?php $vraElementName = lcfirst($element->name); ?>
+<?php 
+$nameBase = "vra-element[{$element->id}]"; 
+//new vraelement
+//$nameBase[new][0][data][attrs]
+//$nameBase[new][0][data][content]
+//$nameBase[new][0][data][subelements]
+
+
+//$nameBase[
+
+//existing vraelement
+//$nameBase[$vraElementId]
+
+
+?>
+<h2><?php echo $element->name; ?> Elements</h2>
+<div class='vra-element'>
+    <textarea name='<?php echo $nameBase; ?>[new][0][data][content]' value=''></textarea>
+    <div class='vra-attributes'>
+    
+    
+    </div>
+</div>
 
 <?php if(isset($elementsData[$element->name]['subelements'])): ?>
 <?php //if(false): ?>
@@ -20,7 +44,7 @@ echo $this->partial('attribute-edit-form.php',
     
         <h3><?php echo $subelement?></h3>
         <div class='vra-subelement'>
-            <textarea name='vra-subelement[<?php echo $element->id; ?>][<?php echo $subelement; ?>][0][content]'></textarea>
+            <textarea name='vra-subelement[<?php echo $element->id; ?>][<?php echo $subelement; ?>][new][][content]'></textarea>
             <?php
             
             echo $this->partial('attribute-edit-form.php',

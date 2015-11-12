@@ -221,6 +221,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 $html .= "<h5>$name</h5>";
                 foreach($subelements as $subelement) {
                     $html .= metadata($subelement, 'content');
+                    $html .= "<h6>Attributes</h6>";
                     $html .= "<ul class='vra-core-attributes'>";
                     foreach($subelement->getAttributes() as $attribute) {
                         $html .= "<li><span class='vra-core-attribute-name'>" . metadata($attribute, 'name') . "</span>";
@@ -236,30 +237,54 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
     public function addVraInputs($components, $args)
     {
-        
+        $components['add_input'] = '';
         $record = $args['record'];
         $element = $args['element'];
+        $attributeObjects = array();
+        $vraElementObjects = array();
         if ($record->exists()) {
-            $attributeValues = $this->_db->getTable('VraCoreAttribute')->findBy(array('element_id' => $element->id,
-                                                                               'item_id' => $record->id
-                                                                ));
-            $keyedValues = array();
-            foreach($attributeValues as $valueObject) {
-                $keyedValues[$valueObject->name] = metadata($valueObject, 'content');
-                //$keyedValues['xmllang'] = metadata($valueObject, 'content');
+            $attributes = $this->_db
+                ->getTable('VraCoreAttribute')
+                ->findBy(array('element_id' => $element->id,
+                               'item_id' => $record->id
+                        ));
+            foreach($attributes as $attribute) {
+                if(is_null($attribute->vra_element_id)) {
+                    $attributeObjects['display'][$attribute->name] = $attribute;
+                } else {
+                    $attributeObjects[$attribute->vra_element_id][$attribute->name] = $attribute;
+                }
             }
-        } else {
-            $keyedValues = array();
+            
+            $subelements = $this->_db
+                ->getTable('VraCoreSubelement')
+                ->findBy(array('element_id' => $element->id,
+                               'item_id' => $record->id
+                        ));
+            
+            foreach ($subelements as $subelement) {
+                if(is_null($subelement->vra_element_id)) {
+                    $vraElementObjects['set'] = $subelement;
+                } else {
+                    $vraElementObjects[$subelement->id] = $subelement;
+                }
+            }
         }
+        
+        $attributeNames = array_merge($this->elementsData[$element->name]['attrs'], $this->globalAttrs);
+        
         $view = get_view();
         $valuesVariableName = 'attributeValues' . $element->id;
-        $html = $view->partial('edit-form.php',
+        $html = $view->partial('element-edit-form.php',
             array('element'          => $element,
                   'record'           => $record,
                   'elementsData'     => $this->elementsData,
                   'subelementsData'  => $this->subelementsData,
+                    
                   'globalAttributes' => $this->globalAttrs,
-                  "attributeValues"  => $keyedValues
+                  'attributeNames'    => $attributeNames,
+                  'vraElementObjects' => $vraElementObjects,
+                  'attributeObjects'  => $attributeObjects
             ));
         
         

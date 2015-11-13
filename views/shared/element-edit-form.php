@@ -16,9 +16,9 @@ $nameBase = "vra-element[{$element->id}]";
             array(
                  'attributeNames'   => $globalAttributes,
                  'attributeObjects' => $attributeObjects,
-                 'nameBase'         => $nameBase
+                 'nameBase'         => $nameBase . "[display]"
                  )
-            ); 
+            );
     ?>
 
 
@@ -26,13 +26,14 @@ $nameBase = "vra-element[{$element->id}]";
 
 <p><?php echo $element->name; ?> Elements</p>
     <div class='vra-element'>
-        <textarea name='<?php echo $nameBase; ?>[new][][data][content]' value=''></textarea>
+        <textarea name='<?php echo $nameBase; ?>[newElement][data][content]' value=''></textarea>
         
     <?php echo $this->partial('element-attribute-form.php', 
             array(
                  'attributeNames'   => $attributeNames,
                  'attributeObjects' => $attributeObjects,
-                 'nameBase'         => $nameBase
+                 'vraElement' => true,
+                 'nameBase'         => $nameBase . "[newElement][data]"
                  )
             ); 
     ?>
@@ -43,7 +44,7 @@ $nameBase = "vra-element[{$element->id}]";
         <?php $attributeObjects = $vraElementObject->getAttributes(); ?>
             <p><?php echo $vraElementObject->name; ?>
             <div class='vra-element'>
-                <textarea name='<?php echo $nameBase; ?>[new][0][data][content]' value=''></textarea>
+                <textarea name='<?php echo $nameBase; ?>[<?php $vraElementObject->id?>][data][content]' value=''></textarea>
                 <?php echo $this->partial('element-attribute-form.php', 
                         array(
                              'attributeNames'   => $attributeNames,

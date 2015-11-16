@@ -26,14 +26,15 @@ $nameBase = "vra-element[{$element->id}]";
 
 <p><?php echo $element->name; ?> Elements</p>
     <div class='vra-element'>
-        <textarea name='<?php echo $nameBase; ?>[newElement][data][content]' value=''></textarea>
+        <textarea name='<?php echo $nameBase; ?>[newElements][0][data][content]' value=''></textarea>
         
     <?php echo $this->partial('element-attribute-form.php', 
             array(
                  'attributeNames'   => $attributeNames,
                  'attributeObjects' => $attributeObjects,
-                 'vraElement' => true,
-                 'nameBase'         => $nameBase . "[newElement][data]"
+                 //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                 'vraElementObjects' => array_merge(array(true), $vraElementObjects),
+                 'nameBase'         => $nameBase . "[newElements][0][data]"
                  )
             ); 
     ?>

@@ -165,7 +165,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAfterSaveItem($args)
     {
         $insert = $args['insert'];
-        
+        $post = $args['post'];
+        debug(print_r($post['vra-element'][262], true));
         //figure out whether there is a subelement in the data
         //save subelement first, so I have the ID
         //and make sure the data posted makes it possible to line up correct
@@ -450,6 +451,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                              '
         );
         $elements = array(
+            array(
+                'name'           => 'ID',
+                'description'    => 'The ID to apply to a VRA Work, Image, or Collection'
+            ),
             array(
                 'name'           => 'Title',
                 'description'    => 'The title or identifying phrase given to a Work or an Image.',

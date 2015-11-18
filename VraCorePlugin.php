@@ -212,12 +212,26 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             foreach($elementArray as $vraElementId => $existingElementData) {
                 $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
                 if (empty($existingElementData['content'])) {
-                    $vraElementObject->delete();
+                    //$vraElementObject->delete();
                 } else {
                     $vraElementObject->content = $existingElementData['content'];
                     $vraElementObject->save();
                     $this->storeAttributes($existingElementData['attrs'], $omekaRecordData, $omekaElementId, $vraElementId);
                 }
+            }
+            
+            $notes = $elementArray['notes'];
+            if(! empty($notes)) {
+                $notesObject = $this->_db->getTable('VraCoreElement')->findNotesForRecordElement($omekaRecord, $omekaElementId);
+                if (! $notesObject) {
+                    $notesObject = new VraCoreElement();
+                    $notesObject->record_id = $omekaRecord->id;
+                    $notesObject->record_type = get_class($omekaRecord);
+                    $notesObject->element_id = $omekaElementId;
+                    $notesObject->name = 'notes';
+                }
+                $notesObject->content = $notes;
+                $notesObject->save(true);
             }
         }
     }
@@ -288,6 +302,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $attributeObjects = array();
         $vraElementObjects = array();
         if ($record->exists()) {
+            
+            $notesObject = $this->_db->getTable('VraCoreElement')->findNotesForRecordElement($record, $omekaElement->id);
+            
             $attributes = $this->_db
                 ->getTable('VraCoreAttribute')
                 ->findBy(array('element_id'  => $omekaElement->id,
@@ -327,6 +344,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                   'record'           => $record,
                   'elementsData'     => $this->elementsData,
                   'subelementsData'  => $this->subelementsData,
+                  'notesObject'      => $notesObject,
                     
                   'globalAttributes' => $this->globalAttrs,
                   'attributeNames'    => $attributeNames,

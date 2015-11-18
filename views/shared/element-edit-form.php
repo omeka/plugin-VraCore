@@ -4,6 +4,13 @@
     $nameBase = "vra-element[{$omekaElement->id}]";
     $ignoreAttributes =  get_option('vra-core-ignore-attributes');
 ?>
+
+<div class='vra-element'>
+<?php echo __('Notes'); ?>
+<?php $notes = $notesObject ? $notesObject->content : ''; ?>
+<textarea name='<?php echo $nameBase; ?>[notes]' value='<?php echo $notes; ?>'><?php echo $notes; ?></textarea>
+</div>
+
 <?php if(! $ignoreAttributes): ?>
 <p>Display Element Attributes</p>
 

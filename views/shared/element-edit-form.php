@@ -15,9 +15,6 @@
             );
     ?>
 
-
-
-
 <p><?php echo $omekaElement->name; ?> Elements</p>
     <div class='vra-element'>
         <textarea name='<?php echo $nameBase; ?>[newElements][0][content]' value=''></textarea>
@@ -45,11 +42,9 @@
                  'vraElementObjects' => $vraElementObjects,
                  'nameBase'         => $nameBase . "[{$vraElementObject->id}]"
                  )
-            ); 
+            );
     ?>
     </div>
 
 <?php endforeach;?>
-
-
 </div>

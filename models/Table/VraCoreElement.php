@@ -1,6 +1,6 @@
 <?php
 
-class Table_VraCoreSubelement extends Omeka_Db_Table
+class Table_VraCoreElement extends Omeka_Db_Table
 {
     public function getSelectForFindBy($params)
     {

@@ -1,9 +1,11 @@
 <?php
 
-class VraCoreSubelement extends Omeka_Record_AbstractRecord
+class VraCoreElement extends Omeka_Record_AbstractRecord
 {
 
-    public $item_id;
+    public $record_id;
+    
+    public $record_type;
     
     public $element_id;
     

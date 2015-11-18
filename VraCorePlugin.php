@@ -166,12 +166,14 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     
     public function hookConfig($args)
     {
-        
+        $post = $args['post'];
+        set_option('vra-core-ignore-attributes', $post['vra-core-ignore-attributes']);
+        set_option('vra-core-ignore-elements', $post['vra-core-ignore-elements']);
     }
 
     public function hookConfigForm($args)
     {
-        
+        include('config_form.php');
     }
     
     public function hookAfterSaveItem($args)
@@ -277,6 +279,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     public function addVraInputs($components, $args)
     {
         $components['add_input'] = '';
+        
+        if (get_option('vra-core-ignore-elements')) {
+            return $components;
+        }
         $record = $args['record'];
         $omekaElement = $args['element'];
         $attributeObjects = array();

@@ -7,7 +7,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             'uninstall',
             'initialize',
             'after_save_item',
-            'elements_show'
+            'elements_show',
+            'config',
+            'config_form'
             );
     
     public $_filters = array(
@@ -162,6 +164,16 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $db->query($sql);
     }
     
+    public function hookConfig($args)
+    {
+        
+    }
+
+    public function hookConfigForm($args)
+    {
+        
+    }
+    
     public function hookAfterSaveItem($args)
     {
         $insert = $args['insert'];
@@ -215,12 +227,14 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $elementSet = $this->_db->getTable('ElementSet')->find($element->element_set_id);
         if ($elementSet->name == 'VRA Core') {
             $attributes = $this->_db->getTable('VraCoreAttribute')
-                            ->findBy(array('item_id'    => $record->id,
+                            ->findBy(array('record_id'    => $record->id,
+                                           'record_type' => get_class($record),
                                            'element_id' => $element->id,
                                            'vra_element_id' => false
                                ));
             $elements = $this->_db->getTable('VraCoreElement')
-                            ->findBy(array('item_id'    => $record->id,
+                            ->findBy(array('record_id'    => $record->id,
+                                           'record_type' => get_class($record),
                                            'element_id' => $element->id,
                                            'vra_element_id' => false
                                ));

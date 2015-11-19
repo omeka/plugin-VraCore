@@ -131,6 +131,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
           `record_id` int(11) NOT NULL,
           `record_type` tinytext COLLATE utf8_unicode_ci NOT NULL,
           `element_id` int(10) unsigned NOT NULL,
+          `vra_element_id` int(11) DEFAULT NULL,
           `name` text COLLATE utf8_unicode_ci NOT NULL,
           `content` text COLLATE utf8_unicode_ci NOT NULL,
           PRIMARY KEY (`id`)
@@ -219,7 +220,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                     $this->storeAttributes($existingElementData['attrs'], $omekaRecordData, $omekaElementId, $vraElementId);
                 }
             }
-            
+            //@TODO hunt down the duplication that makes this work here, but not above
             $notes = $elementArray['notes'];
             if(! empty($notes)) {
                 $notesObject = $this->_db->getTable('VraCoreElement')->findNotesForRecordElement($omekaRecord, $omekaElementId);
@@ -416,7 +417,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $elements = array(
             array(
                 'name'           => 'ID',
-                'description'    => 'The ID to apply to a VRA Work, Image, or Collection'
+                'description'    => 'The ID to apply to a VRA Work, Image, or Collection (corresponds to vra id attribute).'
             ),
             array(
                 'name'           => 'Title',

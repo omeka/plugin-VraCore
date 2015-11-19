@@ -115,6 +115,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     public function hookInitialize()
     {
         $elements = array_keys($this->elementsData);
+        //VRA id omeka element is a bit weird, as it's a VRA attribute on the Omeka record
+        //thus, it isn't in the elementsData
+        add_filter(array('ElementForm', 'Item', "VRA Core", 'ID'), array($this, 'filterVraIdForm'), 1);
+        add_filter(array('ElementInput', 'Item', "VRA Core", 'ID'), array($this, 'filterVraIdInput'), 1);
         foreach ($elements as $element) {
             add_filter(array('ElementForm', 'Item', "VRA Core", $element), array($this, 'addVraInputs'), 1);
         }
@@ -290,6 +294,18 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             echo $html;
         }
     }
+    
+    public function filterVraIdInput($components, $args)
+    {
+        $components['html_checkbox'] = false;
+        return $components;
+    }
+    
+    public function filterVraIdForm($components, $args)
+    {
+        $components['add_input'] = '';
+        return $components;
+    }
 
     public function addVraInputs($components, $args)
     {
@@ -335,7 +351,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 }
             }
         }
-
         $attributeNames = array_merge($this->elementsData[$omekaElement->name]['attrs'], $this->globalAttrs);
 
         $view = get_view();

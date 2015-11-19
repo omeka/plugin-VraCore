@@ -119,8 +119,14 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         //thus, it isn't in the elementsData
         add_filter(array('ElementForm', 'Item', "VRA Core", 'ID'), array($this, 'filterVraIdForm'), 1);
         add_filter(array('ElementInput', 'Item', "VRA Core", 'ID'), array($this, 'filterVraIdInput'), 1);
+        add_filter(array('ElementForm', 'Collection', "VRA Core", 'ID'), array($this, 'filterVraIdForm'), 1);
+        add_filter(array('ElementInput', 'Collection', "VRA Core", 'ID'), array($this, 'filterVraIdInput'), 1);
+        add_filter(array('ElementForm', 'File', "VRA Core", 'ID'), array($this, 'filterVraIdForm'), 1);
+        add_filter(array('ElementInput', 'File', "VRA Core", 'ID'), array($this, 'filterVraIdInput'), 1);
         foreach ($elements as $element) {
             add_filter(array('ElementForm', 'Item', "VRA Core", $element), array($this, 'addVraInputs'), 1);
+            add_filter(array('ElementForm', 'Collection', "VRA Core", $element), array($this, 'addVraInputs'), 1);
+            add_filter(array('ElementForm', 'File', "VRA Core", $element), array($this, 'addVraInputs'), 1);
         }
         $view = get_view();
         $view->addHelperPath(__DIR__ . '/helpers', 'VraCore_View_Helper_');
@@ -360,7 +366,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                   'record'           => $record,
                   'elementsData'     => $this->elementsData,
                   'subelementsData'  => $this->subelementsData,
-                  'notesObject'      => $notesObject,
+                  'notesObject'      => isset($notesObject) ? $notesObject : null,
                     
                   'globalAttributes' => $this->globalAttrs,
                   'attributeNames'    => $attributeNames,

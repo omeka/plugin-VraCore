@@ -9,7 +9,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             'after_save_item',
             'elements_show',
             'config',
-            'config_form'
+            'config_form',
+            'admin_head'
             );
     
     public $_filters = array(
@@ -185,6 +186,12 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     public function hookConfigForm($args)
     {
         include('config_form.php');
+    }
+    
+    public function hookAdminHead($args)
+    {
+        queue_css_file('vra-core');
+        queue_js_file('vra-core');
     }
     
     public function hookAfterSaveItem($args)

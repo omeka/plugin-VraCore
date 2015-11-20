@@ -5,14 +5,16 @@
     $ignoreAttributes =  get_option('vra-core-ignore-attributes');
 ?>
 
+<p class='vra-element-label'><?php echo __('Notes'); ?></p>
 <div class='vra-element'>
-<?php echo __('Notes'); ?>
+
 <?php $notes = $notesObject ? $notesObject->content : ''; ?>
 <textarea name='<?php echo $nameBase; ?>[notes]' value='<?php echo $notes; ?>'><?php echo $notes; ?></textarea>
 </div>
 
 <?php if(! $ignoreAttributes): ?>
-<p>Display Element Attributes</p>
+<div class='vra-attributes'>
+    <p class='vra-attributes-label'>Display Element Attributes</p>
 
     <?php echo $this->partial('element-attribute-form.php', 
             array(
@@ -22,15 +24,17 @@
                  )
             );
     ?>
-
+</div>
 <?php endif; ?>
 
 <p><?php echo $omekaElement->name; ?> Elements</p>
-    <div class='vra-element'>
+<div class='vra-element'>
+    <fieldset>
         <textarea name='<?php echo $nameBase; ?>[newElements][0][content]' value=''></textarea>
         <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][name]' value='<?php echo $omekaElement->name; ?>'></input>
         
         <?php if(! $ignoreAttributes): ?>
+            <p>Attributes</p>
             <?php echo $this->partial('element-attribute-form.php', 
                     array(
                          'attributeNames'   => $attributeNames,
@@ -42,23 +46,26 @@
                     );
             ?>
         <?php endif; ?>
-    </div>
+    </fieldset>
+</div>
     
 <?php foreach($vraElementObjects as $vraElementObject): ?>
     <div class='vra-element'>
-        <textarea name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]' value='<?php echo $vraElementObject->content; ?>'><?php echo $vraElementObject->content; ?></textarea>
-        <?php if(! $ignoreAttributes): ?>
-            <?php echo $this->partial('element-attribute-form.php', 
-                    array(
-                         'attributeNames'   => $attributeNames,
-                         'attributeObjects' => $attributeObjects,
-                         //kind of a cheat. put true at the front to produce a new set of attributes for new element
-                         'vraElementObjects' => $vraElementObjects,
-                         'nameBase'         => $nameBase . "[{$vraElementObject->id}]"
-                         )
-                    );
-            ?>
-        <?php endif; ?>
+        <fieldset>
+            <textarea name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]' value='<?php echo $vraElementObject->content; ?>'><?php echo $vraElementObject->content; ?></textarea>
+            <?php if(! $ignoreAttributes): ?>
+                <?php echo $this->partial('element-attribute-form.php', 
+                        array(
+                             'attributeNames'   => $attributeNames,
+                             'attributeObjects' => $attributeObjects,
+                             //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                             'vraElementObjects' => $vraElementObjects,
+                             'nameBase'         => $nameBase . "[{$vraElementObject->id}]"
+                             )
+                        );
+                ?>
+            <?php endif; ?>
+        </fieldset>
     </div>
 
 <?php endforeach;?>

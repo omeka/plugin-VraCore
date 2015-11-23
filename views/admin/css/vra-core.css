@@ -7,10 +7,7 @@ div.vra-data label {
     cursor: pointer;
 }
 
-div.vra-data label.vra-attribute-label {
-    
-}
-
-div.vra-data label.vra-element-label {
-    
+div.vra-data label.vra-notes-element-label {
+    float: none;
+    cursor: default;
 }

@@ -5,12 +5,7 @@
     $ignoreAttributes =  get_option('vra-core-ignore-attributes');
 ?>
 
-<label class='vra-element-label'><?php echo __('Notes'); ?></label>
-<div class='vra-element'>
 
-<?php $notes = $notesObject ? $notesObject->content : ''; ?>
-<textarea name='<?php echo $nameBase; ?>[notes]' value='<?php echo $notes; ?>'><?php echo $notes; ?></textarea>
-</div>
 
 <?php if(! $ignoreAttributes): ?>
 <div class='vra-attributes'>
@@ -26,6 +21,13 @@
     ?>
 </div>
 <?php endif; ?>
+
+<label class='vra-notes-element-label'><?php echo __('Notes'); ?></label>
+<div class='vra-element'>
+
+<?php $notes = $notesObject ? $notesObject->content : ''; ?>
+<textarea name='<?php echo $nameBase; ?>[notes]' value='<?php echo $notes; ?>'><?php echo $notes; ?></textarea>
+</div>
 
 
 <div class='vra-element'>

@@ -1,4 +1,4 @@
-<fieldset class='vra-attributes'>
+<fieldset class='vra-attributes' style='display: none;'>
     <?php foreach($attributeNames as $attributeName): ?>
         <label><?php echo $attributeName; ?></label>
 

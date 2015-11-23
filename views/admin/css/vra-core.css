@@ -1,0 +1,16 @@
+div.vra-attributes {
+    margin-left: 20px;
+}
+
+div.vra-data label {
+    float: none;
+    cursor: pointer;
+}
+
+div.vra-data label.vra-attribute-label {
+    
+}
+
+div.vra-data label.vra-element-label {
+    
+}

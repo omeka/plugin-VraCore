@@ -23,7 +23,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                     'subelements' => array('name', 'culture', 'dates', 'role', 'attribution'),
                     'subelementObjects' => array()
                     ),
-            'Cultural Context' => array('attrs' => array(), 'subelements' => array()), 
+            'Cultural Context' => array('attrs' => array()),
             'Date' => array(
                     'attrs' => array('type'),
                     'subelements' => array('earliestDate', 'latestDate'),
@@ -137,21 +137,21 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         $db = $this->_db;
         $sql = "
-        CREATE TABLE IF NOT EXISTS `$db->VraCore_Element` (
+        CREATE TABLE IF NOT EXISTS `$db->VraCoreElement` (
           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
           `record_id` int(11) NOT NULL,
           `record_type` tinytext COLLATE utf8_unicode_ci NOT NULL,
           `element_id` int(10) unsigned NOT NULL,
           `vra_element_id` int(11) DEFAULT NULL,
           `name` text COLLATE utf8_unicode_ci NOT NULL,
-          `content` text COLLATE utf8_unicode_ci NOT NULL,
+          `content` text COLLATE utf8_unicode_ci NULL,
           PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
         ";
         $db->query($sql);
 
         $sql = "
-        CREATE TABLE IF NOT EXISTS `$db->VraCore_Attribute` (
+        CREATE TABLE IF NOT EXISTS `$db->VraCoreAttribute` (
           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
           `record_id` int(11) NOT NULL,
           `record_type` tinytext COLLATE utf8_unicode_ci NOT NULL,
@@ -368,8 +368,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
         $view = get_view();
         $valuesVariableName = 'attributeValues' . $omekaElement->id;
-        $html = $view->partial('element-edit-form.php',
-            array('omekaElement'          => $omekaElement,
+        $partialArgs = array('omekaElement'          => $omekaElement,
                   'record'           => $record,
                   'elementsData'     => $this->elementsData,
                   'subelementsData'  => $this->subelementsData,
@@ -379,7 +378,15 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                   'attributeNames'    => $attributeNames,
                   'vraElementObjects' => $vraElementObjects,
                   'attributeObjects'  => $attributeObjects
-            ));
+            );
+        
+        if (isset($this->elementsData[$omekaElement->name]['subelements'])) {
+            $html = $view->partial('nested-element-edit-form.php', $partialArgs);
+        } else {
+            $html = $view->partial('simple-element-edit-form.php', $partialArgs);
+        }
+        
+        
 
         $components['inputs'] .= $html;
         return $components;

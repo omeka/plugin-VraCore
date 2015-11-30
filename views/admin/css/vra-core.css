@@ -16,3 +16,9 @@ div.vra-data label.vra-subelement-label {
     float: none;
     cursor: default;
 }
+
+div.vra-element-inputs {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 2px solid black;
+}

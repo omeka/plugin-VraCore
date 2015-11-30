@@ -365,7 +365,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
             foreach ($elements as $element) {
                 if(is_null($element->vra_element_id)) {
-                    $vraElementObjects['set'] = $element;
+                    //$vraElementObjects['set'] = $element;
                 } else {
                     $vraElementObjects[$element->id] = $element;
                 }

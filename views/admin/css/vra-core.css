@@ -11,3 +11,8 @@ div.vra-data label.vra-notes-element-label {
     float: none;
     cursor: default;
 }
+
+div.vra-data label.vra-subelement-label {
+    float: none;
+    cursor: default;
+}

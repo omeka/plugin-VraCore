@@ -205,38 +205,27 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         //save element first, so I have the ID
         //and make sure the data posted makes it possible to line up correct
         //attributes with the right subelements, if they're there
-        
         foreach($vraElementData as $omekaElementId => $elementArray) {
             $displayAttributes = $elementArray['display'];
             $this->storeAttributes($displayAttributes['attrs'], $omekaRecordData, $omekaElementId);
             //elementArray has keys display, newElements, and existing VRAelement ids
             unset($elementArray['display']);
-            
+
             $newElements = $elementArray['newElements'];
             foreach($newElements as $newElementData) {
-                $content = $newElementData['content'];
-                if (empty($content)) {
-                    continue;
-                }
-                
-                //insert new element with content. 
-                $newVraElement = $this->storeElement($newElementData, $omekaRecordData, $omekaElementId);
-                
-                $this->storeAttributes($newElement['attrs'], $omekaRecordData, $omekaElementId, $vraElement->id );
+                $this->processNewElement($omekaRecord, $omekaElementId, $newElementData);
             }
-            
+
             unset($elementArray['newElements']);
 
             foreach($elementArray as $vraElementId => $existingElementData) {
-                $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
-                if (empty($existingElementData['content'])) {
-                    //$vraElementObject->delete();
-                } else {
-                    $vraElementObject->content = $existingElementData['content'];
-                    $vraElementObject->save();
-                    $this->storeAttributes($existingElementData['attrs'], $omekaRecordData, $omekaElementId, $vraElementId);
+                //see @todo below
+                if ($vraElementId != 'notes') {
+                    $this->processExistingElement($omekaRecord, $omekaElementId, $vraElementId, $existingElementData);
                 }
+                
             }
+
             //@TODO hunt down the duplication that makes this work here, but not above
             $notes = $elementArray['notes'];
             if(! empty($notes)) {
@@ -281,7 +270,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 $groupedElements[$element->name][] = $element;
             }
 
-            $html = '<h4>Attributes</h4>';
+            $html = '<h4>Display Element Attributes</h4>';
             $html .= "<ul class='vra-core-attributes'>";
             foreach($attributes as $attribute) {
                 $html .= "<li><span class='vra-core-attribute-name'>" . metadata($attribute, 'name') . "</span>";
@@ -289,21 +278,24 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             }
             $html .= "</ul>";
 
-            $html .= '<h4>Elements</h4>';
-            foreach($groupedElements as $name => $elements) {
-                $html .= "<h5>$name</h5>";
-                foreach($elements as $element) {
-                    $html .= metadata($element, 'content');
-                    $html .= "<h6>Attributes</h6>";
-                    $html .= "<ul class='vra-core-attributes'>";
-                    foreach($element->getAttributes() as $attribute) {
-                        $html .= "<li><span class='vra-core-attribute-name'>" . metadata($attribute, 'name') . "</span>";
-                        $html .= metadata($attribute, 'content') . "</li>";
+            if (count($groupedElements) != 0) {
+                $html .= '<h4>Elements</h4>';
+                foreach($groupedElements as $name => $elements) {
+                    $html .= "<h5>$name</h5>";
+                    foreach($elements as $element) {
+                        $html .= metadata($element, 'content');
+                        $html .= "<h6>Attributes</h6>";
+                        $html .= "<ul class='vra-core-attributes'>";
+                        foreach($element->getAttributes() as $attribute) {
+                            $html .= "<li><span class='vra-core-attribute-name'>" . metadata($attribute, 'name') . "</span>";
+                            $html .= metadata($attribute, 'content') . "</li>";
+                        }
+                        $html .= "</ul>";
                     }
-                    $html .= "</ul>";
-                }
-
+    
+                }                
             }
+
             echo $html;
         }
     }
@@ -418,8 +410,13 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
 
+    /*
+     * 
+     * $vraElementId the id of the VraCoreElement record, not the optional vra_element_id column value
+     */
     protected function storeElement($elementData, $omekaRecordData, $omekaElementId, $vraElementId = null)
     {
+        echo $vraElementId;
         if ($vraElementId) {
             $vraElement = $this->_db->getTable('VraCoreElement')->find($vraElementId);
         } else {
@@ -427,12 +424,100 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             $vraElement->record_type = $omekaRecordData['type'];
             $vraElement->record_id = $omekaRecordData['id'];
             $vraElement->element_id = $omekaElementId;
+            $vraElement->vra_element_id = isset($elementData['vra_element_id']) ? $elementData['vra_element_id'] : null;
             $vraElement->name = $elementData['name'];
         }
-
-        $vraElement->content = $elementData['content'];
+        
+        
+        $vraElement->content = isset($elementData['content']) ? $elementData['content'] :  null;
         $vraElement->save();
         return $vraElement;
+    }
+    
+    protected function processNewElement($omekaRecord, $omekaElementId, $elementData)
+    {
+        $hasSubelements = $this->hasNewSubelements($elementData);
+        $omekaRecordData = array('id' => $omekaRecord->id, 'type' => get_class($omekaRecord));
+        //$newSubelementsData = $elementData['newSubelements'];
+        //debug(print_r($elementData, true));
+        debug('processing new element ' . $elementData['name'] );
+        if ($hasSubelements) {
+            $newVraElement = $this->storeElement($elementData, $omekaRecordData, $omekaElementId);
+            
+            //$this->storeAttributes($elementData['attrs'], $omekaRecordData, $omekaElementId, $vraElement->id );
+            debug('has subelements');
+            foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
+                foreach($subelementsData as $subelementData) {
+                    if (empty($subelementData['content'])) {
+                        continue;
+                    }
+                    $subelementData['name'] = $subelementName;
+                    $this->processNewSubelement($omekaRecord, $omekaElementId, $newVraElement, $subelementData);
+                }
+                
+            }
+        } else {
+            $content = $elementData['content'];
+            if (empty($content)) {
+                 return;
+            }
+            $newVraElement = $this->storeElement($elementData, $omekaRecordData, $omekaElementId);
+            $this->storeAttributes($newElement['attrs'], $omekaRecordData, $omekaElementId, $newVraElement->id );
+        }
+        return $newVraElement;
+    }
+    
+    protected function processExistingElement($omekaRecord, $omekaElementId, $vraElementId, $elementData)
+    {
+        
+        $hasSubelements = !empty($elementData['hasSubElements']);
+        $omekaRecordData = array('id' => $omekaRecord->id, 'type' => get_class($omekaRecord));
+        $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
+        if ($hasSubelements) {
+        } else {
+            if (empty($elementData['content'])) {
+            //$vraElementObject->delete();
+            } else {
+                $vraElementObject->content = $elementData['content'];
+                $vraElementObject->save();
+                $this->storeAttributes($elementData['attrs'], $omekaRecordData, $omekaElementId, $vraElementId);
+            }
+        }
+
+    }
+    
+    protected function processNewSubelement($omekaRecord, $omekaElementId, $parentVraElement, $elementData)
+    {
+        debug('new subelement');
+        
+        //this is the id of the element in Omeka's Elements table
+        $vraElementId = $parentVraElement->element_id;
+        //this value is actually the parent vra xml element
+        $elementData['vra_element_id'] = $parentVraElement->id;
+        $omekaRecordData = array('id' => $omekaRecord->id, 'type' => get_class($omekaRecord));
+        $this->storeElement($elementData, $omekaRecordData, $omekaElementId);
+        
+    }
+    
+    protected function processExistingSubelement($omekaRecord, $omekaElementId, $vraElementId, $elementData)
+    {
+        $omekaRecordData = array('id' => $omekaRecord->id, 'type' => get_class($omekaRecord));
+    }
+    
+    protected function hasNewSubelements($elementData)
+    {
+        if (empty($elementData['hasSubelements'])) {
+            return false;
+        }
+        
+        foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
+            foreach($subelementsData as $subelementData) {
+                if (! empty($subelementData['content'])) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     protected function installVraCoreElements()

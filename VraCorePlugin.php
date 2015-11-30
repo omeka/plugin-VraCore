@@ -282,14 +282,29 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 $html .= '<h4>Elements</h4>';
                 foreach($groupedElements as $name => $elements) {
                     $html .= "<h5>$name</h5>";
+                    
                     foreach($elements as $element) {
-                        $html .= metadata($element, 'content');
-                        $html .= "<h6>Attributes</h6>";
-                        $html .= "<ul class='vra-core-attributes'>";
-                        foreach($element->getAttributes() as $attribute) {
-                            $html .= "<li><span class='vra-core-attribute-name'>" . metadata($attribute, 'name') . "</span>";
-                            $html .= metadata($attribute, 'content') . "</li>";
+                        $subelements = $element->getSubelements();
+                        if (empty($subelements)) {
+                            $html .= metadata($element, 'content');
+                            $html .= "<h6>Attributes</h6>";
+                            $html .= "<ul class='vra-core-attributes'>";
+                            foreach($element->getAttributes() as $attribute) {
+                                $html .= "<li><span class='vra-core-attribute-name'>" . metadata($attribute, 'name') . "</span>";
+                                $html .= metadata($attribute, 'content') . "</li>";
+                            }
+                        } else {
+                            foreach($subelements as $subelement) {
+                                $html .= metadata($subelement, 'content');
+                                $html .= "<h6>Attributes</h6>";
+                                $html .= "<ul class='vra-core-attributes'>";
+                                foreach($subelement->getAttributes() as $attribute) {
+                                    $html .= "<li><span class='vra-core-attribute-name'>" . metadata($attribute, 'name') . "</span>";
+                                    $html .= metadata($attribute, 'content') . "</li>";
+                                }
+                            }
                         }
+
                         $html .= "</ul>";
                     }
     

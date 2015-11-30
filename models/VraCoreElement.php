@@ -17,6 +17,8 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
     
     protected $attributes;
     
+    protected $subelements;
+    
     
     public function getAttributes()
     {
@@ -25,5 +27,14 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
                 ->findBy(array('vra_element_id' => $this->id));
         }
         return $this->attributes;
+    }
+    
+    public function getSubelements()
+    {
+        if(! $this->subelements) {
+            $this->subelements = $this->getDb()->getTable('VraCoreElement')
+                ->findBy(array('vra_element_id' => $this->id));
+        }
+        return $this->subelements;
     }
 }

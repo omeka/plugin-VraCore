@@ -364,6 +364,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                         ));
 
             foreach ($elements as $element) {
+                //exclude notes element, and align by id
                 if ($element->name != 'notes') {
                     $vraElementObjects[$element->id] = $element;
                 }

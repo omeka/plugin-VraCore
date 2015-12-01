@@ -56,17 +56,19 @@
                     <div class='vra-element-inputs'>
                         <textarea name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]' value='<?php echo $vraElementObject->content; ?>'><?php echo $vraElementObject->content; ?></textarea>
                         <?php if(! $ignoreAttributes): ?>
-                            <label class='vra-attributes-label'>Attributes</label>
-                            <?php echo $this->partial('element-attribute-form.php', 
-                                    array(
-                                         'attributeNames'   => $attributeNames,
-                                         'attributeObjects' => $attributeObjects,
-                                         'vraElementObject' => $vraElementObject,
-                                         'vraElementObjects' => $vraElementObjects,
-                                         'nameBase'         => $nameBase . "[{$vraElementObject->id}]"
-                                         )
-                                    );
-                            ?>
+                            <div class='vra-attributes'>
+                                <label class='vra-attributes-label'>Attributes</label>
+                                <?php echo $this->partial('element-attribute-form.php', 
+                                        array(
+                                             'attributeNames'   => $attributeNames,
+                                             'attributeObjects' => $attributeObjects,
+                                             'vraElementObject' => $vraElementObject,
+                                             'vraElementObjects' => $vraElementObjects,
+                                             'nameBase'         => $nameBase . "[{$vraElementObject->id}]"
+                                             )
+                                        );
+                                ?>
+                            </div>
                         <?php endif; ?>
                     </div>
             <?php endforeach;?>

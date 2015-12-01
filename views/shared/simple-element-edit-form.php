@@ -51,6 +51,7 @@
                     </div>
                 <?php endif; ?>
             </div>
+            
             <?php foreach($vraElementObjects as $vraElementObject): ?>
                     <div class='vra-element-inputs'>
                         <textarea name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]' value='<?php echo $vraElementObject->content; ?>'><?php echo $vraElementObject->content; ?></textarea>

@@ -364,11 +364,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                         ));
 
             foreach ($elements as $element) {
-                if(is_null($element->vra_element_id)) {
-                    //$vraElementObjects['set'] = $element;
-                } else {
+                if ($element->name != 'notes') {
                     $vraElementObjects[$element->id] = $element;
                 }
+                
             }
         }
         $attributeNames = array_merge($this->elementsData[$omekaElement->name]['attrs'], $this->globalAttrs);

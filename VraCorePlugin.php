@@ -239,6 +239,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 }
                 $notesObject->content = $notes;
                 $notesObject->save(true);
+                $this->storeAttributes($notes['attrs'], $omekaRecordData, $omekaElementId, $notesObject->id);
             }
         }
     }
@@ -380,7 +381,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                   'elementsData'     => $this->elementsData,
                   'subelementsData'  => $this->subelementsData,
                   'notesObject'      => isset($notesObject) ? $notesObject : null,
-                    
+                    //@todo : how many of these are still actually used?
                   'globalAttributes' => $this->globalAttrs,
                   'attributeNames'    => $attributeNames,
                   'vraElementObjects' => $vraElementObjects,

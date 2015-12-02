@@ -21,7 +21,7 @@
     <div class='vra-element'>
 
     <?php $notes = $notesObject ? $notesObject->content : ''; ?>
-    <textarea name='<?php echo $nameBase; ?>[notes]' value='<?php echo $notes; ?>'><?php echo $notes; ?></textarea>
+    <textarea name='<?php echo $nameBase; ?>[notes][content]' value='<?php echo $notes; ?>'><?php echo $notes; ?></textarea>
         <div class='vra-attributes'>
             <label class='vra-attributes-label'>Notes Attributes</label>
             <?php echo $this->partial('element-attribute-form.php', 

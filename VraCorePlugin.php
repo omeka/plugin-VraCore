@@ -226,7 +226,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
             //@TODO hunt down the duplication that makes this work here, but not above
             $notes = $elementArray['notes'];
-            if(! empty($notes)) {
+            if(! empty($notes['content'])) {
                 $notesObject = $this->_db->getTable('VraCoreElement')->findNotesForRecordElement($omekaRecord, $omekaElementId);
                 if (! $notesObject) {
                     $notesObject = new VraCoreElement();
@@ -235,7 +235,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                     $notesObject->element_id = $omekaElementId;
                     $notesObject->name = 'notes';
                 }
-                $notesObject->content = $notes;
+                $notesObject->content = $notes['content'];
                 $notesObject->save(true);
                 $this->storeAttributes($notes['attrs'], $omekaRecord, $omekaElementId, $notesObject->id);
             }

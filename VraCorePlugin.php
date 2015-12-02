@@ -455,12 +455,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $omekaRecordData = array('id' => $omekaRecord->id, 'type' => get_class($omekaRecord));
         //$newSubelementsData = $elementData['newSubelements'];
         //debug(print_r($elementData, true));
-        debug('processing new element ' . $elementData['name'] );
         if ($hasSubelements) {
             $newVraElement = $this->storeElement($elementData, $omekaRecordData, $omekaElementId);
             
             //$this->storeAttributes($elementData['attrs'], $omekaRecordData, $omekaElementId, $vraElement->id );
-            debug('has subelements');
             foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
                 foreach($subelementsData as $subelementData) {
                     if (empty($subelementData['content'])) {
@@ -477,7 +475,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                  return;
             }
             $newVraElement = $this->storeElement($elementData, $omekaRecordData, $omekaElementId);
-            $this->storeAttributes($newElement['attrs'], $omekaRecordData, $omekaElementId, $newVraElement->id );
+            
+            $this->storeAttributes($elementData['attrs'], $omekaRecordData, $omekaElementId, $newVraElement->id );
         }
         return $newVraElement;
     }
@@ -503,7 +502,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     
     protected function processNewSubelement($omekaRecord, $omekaElementId, $parentVraElement, $elementData)
     {
-        debug('new subelement');
         
         //this is the id of the element in Omeka's Elements table
         $vraElementId = $parentVraElement->element_id;

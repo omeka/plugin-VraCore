@@ -1,14 +1,11 @@
-
+<?php
+    $nameBase = "vra-element[{$omekaElement->id}]";
+    $ignoreAttributes =  get_option('vra-core-ignore-attributes');
+?>
 <div class='vra-data'>
-    <?php
-        $nameBase = "vra-element[{$omekaElement->id}]";
-        $ignoreAttributes =  get_option('vra-core-ignore-attributes');
-    ?>
-
     <?php if(! $ignoreAttributes): ?>
     <div class='vra-attributes'>
         <label class='vra-attributes-label'>Display Element Attributes</label>
-    
         <?php echo $this->partial('element-attribute-form.php', 
                 array(
                      'attributeNames'   => $globalAttributes,
@@ -19,10 +16,10 @@
         ?>
     </div>
     <?php endif; ?>
-    
+
     <label class='vra-notes-element-label'><?php echo __('Notes'); ?></label>
     <div class='vra-element'>
-    
+
     <?php $notes = $notesObject ? $notesObject->content : ''; ?>
     <textarea name='<?php echo $nameBase; ?>[notes]' value='<?php echo $notes; ?>'><?php echo $notes; ?></textarea>
         <div class='vra-attributes'>
@@ -36,17 +33,14 @@
                     );
             ?>
         </div>
-    
     </div>
-    
-    
+
     <div class='vra-element'>
         <label class='vra-elements-label'><?php echo $omekaElement->name; ?> Elements</label>
         <fieldset>
             <div class='vra-element-inputs'>
                 <textarea name='<?php echo $nameBase; ?>[newElements][0][content]' value=''></textarea>
                 <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][name]' value='<?php echo $omekaElement->name; ?>'></input>
-                
                 <?php if(! $ignoreAttributes): ?>
                     <div class='vra-attributes'>
                         <label class='vra-attributes-label'>Attributes</label>
@@ -63,7 +57,7 @@
                     </div>
                 <?php endif; ?>
             </div>
-            
+
             <?php foreach($vraElementObjects as $vraElementObject): ?>
                     <div class='vra-element-inputs'>
                         <textarea name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]' value='<?php echo $vraElementObject->content; ?>'><?php echo $vraElementObject->content; ?></textarea>

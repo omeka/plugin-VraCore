@@ -12,10 +12,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             'config_form',
             'admin_head'
             );
-    
+
     public $_filters = array(
             );
-    
+
     protected $elementsData = array(
             'Title' => array('attrs' => array('type')),
             'Agent' => array(
@@ -112,7 +112,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             'xml:id',
             'xml:lang'
             );
-    
+
     public function hookInitialize()
     {
         $elements = array_keys($this->elementsData);
@@ -132,7 +132,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $view = get_view();
         $view->addHelperPath(__DIR__ . '/helpers', 'VraCore_View_Helper_');
     }
-    
+
     public function hookInstall()
     {
         $db = $this->_db;
@@ -166,7 +166,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
         $this->installVraCoreElements();
     }
-    
+
     public function hookUninstall()
     {
         $db = $this->_db;
@@ -175,7 +175,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $sql = "DROP TABLE `$db->VraCore_Element`";
         $db->query($sql);
     }
-    
+
     public function hookConfig($args)
     {
         $post = $args['post'];
@@ -187,27 +187,26 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         include('config_form.php');
     }
-    
+
     public function hookAdminHead($args)
     {
         queue_css_file('vra-core');
         queue_js_file('vra-core');
     }
-    
+
     public function hookAfterSaveItem($args)
     {
         $insert = $args['insert'];
         $post = $args['post'];
         $vraElementData = $post['vra-element'];
         $omekaRecord = $args['record'];
-        $omekaRecordData = array('id' => $omekaRecord->id, 'type' => get_class($omekaRecord));
         //figure out whether there is a element in the data
         //save element first, so I have the ID
         //and make sure the data posted makes it possible to line up correct
         //attributes with the right subelements, if they're there
         foreach($vraElementData as $omekaElementId => $elementArray) {
             $displayAttributes = $elementArray['display'];
-            $this->storeAttributes($displayAttributes['attrs'], $omekaRecordData, $omekaElementId);
+            $this->storeAttributes($displayAttributes['attrs'], $omekaRecord, $omekaElementId);
             //elementArray has keys display, newElements, and existing VRAelement ids
             unset($elementArray['display']);
 
@@ -223,7 +222,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 if ($vraElementId != 'notes') {
                     $this->processExistingElement($omekaRecord, $omekaElementId, $vraElementId, $existingElementData);
                 }
-                
             }
 
             //@TODO hunt down the duplication that makes this work here, but not above
@@ -239,7 +237,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 }
                 $notesObject->content = $notes;
                 $notesObject->save(true);
-                $this->storeAttributes($notes['attrs'], $omekaRecordData, $omekaElementId, $notesObject->id);
+                $this->storeAttributes($notes['attrs'], $omekaRecord, $omekaElementId, $notesObject->id);
             }
         }
     }
@@ -283,7 +281,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 $html .= '<h4>Elements</h4>';
                 foreach($groupedElements as $name => $elements) {
                     $html .= "<h5>$name</h5>";
-                    
+
                     foreach($elements as $element) {
                         $subelements = $element->getSubelements();
                         if (empty($subelements)) {
@@ -308,20 +306,18 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
                         $html .= "</ul>";
                     }
-    
-                }                
+                }
             }
-
             echo $html;
         }
     }
-    
+
     public function filterVraIdInput($components, $args)
     {
         $components['html_checkbox'] = false;
         return $components;
     }
-    
+
     public function filterVraIdForm($components, $args)
     {
         $components['add_input'] = '';
@@ -331,7 +327,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     public function addVraInputs($components, $args)
     {
         $components['add_input'] = '';
-        
         if (get_option('vra-core-ignore-elements')) {
             return $components;
         }
@@ -340,9 +335,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $attributeObjects = array();
         $vraElementObjects = array();
         if ($record->exists()) {
-            
             $notesObject = $this->_db->getTable('VraCoreElement')->findNotesForRecordElement($record, $omekaElement->id);
-            
+
             $attributes = $this->_db
                 ->getTable('VraCoreAttribute')
                 ->findBy(array('element_id'  => $omekaElement->id,
@@ -369,13 +363,12 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 if ($element->name != 'notes') {
                     $vraElementObjects[$element->id] = $element;
                 }
-                
             }
         }
+
         $attributeNames = array_merge($this->elementsData[$omekaElement->name]['attrs'], $this->globalAttrs);
 
         $view = get_view();
-        $valuesVariableName = 'attributeValues' . $omekaElement->id;
         $partialArgs = array('omekaElement'          => $omekaElement,
                   'record'           => $record,
                   'elementsData'     => $this->elementsData,
@@ -387,23 +380,20 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                   'vraElementObjects' => $vraElementObjects,
                   'attributeObjects'  => $attributeObjects
             );
-        
+
         if (isset($this->elementsData[$omekaElement->name]['subelements'])) {
             $html = $view->partial('nested-element-edit-form.php', $partialArgs);
         } else {
             $html = $view->partial('simple-element-edit-form.php', $partialArgs);
         }
-        
-        
 
         $components['inputs'] .= $html;
         return $components;
     }
 
-    protected function storeAttributes($attributesData, $omekaRecordData, $omekaElementId, $vraElementId = null)
+    protected function storeAttributes($attributesData, $omekaRecord, $omekaElementId, $vraElementId = null)
     {
         foreach($attributesData as $id => $attributeContent) {
-            
             foreach($attributeContent as $attrName=>$content) {
                 if ($id == 'new') {
                     $vraAttribute = new VraCoreAttribute();
@@ -414,8 +404,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                     //oops. can't delete a nonexistant record!
                     $vraAttribute->delete();
                 } else {
-                    $vraAttribute->record_id = $omekaRecordData['id'];
-                    $vraAttribute->record_type = $omekaRecordData['type'];
+                    $vraAttribute->record_id = $omekaRecord->id;
+                    $vraAttribute->record_type = get_class($omekaRecord);
                     $vraAttribute->element_id = $omekaElementId;
                     $vraAttribute->vra_element_id = $vraElementId;
                     $vraAttribute->name = $attrName;
@@ -430,15 +420,15 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
      * 
      * $vraElementId the id of the VraCoreElement record, not the optional vra_element_id column value
      */
-    protected function storeElement($elementData, $omekaRecordData, $omekaElementId, $vraElementId = null)
+    protected function storeElement($elementData, $omekaRecord, $omekaElementId, $vraElementId = null)
     {
         echo $vraElementId;
         if ($vraElementId) {
             $vraElement = $this->_db->getTable('VraCoreElement')->find($vraElementId);
         } else {
             $vraElement = new VraCoreElement();
-            $vraElement->record_type = $omekaRecordData['type'];
-            $vraElement->record_id = $omekaRecordData['id'];
+            $vraElement->record_type = get_class($omekaRecord);
+            $vraElement->record_id = $omekaRecord->id;
             $vraElement->element_id = $omekaElementId;
             $vraElement->vra_element_id = isset($elementData['vra_element_id']) ? $elementData['vra_element_id'] : null;
             $vraElement->name = $elementData['name'];
@@ -453,13 +443,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     protected function processNewElement($omekaRecord, $omekaElementId, $elementData)
     {
         $hasSubelements = $this->hasNewSubelements($elementData);
-        $omekaRecordData = array('id' => $omekaRecord->id, 'type' => get_class($omekaRecord));
-        //$newSubelementsData = $elementData['newSubelements'];
-        //debug(print_r($elementData, true));
         if ($hasSubelements) {
-            $newVraElement = $this->storeElement($elementData, $omekaRecordData, $omekaElementId);
+            $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
             
-            //$this->storeAttributes($elementData['attrs'], $omekaRecordData, $omekaElementId, $vraElement->id );
+            //$this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $vraElement->id );
             foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
                 foreach($subelementsData as $subelementData) {
                     if (empty($subelementData['content'])) {
@@ -475,9 +462,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             if (empty($content)) {
                  return;
             }
-            $newVraElement = $this->storeElement($elementData, $omekaRecordData, $omekaElementId);
+            $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
             
-            $this->storeAttributes($elementData['attrs'], $omekaRecordData, $omekaElementId, $newVraElement->id );
+            $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $newVraElement->id );
         }
         return $newVraElement;
     }
@@ -486,7 +473,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         
         $hasSubelements = !empty($elementData['hasSubElements']);
-        $omekaRecordData = array('id' => $omekaRecord->id, 'type' => get_class($omekaRecord));
         $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
         if ($hasSubelements) {
         } else {
@@ -495,7 +481,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             } else {
                 $vraElementObject->content = $elementData['content'];
                 $vraElementObject->save();
-                $this->storeAttributes($elementData['attrs'], $omekaRecordData, $omekaElementId, $vraElementId);
+                $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $vraElementId);
             }
         }
 
@@ -503,27 +489,25 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     
     protected function processNewSubelement($omekaRecord, $omekaElementId, $parentVraElement, $elementData)
     {
-        
         //this is the id of the element in Omeka's Elements table
         $vraElementId = $parentVraElement->element_id;
         //this value is actually the parent vra xml element
         $elementData['vra_element_id'] = $parentVraElement->id;
-        $omekaRecordData = array('id' => $omekaRecord->id, 'type' => get_class($omekaRecord));
-        $this->storeElement($elementData, $omekaRecordData, $omekaElementId);
-        
+        $this->storeElement($elementData, $omekaRecord, $omekaElementId);
     }
-    
+
     protected function processExistingSubelement($omekaRecord, $omekaElementId, $vraElementId, $elementData)
     {
+        //@todo check if still needed
         $omekaRecordData = array('id' => $omekaRecord->id, 'type' => get_class($omekaRecord));
     }
-    
+
     protected function hasNewSubelements($elementData)
     {
         if (empty($elementData['hasSubelements'])) {
             return false;
         }
-        
+
         foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
             foreach($subelementsData as $subelementData) {
                 if (! empty($subelementData['content'])) {

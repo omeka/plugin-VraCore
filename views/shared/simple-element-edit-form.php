@@ -34,8 +34,6 @@
                         ?>
             </div>
         </fieldset>
-    
-
     </div>
 
     <div class='vra-element'>

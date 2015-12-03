@@ -12,19 +12,25 @@
                 );
         ?>
 
-    <label class='vra-notes-element-label'><?php echo __('Notes'); ?></label>
-    <div class='vra-element'>
     <?php $notes = $notesObject ? $notesObject->content : ''; ?>
-    <textarea name='<?php echo $nameBase; ?>[notes][content]' value='<?php echo $notes; ?>'><?php echo $notes; ?></textarea>
-        <?php echo $this->partial('element-attribute-form.php', 
-                array(
-                     'attributeNames'   => $globalAttributes,
-                     'attributeObjects' => $attributeObjects,
-                     'nameBase'         => $nameBase . "[notes]",
-                     'label'            => __('Notes Attributes'),
-                     )
-                );
-        ?>
+    <div class='vra-element'>
+        <div class='vra-element-header'>
+            <div class='drawer closed'></div><label class='vra-notes-element-label'><?php echo __('Notes'); ?></label>
+        </div>
+        <fieldset style='display: none'>
+            <div class='vra-element-inputs'>
+                <textarea name='<?php echo $nameBase; ?>[notes][content]' value='<?php echo $notes; ?>'><?php echo $notes; ?></textarea>
+                        <?php echo $this->partial('element-attribute-form.php', 
+                                array(
+                                     'attributeNames'   => $globalAttributes,
+                                     'attributeObjects' => $attributeObjects,
+                                     'nameBase'         => $nameBase . "[notes]",
+                                     'label'            => __('Notes Attributes'),
+                                     )
+                                );
+                        ?>
+            </div>
+        </fieldset>
     </div>
 
     <div class='vra-element'>

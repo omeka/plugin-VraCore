@@ -60,3 +60,7 @@ div.vra-element-inputs {
     margin-top: 10px;
     margin-bottom: 5px;
 }
+
+div.vra-subelement-container {
+    margin-left: 5px;
+}

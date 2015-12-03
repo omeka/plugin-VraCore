@@ -1,6 +1,5 @@
 <?php
     $nameBase = "vra-element[{$omekaElement->id}]";
-    $ignoreAttributes =  get_option('vra-core-ignore-attributes');
 ?>
 <div class='vra-data'>
         <?php echo $this->partial('element-attribute-form.php', 
@@ -37,42 +36,50 @@
             <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][hasSubelements]' value='1'></input>
             <div class='vra-subelements'>
             <?php foreach($elementsData[$omekaElement->name]['subelements'] as $subelementName): ?>
-                <div class='vra-subelement vra-element-inputs new'>
-                <label class='vra-subelement-label'><?php echo $subelementName; ?></label>
-                <textarea name='<?php echo $nameBase; ?>[newElements][0][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
-                    <?php echo $this->partial('element-attribute-form.php', 
-                            array(
-                                 'attributeNames'   => $attributeNames,
-                                 'attributeObjects' => $attributeObjects,
-                                 //kind of a cheat. put true at the front to produce a new set of attributes for new element
-                                 'vraElementObjects' => array(true),
-                                 'nameBase'         => $nameBase . "[newElements][0]",
-                                 'label'            => __('Attributes')
-                                 )
-                            );
-                    ?>
-                </div>
-
-                <!-- insert the existing data: content and attributes -->
-                <div class='vra-subelement existing'>
-                <?php foreach($vraElementObjects as $vraElementObject): ?>
-                    <?php if($vraElementObject->name == $subelementName): ?>
-                        <div class='vra-element-inputs'>
-                            <textarea name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]' value='<?php echo $vraElementObject->content; ?>'><?php echo $vraElementObject->content; ?></textarea>
-                            <?php echo $this->partial('element-attribute-form.php', 
-                                    array(
-                                         'attributeNames'   => $attributeNames,
-                                         'attributeObjects' => $attributeObjects,
-                                         'vraElementObject' => $vraElementObject,
-                                         'vraElementObjects' => $vraElementObjects,
-                                         'nameBase'         => $nameBase . "[{$vraElementObject->id}]",
-                                         'label'            => __('Attributes')
-                                         )
-                                    );
-                            ?>
+                <div class='vra-subelement-container'>
+                    <div class='vra-element-header'>
+                        <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
+                    </div>
+                    <fieldset style='display: none'>
+                        <input type='submit' value='Add Input'></input>
+                        <div class='vra-subelement vra-element-inputs new'>
+                            
+                            <textarea name='<?php echo $nameBase; ?>[newElements][0][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
+                                <?php echo $this->partial('element-attribute-form.php', 
+                                        array(
+                                             'attributeNames'   => $attributeNames,
+                                             'attributeObjects' => $attributeObjects,
+                                             //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                                             'vraElementObjects' => array(true),
+                                             'nameBase'         => $nameBase . "[newElements][0]",
+                                             'label'            => __('Attributes')
+                                             )
+                                        );
+                                ?>
                         </div>
-                    <?php endif; ?>
-                <?php endforeach;?>
+        
+                        <!-- insert the existing data: content and attributes -->
+                        <div class='vra-subelement vra-element-inputs existing'>
+                        <?php foreach($vraElementObjects as $vraElementObject): ?>
+                            <?php if($vraElementObject->name == $subelementName): ?>
+                                <div class='vra-element-inputs'>
+                                    <textarea name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]' value='<?php echo $vraElementObject->content; ?>'><?php echo $vraElementObject->content; ?></textarea>
+                                    <?php echo $this->partial('element-attribute-form.php', 
+                                            array(
+                                                 'attributeNames'   => $attributeNames,
+                                                 'attributeObjects' => $attributeObjects,
+                                                 'vraElementObject' => $vraElementObject,
+                                                 'vraElementObjects' => $vraElementObjects,
+                                                 'nameBase'         => $nameBase . "[{$vraElementObject->id}]",
+                                                 'label'            => __('Attributes')
+                                                 )
+                                            );
+                                    ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php endforeach;?>
+                        </div>
+                    </fieldset>
                 </div>
             <?php endforeach; ?>
             </div>

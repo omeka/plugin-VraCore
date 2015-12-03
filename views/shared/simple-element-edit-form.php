@@ -15,7 +15,6 @@
         ?>
     
     <?php $notes = $notesObject ? $notesObject->content : ''; ?>
-    
     <div class='vra-element'>
         <div class='vra-element-header'>
             <div class='drawer closed'></div><label class='vra-notes-element-label'><?php echo __('Notes'); ?></label>

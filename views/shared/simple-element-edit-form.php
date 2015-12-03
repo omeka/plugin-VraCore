@@ -37,7 +37,7 @@
 
     <div class='vra-element'>
         <label class='vra-elements-label'><?php echo $omekaElement->name; ?> Elements</label>
-        <fieldset>
+        <fieldset style='display: none'>
             <div class='vra-element-inputs'>
                 <textarea name='<?php echo $nameBase; ?>[newElements][0][content]' value=''></textarea>
                 <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][name]' value='<?php echo $omekaElement->name; ?>'></input>

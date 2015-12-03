@@ -17,7 +17,7 @@
     </div>
     <?php endif; ?>
 
-    <label class='vra-element-label'><?php echo __('Notes'); ?></label>
+    <label class='vra-notes-element-label'><?php echo __('Notes'); ?></label>
     <div class='vra-element'>
         <?php $notes = $notesObject ? $notesObject->content : ''; ?>
         <textarea name='<?php echo $nameBase; ?>[notes][content]' value='<?php echo $notes; ?>'><?php echo $notes; ?></textarea>
@@ -35,7 +35,7 @@
     </div>
 
     <div class='vra-element'>
-        <label class='vra-elements-label'><?php echo $omekaElement->name; ?> Elements</label>
+        <label class='vra-elements-label'><?php echo $omekaElement->name; ?> Subelements</label>
         <fieldset style='display: none;'>
             <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][name]' value='<?php echo $omekaElement->name; ?>'></input>
             <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][hasSubelements]' value='1'></input>

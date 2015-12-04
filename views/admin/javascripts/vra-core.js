@@ -28,6 +28,7 @@
             e.stopPropagation();
             var newElementCount = $(this).siblings('div.vra-element-inputs.new').length;
             console.log(newElementCount);
+            console.log(nameBase);
         });
     });
 }(jQuery));

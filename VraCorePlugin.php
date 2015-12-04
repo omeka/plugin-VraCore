@@ -391,6 +391,16 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         return $components;
     }
 
+    public function getGlobalAttrs()
+    {
+        return $this->globalAttrs;
+    }
+    
+    public function getElementsData()
+    {
+        return $this->elementsData;
+    }
+    
     protected function storeAttributes($attributesData, $omekaRecord, $omekaElementId, $vraElementId = null)
     {
         if(empty($attributesData)) {

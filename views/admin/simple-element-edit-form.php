@@ -2,6 +2,11 @@
     $nameBase = "vra-element[{$omekaElement->id}]";
     $ignoreAttributes =  get_option('vra-core-ignore-attributes');
 ?>
+
+<script type='text/javascript'>
+    var nameBase = "<?php echo $nameBase; ?>";
+</script>
+
 <div class='vra-data'>
 <!-- Display Element Attributes -->
         <?php echo $this->partial('element-attribute-form.php', 
@@ -41,6 +46,7 @@
         </div>
         <fieldset style='display: none'>
             <input type='submit' value='Add Input'></input>
+            <?php if (empty($vraElementObjects)): ?>
             <div class='vra-element-inputs new'>
                 <textarea name='<?php echo $nameBase; ?>[newElements][0][content]' value=''></textarea>
                 <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][name]' value='<?php echo $omekaElement->name; ?>'></input>
@@ -56,7 +62,8 @@
                             );
                     ?>
             </div>
-
+            <?php endif; ?>
+            
             <?php foreach($vraElementObjects as $vraElementObject): ?>
                     <div class='vra-element-inputs'>
                         <textarea name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]' value='<?php echo $vraElementObject->content; ?>'><?php echo $vraElementObject->content; ?></textarea>

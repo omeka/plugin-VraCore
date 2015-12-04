@@ -1,6 +1,11 @@
 <?php
     $nameBase = "vra-element[{$omekaElement->id}]";
 ?>
+
+<script type='text/javascript'>
+    var nameBase = "<?php echo $nameBase; ?>";
+</script>
+
 <div class='vra-data'>
         <?php echo $this->partial('element-attribute-form.php', 
                 array(
@@ -48,6 +53,22 @@
                     </div>
                     <fieldset style='display: none'>
                         <input type='submit' value='Add Input'></input>
+                        <pre><?php // print_r(array_keys($vraElementObjects)); ?></pre>
+                        <?php 
+                        //ugh, this is ughly
+                        //roll through all the objects to just check if there is one extant,
+                        //even though I'll roll through again below to check and display
+                        $hasVraElementObject = false;
+                        foreach($vraElementObjects as $vraElementObject) {
+                            if($vraElementObject->name ==$subelementName) {
+                                $hasVraElementObject = true;
+                                break;
+                            }
+                        }
+                        
+                        ?>
+                        <?php if(! $hasVraElementObject): ?>
+                        
                         <div class='vra-subelement vra-element-inputs new'>
                             <textarea name='<?php echo $nameBase; ?>[newElements][0][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
                                 <?php echo $this->partial('element-attribute-form.php', 
@@ -62,7 +83,9 @@
                                         );
                                 ?>
                         </div>
-
+                        <?php endif; ?>
+                        
+                        
                         <!-- insert the existing data: content and attributes -->
                         <div class='vra-subelement vra-element-inputs existing'>
                         <?php foreach($vraElementObjects as $vraElementObject): ?>

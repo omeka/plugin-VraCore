@@ -22,5 +22,12 @@
                 drawer.removeClass('closed').addClass('opened');
             }
         });
+        
+        $('div.vra-data').on('click', "input[type='submit']", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var newElementCount = $(this).siblings('div.vra-element-inputs.new').length;
+            console.log(newElementCount);
+        });
     });
 }(jQuery));

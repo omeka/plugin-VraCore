@@ -393,6 +393,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
     protected function storeAttributes($attributesData, $omekaRecord, $omekaElementId, $vraElementId = null)
     {
+        if(empty($attributesData)) {
+            throw new Exception('No attributes data');
+        }
         foreach($attributesData as $id => $attributeContent) {
             foreach($attributeContent as $attrName=>$content) {
                 if ($id == 'new') {
@@ -447,7 +450,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
             
             //$this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $vraElement->id );
+
             foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
+
                 foreach($subelementsData as $subelementData) {
                     if (empty($subelementData['content'])) {
                         continue;
@@ -493,7 +498,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $vraElementId = $parentVraElement->element_id;
         //this value is actually the parent vra xml element
         $elementData['vra_element_id'] = $parentVraElement->id;
-        $this->storeElement($elementData, $omekaRecord, $omekaElementId);
+        
+        $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
+        $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $newVraElement->id );
     }
 
     protected function processExistingSubelement($omekaRecord, $omekaElementId, $vraElementId, $elementData)

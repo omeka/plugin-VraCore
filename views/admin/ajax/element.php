@@ -1,11 +1,3 @@
-<pre>
-<?php
-
-
-print_r($attributeNames);
-?>
-
-</pre>
 
 <div class='vra-element-inputs new'>
 

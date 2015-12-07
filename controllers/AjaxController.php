@@ -11,15 +11,15 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
         $elementsData = $plugin->getElementsData();
         
         $attributeNames = array();
-        $nameBase = '';
+        $nameBase = $this->getParam('nameBase');
         $omekaElementName = 'Title';
-        $newElementCount = 1;
+        $newElementCount = $this->getParam('newElementCount');
 
         $attributeNames = array_merge($elementsData[$omekaElementName]['attrs'], $globalAttrs);
         $this->view->attributeNames = $attributeNames;
         $this->view->nameBase = $nameBase;
         $this->view->omekaElementName = $omekaElementName;
-        $this->newElementCount  = $newElementCount;
+        $this->view->newElementCount  = $newElementCount;
     }
 
     public function subelementAction()

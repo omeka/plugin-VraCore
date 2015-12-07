@@ -191,6 +191,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAdminHead($args)
     {
         queue_css_file('vra-core');
+        $js = "var OmekaWebDir = '" . WEB_DIR . "';";
+        queue_js_string($js);
         queue_js_file('vra-core');
     }
 

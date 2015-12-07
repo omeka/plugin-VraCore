@@ -1,6 +1,6 @@
 (function($) {
     $(function() {
-        $('div.vra-element-header').on('click', function(e) {
+        $('div.vra-data').on('click', 'div.vra-element-header', function(e) {
             e.stopPropagation();
             var drawer = $(this).children('.drawer');
             $(this).siblings('fieldset').toggle();
@@ -12,7 +12,7 @@
             
         });
         
-        $('div.vra-attributes-header').on('click', function(e) {
+        $('div.vra-data').on('click', 'div.vra-attributes-header', function(e) {
             e.stopPropagation();
             var drawer = $(this).children('.drawer');
             $(this).siblings('fieldset').toggle();
@@ -23,12 +23,18 @@
             }
         });
         
-        $('div.vra-data').on('click', "input[type='submit']", function(e) {
+        $('div.vra-data').on('click', "input.element-add", function(e) {
             e.preventDefault();
             e.stopPropagation();
             var newElementCount = $(this).siblings('div.vra-element-inputs.new').length;
-            console.log(newElementCount);
-            console.log(nameBase);
+            var data = {
+                    'newElementCount' : newElementCount,
+                    'nameBase'        : nameBase
+            };
+            
+            $.get(OmekaWebDir + '/vra-core/ajax/element', data, function(response, textStatus, jqXHR) {
+                $(e.target).after(response);
+            });
         });
     });
 }(jQuery));

@@ -9,9 +9,8 @@
             } else {
                 drawer.removeClass('closed').addClass('opened');
             }
-            
         });
-        
+
         $('div.vra-data').on('click', 'div.vra-attributes-header', function(e) {
             e.stopPropagation();
             var drawer = $(this).children('.drawer');
@@ -22,7 +21,7 @@
                 drawer.removeClass('closed').addClass('opened');
             }
         });
-        
+
         $('div.vra-data').on('click', "input.element-add", function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -31,7 +30,7 @@
                     'newElementCount' : newElementCount,
                     'nameBase'        : nameBase
             };
-            
+
             $.get(OmekaWebDir + '/vra-core/ajax/element', data, function(response, textStatus, jqXHR) {
                 $(e.target).after(response);
             });

@@ -212,13 +212,18 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             //elementArray has keys display, newElements, and existing VRAelement ids
             unset($elementArray['display']);
 
-            $newElements = $elementArray['newElements'];
-            foreach($newElements as $newElementData) {
-                $this->processNewElement($omekaRecord, $omekaElementId, $newElementData);
+            if(isset($elementArray['newElements'])) {
+                    
+                
+                $newElements = $elementArray['newElements'];
+                debug(print_r($newElements, true));
+                foreach($newElements as $newElementData) {
+                    $this->processNewElement($omekaRecord, $omekaElementId, $newElementData);
+                }
+    
+                unset($elementArray['newElements']);
+
             }
-
-            unset($elementArray['newElements']);
-
             foreach($elementArray as $vraElementId => $existingElementData) {
                 //see @todo below
                 if ($vraElementId != 'notes') {

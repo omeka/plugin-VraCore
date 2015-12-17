@@ -129,8 +129,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             add_filter(array('ElementForm', 'Collection', "VRA Core", $element), array($this, 'addVraInputs'), 1);
             add_filter(array('ElementForm', 'File', "VRA Core", $element), array($this, 'addVraInputs'), 1);
         }
-        $view = get_view();
-        $view->addHelperPath(__DIR__ . '/helpers', 'VraCore_View_Helper_');
     }
 
     public function hookInstall()
@@ -213,17 +211,14 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             unset($elementArray['display']);
 
             if(isset($elementArray['newElements'])) {
-                    
-                
                 $newElements = $elementArray['newElements'];
-                debug(print_r($newElements, true));
                 foreach($newElements as $newElementData) {
                     $this->processNewElement($omekaRecord, $omekaElementId, $newElementData);
                 }
-    
                 unset($elementArray['newElements']);
 
             }
+
             foreach($elementArray as $vraElementId => $existingElementData) {
                 //see @todo below
                 if ($vraElementId != 'notes') {
@@ -408,6 +403,11 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         return $this->elementsData;
     }
     
+    public function getSubelementsData()
+    {
+        return $this->subelementsData;
+    }
+    
     protected function storeAttributes($attributesData, $omekaRecord, $omekaElementId, $vraElementId = null)
     {
         if(empty($attributesData)) {
@@ -497,6 +497,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $hasSubelements = !empty($elementData['hasSubElements']);
         $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
         if ($hasSubelements) {
+            
         } else {
             if (empty($elementData['content'])) {
             //$vraElementObject->delete();

@@ -7,6 +7,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             'uninstall',
             'initialize',
             'after_save_item',
+            'after_save_collection',
+            'after_save_file',
             'elements_show',
             'config',
             'config_form',
@@ -200,55 +202,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         queue_css_file('vra-core');
     }
 
-    public function hookAfterSaveItem($args)
-    {
-        $insert = $args['insert'];
-        $post = $args['post'];
-        $vraElementData = $post['vra-element'];
-        $omekaRecord = $args['record'];
-        //figure out whether there is a element in the data
-        //save element first, so I have the ID
-        //and make sure the data posted makes it possible to line up correct
-        //attributes with the right subelements, if they're there
-        foreach($vraElementData as $omekaElementId => $elementArray) {
-            $displayAttributes = $elementArray['display'];
-            $this->storeAttributes($displayAttributes['attrs'], $omekaRecord, $omekaElementId);
-            //elementArray has keys display, newElements, and existing VRAelement ids
-            unset($elementArray['display']);
 
-            if(isset($elementArray['newElements'])) {
-                $newElements = $elementArray['newElements'];
-                foreach($newElements as $newElementData) {
-                    $this->processNewElement($omekaRecord, $omekaElementId, $newElementData);
-                }
-                unset($elementArray['newElements']);
-
-            }
-
-            foreach($elementArray as $vraElementId => $existingElementData) {
-                //see @todo below
-                if ($vraElementId != 'notes') {
-                    $this->processExistingElement($omekaRecord, $omekaElementId, $vraElementId, $existingElementData);
-                }
-            }
-
-            //@TODO hunt down the duplication that makes this work here, but not above
-            $notes = $elementArray['notes'];
-            if(! empty($notes['content'])) {
-                $notesObject = $this->_db->getTable('VraCoreElement')->findNotesForRecordElement($omekaRecord, $omekaElementId);
-                if (! $notesObject) {
-                    $notesObject = new VraCoreElement();
-                    $notesObject->record_id = $omekaRecord->id;
-                    $notesObject->record_type = get_class($omekaRecord);
-                    $notesObject->element_id = $omekaElementId;
-                    $notesObject->name = 'notes';
-                }
-                $notesObject->content = $notes['content'];
-                $notesObject->save(true);
-                $this->storeAttributes($notes['attrs'], $omekaRecord, $omekaElementId, $notesObject->id);
-            }
-        }
-    }
 
     public function hookElementsShow($args)
     {
@@ -319,7 +273,22 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             echo $html;
         }
     }
+    
+    public function hookAfterSaveItem($args)
+    {
+        $this->afterSaveRecord($args);
+    }
 
+    public function hookAfterSaveCollection($args)
+    {
+        $this->afterSaveRecord($args);
+    }
+
+    public function hookAfterSaveFile($args)
+    {
+        $this->afterSaveRecord($args);
+    }
+    
     public function filterVraIdInput($components, $args)
     {
         $components['html_checkbox'] = false;
@@ -547,6 +516,56 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             }
         }
         return false;
+    }
+    
+    public function afterSaveRecord($args)
+    {
+        $insert = $args['insert'];
+        $post = $args['post'];
+        $vraElementData = $post['vra-element'];
+        $omekaRecord = $args['record'];
+        //figure out whether there is a element in the data
+        //save element first, so I have the ID
+        //and make sure the data posted makes it possible to line up correct
+        //attributes with the right subelements, if they're there
+        foreach($vraElementData as $omekaElementId => $elementArray) {
+            $displayAttributes = $elementArray['display'];
+            $this->storeAttributes($displayAttributes['attrs'], $omekaRecord, $omekaElementId);
+            //elementArray has keys display, newElements, and existing VRAelement ids
+            unset($elementArray['display']);
+
+            if(isset($elementArray['newElements'])) {
+                $newElements = $elementArray['newElements'];
+                foreach($newElements as $newElementData) {
+                    $this->processNewElement($omekaRecord, $omekaElementId, $newElementData);
+                }
+                unset($elementArray['newElements']);
+
+            }
+
+            foreach($elementArray as $vraElementId => $existingElementData) {
+                //see @todo below
+                if ($vraElementId != 'notes') {
+                    $this->processExistingElement($omekaRecord, $omekaElementId, $vraElementId, $existingElementData);
+                }
+            }
+
+            //@TODO hunt down the duplication that makes this work here, but not above
+            $notes = $elementArray['notes'];
+            if(! empty($notes['content'])) {
+                $notesObject = $this->_db->getTable('VraCoreElement')->findNotesForRecordElement($omekaRecord, $omekaElementId);
+                if (! $notesObject) {
+                    $notesObject = new VraCoreElement();
+                    $notesObject->record_id = $omekaRecord->id;
+                    $notesObject->record_type = get_class($omekaRecord);
+                    $notesObject->element_id = $omekaElementId;
+                    $notesObject->name = 'notes';
+                }
+                $notesObject->content = $notes['content'];
+                $notesObject->save(true);
+                $this->storeAttributes($notes['attrs'], $omekaRecord, $omekaElementId, $notesObject->id);
+            }
+        }
     }
 
     protected function installVraCoreElements()

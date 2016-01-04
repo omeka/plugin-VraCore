@@ -23,3 +23,16 @@
         array('checked'=>(boolean)get_option('vra-core-ignore-attributes'))); ?>
     </div>
 </div>
+
+<div class="field">
+    <div id="vra-core-public-details" class="two columns alpha">
+        <label for="vra-core-public-details"><?php echo __('Display VRA Core details?'); ?></label>
+    </div>
+    <div class="inputs five columns omega">
+        <p class="explanation"><?php echo __(
+            "If checked, the VRA Core cataloging data will be displayed publicly."
+        ); ?></p>
+        <?php echo get_view()->formCheckbox('vra-core-public-details', true,
+        array('checked'=>(boolean)get_option('vra-core-public-details'))); ?>
+    </div>
+</div>

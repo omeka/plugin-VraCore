@@ -182,6 +182,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $post = $args['post'];
         set_option('vra-core-ignore-attributes', $post['vra-core-ignore-attributes']);
         set_option('vra-core-ignore-elements', $post['vra-core-ignore-elements']);
+        set_option('vra-core-public-details', $post['vra-core-public-details']);
     }
 
     public function hookConfigForm($args)

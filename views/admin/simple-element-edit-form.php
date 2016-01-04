@@ -45,7 +45,7 @@
             <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElement->name; ?> Elements</label>
         </div>
         <fieldset style='display: none'>
-            <input class='element-add' type='submit' value='Add Input'></input>
+            <input class='element-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
             <?php if (empty($vraElementObjects)): ?>
             <div class='vra-element-inputs new'>
                 <textarea name='<?php echo $nameBase; ?>[newElements][0][content]' value=''></textarea>
@@ -63,7 +63,6 @@
                     ?>
             </div>
             <?php endif; ?>
-            
             <?php foreach($vraElementObjects as $vraElementObject): ?>
                     <div class='vra-element-inputs'>
                         <textarea name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]' value='<?php echo $vraElementObject->content; ?>'><?php echo $vraElementObject->content; ?></textarea>

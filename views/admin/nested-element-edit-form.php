@@ -38,11 +38,13 @@
         </fieldset>
     </div>
 
+    <input class='parent-element-add' type='submit' value='Add <?php echo $omekaElement->name; ?> element' data-namebase='<?php echo $nameBase; ?>' data-element-name='<?php echo $omekaElement->name; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
     <div class='vra-element'>
         <div class='vra-element-header'>
             <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElement->name . ' ' . __('Subelements'); ?></label>
         </div>
         <fieldset style='display: none;'>
+            
             <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][name]' value='<?php echo $omekaElement->name; ?>'></input>
             <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][hasSubelements]' value='1'></input>
             <div class='vra-subelements'>
@@ -52,8 +54,7 @@
                         <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
                     </div>
                     <fieldset style='display: none'>
-                        <input type='submit' value='Add Input'></input>
-                        <pre><?php // print_r(array_keys($vraElementObjects)); ?></pre>
+                        <input class='subelement-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
                         <?php 
                         //ugh, this is ughly
                         //roll through all the objects to just check if there is one extant,

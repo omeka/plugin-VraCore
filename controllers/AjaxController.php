@@ -65,5 +65,7 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
         $this->view->omekaElementName = $omekaElementName;
         $this->view->newElementCount  = $newElementCount;
         $this->view->elementsData = $elementsData;
+        $this->view->subelementsData = $subelementsData;
+        $this->view->globalAttrs = $globalAttrs;
     }
 }

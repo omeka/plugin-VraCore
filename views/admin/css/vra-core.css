@@ -64,3 +64,21 @@ div.vra-element-inputs {
 div.vra-subelement-container {
     margin-left: 5px;
 }
+
+
+span.vra-core-attribute-name {
+    padding-right: 5px;
+}
+
+ul.vra-core-attributes {
+    list-style: none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.vra-core-element-name {
+    display: inline-block;
+    padding-right: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}

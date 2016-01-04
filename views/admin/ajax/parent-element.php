@@ -14,6 +14,15 @@
                 <fieldset style='display: none'>
                     <input class='subelement-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElementName; ?>'></input>
                     <div class='vra-subelement vra-element-inputs new'>
+                        
+                        <?php
+                            if (isset($subelementsData[$subelementName])) {
+                                $attributeNames = array_merge($subelementsData[$subelementName]['attrs'], $globalAttrs);
+                            } else {
+                                $attributeNames = $globalAttrs;
+                            }
+                        ?>
+                        
                         <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
                             <?php echo $this->partial('element-attribute-form.php', 
                                     array(

@@ -49,6 +49,14 @@
             <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][hasSubelements]' value='1'></input>
             <div class='vra-subelements'>
             <?php foreach($elementsData[$omekaElement->name]['subelements'] as $subelementName): ?>
+            
+            <?php
+                if (isset($subelementsData[$subelementName])) {
+                    $attributeNames = array_merge($subelementsData[$subelementName]['attrs'], $globalAttributes);
+                } else {
+                    $attributeNames = $globalAttributes;
+                }
+            ?>
                 <div class='vra-subelement-container'>
                     <div class='vra-element-header'>
                         <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
@@ -72,6 +80,8 @@
                         
                         <div class='vra-subelement vra-element-inputs new'>
                             <textarea name='<?php echo $nameBase; ?>[newElements][0][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
+
+                                
                                 <?php echo $this->partial('element-attribute-form.php', 
                                         array(
                                              'attributeNames'   => $attributeNames,

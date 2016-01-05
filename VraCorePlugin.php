@@ -207,6 +207,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookElementsShow($args)
     {
+        $publicDisplay = (bool) get_option('vra-core-public-details');
+        if ( ! is_admin_theme() && ! $publicDisplay) {
+            return;
+        }
         $record = $args['record'];
         $element = $args['elementInfo']['element'];
         $elementSet = $this->_db->getTable('ElementSet')->find($element->element_set_id);
@@ -231,47 +235,13 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             foreach($elements as $element) {
                 $groupedElements[$element->name][] = $element;
             }
-
-            $html = '';
-            $html .= "<ul class='vra-core-attributes'>";
-            foreach($attributes as $attribute) {
-                $html .= "<li><span class='vra-core-attribute-name'>@" . metadata($attribute, 'name') . "</span>";
-                $html .= metadata($attribute, 'content') . "</li>";
-            }
-            $html .= "</ul>";
-
-            if (count($groupedElements) != 0) {
-                $html .= '<h4>Elements</h4>';
-                foreach($groupedElements as $name => $elements) {
-
-                    foreach($elements as $element) {
-                        $subelements = $element->getSubelements();
-                        if (empty($subelements)) {
-                            $html .= "<h5 class='vra-core-element-name'>$name</h5>";
-                            
-                            $html .= metadata($element, 'content');
-                            $html .= "<ul class='vra-core-attributes'>";
-                            foreach($element->getAttributes() as $attribute) {
-                                $html .= "<li><span class='vra-core-attribute-name'>@" . metadata($attribute, 'name') . "</span>";
-                                $html .= metadata($attribute, 'content') . "</li>";
-                            }
-                            $html .= "</ul>";
-                        } else {
-                            foreach($subelements as $subelement) {
-                                $html .= "<h5 class='vra-core-element-name'>" . metadata($subelement, 'name') . "</h5>";
-                                $html .= metadata($subelement, 'content');
-                                $html .= "<ul class='vra-core-attributes'>";
-                                foreach($subelement->getAttributes() as $attribute) {
-                                    $html .= "<li><span class='vra-core-attribute-name'>@" . metadata($attribute, 'name') . "</span>";
-                                    $html .= metadata($attribute, 'content') . "</li>";
-                                }
-                                $html .= "</ul>";
-                            }
-                        }
-                    }
-                }
-            }
-            echo $html;
+            $view = get_view();
+            echo $view->partial('vra-core-data-display.php',
+                    array('attributes' => $attributes,
+                          'elements'   => $elements,
+                          'groupedElements' => $groupedElements
+                            )
+                    );
         }
     }
     

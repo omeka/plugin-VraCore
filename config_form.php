@@ -25,14 +25,14 @@
 </div>
 
 <div class="field">
-    <div id="vra-core-public-details" class="two columns alpha">
-        <label for="vra-core-public-details"><?php echo __('Display VRA Core details?'); ?></label>
+    <div id="vra-core-hide-public-details" class="two columns alpha">
+        <label for="vra-core-hide-public-details"><?php echo __('Hide VRA Core details on public side?'); ?></label>
     </div>
     <div class="inputs five columns omega">
         <p class="explanation"><?php echo __(
-            "If checked, the VRA Core cataloging data will be displayed publicly."
+            "If checked, the VRA Core cataloging data will not be displayed publicly."
         ); ?></p>
-        <?php echo get_view()->formCheckbox('vra-core-public-details', true,
-        array('checked'=>(boolean)get_option('vra-core-public-details'))); ?>
+        <?php echo get_view()->formCheckbox('vra-core-hide-public-details', true,
+        array('checked'=>(boolean)get_option('vra-core-hide-public-details'))); ?>
     </div>
 </div>

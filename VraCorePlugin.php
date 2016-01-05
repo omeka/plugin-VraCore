@@ -182,7 +182,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $post = $args['post'];
         set_option('vra-core-ignore-attributes', $post['vra-core-ignore-attributes']);
         set_option('vra-core-ignore-elements', $post['vra-core-ignore-elements']);
-        set_option('vra-core-public-details', $post['vra-core-public-details']);
+        set_option('vra-core-hide-public-details', $post['vra-core-hide-public-details']);
     }
 
     public function hookConfigForm($args)
@@ -207,8 +207,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookElementsShow($args)
     {
-        $publicDisplay = (bool) get_option('vra-core-public-details');
-        if ( ! is_admin_theme() && ! $publicDisplay) {
+        $hidePublicDetails = (bool) get_option('vra-core-hide-public-details');
+        if ( ! is_admin_theme() && $hidePublicDetails) {
             return;
         }
         $record = $args['record'];

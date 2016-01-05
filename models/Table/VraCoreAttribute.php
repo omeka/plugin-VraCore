@@ -13,4 +13,17 @@ class Table_VraCoreAttribute extends Omeka_Db_Table
         }
         return $select;
     }
+    
+    public function fetchElementDataDate($vraElement)
+    {
+        $select = $this->getSelectForFindBy(array(
+                    'vra_element_id' => $vraElement->id,
+                    'name'           => 'dataDate',
+                    'element_id'     => $vraElement->element_id,
+                    'record_type'    => $vraElement->record_type,
+                    'record_id'      => $vraElement->record_id,
+                    )
+                );
+        return $this->fetchObject($select);
+    }
 }

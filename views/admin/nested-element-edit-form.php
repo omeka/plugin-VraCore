@@ -57,6 +57,62 @@
                     $attributeNames = $globalAttributes;
                 }
             ?>
+            <?php if($subelementName == 'dates') :?>
+                <div class='vra-subelement-container'>
+                    <div class='vra-element-header'>
+                        <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
+                    </div>
+
+                    <fieldset style='display:none'>
+                        <?php echo $this->partial('element-attribute-form.php', 
+                                array(
+                                     'attributeNames'   => array_merge(array('circa'), $attributeNames),
+                                     'attributeObjects' => $attributeObjects,
+                                     //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                                     'vraElementObjects' => array(true),
+                                     'nameBase'         => $nameBase . "[newElements][0][newSubelements][$subelementName][0]['earliestDate']",
+                                     'label'            => __('Attributes')
+                                     )
+                                );
+                        ?>
+                        <div class='vra-subelement vra-element-inputs new'>
+                            <label>Earliest Date</label>
+                            <textarea name='<?php echo $nameBase; ?>[newElements][0][newSubelements][<?php echo $subelementName; ?>][0][earliestDate]' value=''></textarea>
+
+                                
+                                <?php echo $this->partial('element-attribute-form.php', 
+                                        array(
+                                             'attributeNames'   => array_merge(array('circa'), $attributeNames),
+                                             'attributeObjects' => $attributeObjects,
+                                             //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                                             'vraElementObjects' => array(true),
+                                             'nameBase'         => $nameBase . "[newElements][0][newSubelements][$subelementName][0]",
+                                             'label'            => __('Attributes')
+                                             )
+                                        );
+                                ?>
+                        </div>
+                        <div class='vra-subelement vra-element-inputs new'>
+                            <label>Latest Date</label>
+                            <textarea name='<?php echo $nameBase; ?>[newElements][0][newSubelements][<?php echo $subelementName; ?>][0][latestDate]' value=''></textarea>
+
+                                
+                                <?php echo $this->partial('element-attribute-form.php', 
+                                        array(
+                                             'attributeNames'   => $attributeNames,
+                                             'attributeObjects' => $attributeObjects,
+                                             //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                                             'vraElementObjects' => array(true),
+                                             'nameBase'         => $nameBase . "[newElements][0][newSubelements][$subelementName][0]['latestDate']",
+                                             'label'            => __('Attributes')
+                                             )
+                                        );
+                                ?>
+                        </div>
+                    </fieldset>
+                </div>
+            <?php else: ?>
+            
                 <div class='vra-subelement-container'>
                     <div class='vra-element-header'>
                         <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
@@ -120,6 +176,7 @@
                         </div>
                     </fieldset>
                 </div>
+                <?php endif; ?>
             <?php endforeach; ?>
             </div>
         </fieldset>

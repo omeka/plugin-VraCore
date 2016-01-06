@@ -247,19 +247,16 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     
     public function hookAfterSaveItem($args)
     {
-        debug('item');
         $this->afterSaveRecord($args);
     }
 
     public function hookAfterSaveCollection($args)
     {
-        debug('collection');
         $this->afterSaveRecord($args);
     }
 
     public function hookAfterSaveFile($args)
     {
-        debug('file');
         $this->afterSaveRecord($args);
     }
     
@@ -415,13 +412,56 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         if ($hasSubelements) {
             $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
             foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
-                foreach($subelementsData as $subelementData) {
-                    if (empty($subelementData['content'])) {
-                        continue;
+                //special handling for the dates subelement because it has only
+                //it's own subelements. No other subelements go down this many levels
+                if($subelementName == 'dates') {
+                    foreach($subelementsData as $datesSubelements) {
+                        if (empty($datesSubelements['earliestDate']['content']) || empty($datesSubelements['latestDate']['content'])) {
+                            continue;
+                        }
+                        $datesSubelementData = array(
+                                'name'  => 'dates',
+                                'attrs' => $datesSubelements['attrs'],
+                                );
+                    
+                        $datesSubelementObject = $this->processNewSubelement($omekaRecord,
+                                                                             $omekaElementId,
+                                                                             $newVraElement,
+                                                                             $datesSubelementData);
+                        
+                        $earliestDateData = $datesSubelements['earliestDate'];
+                        $earliestDateData['name'] = 'earliestDate';
+                        $latestDateData = $datesSubelements['latestDate'];
+                        $latestDateData['name'] = 'latestDate';
+                        
+                        
+                        if(!empty($earliestDateData['content'])) {
+                            
+                        
+                            $this->processNewSubelement($omekaRecord,
+                                                    $omekaElementId,
+                                                    $datesSubelementObject,
+                                                    $earliestDateData);
+                        }
+                        if(!empty($latestDateData['content'])) {
+                            $this->processNewSubelement($omekaRecord,
+                                                    $omekaElementId,
+                                                    $datesSubelementObject,
+                                                    $latestDateData);
+                        }
                     }
-                    $subelementData['name'] = $subelementName;
-                    $this->processNewSubelement($omekaRecord, $omekaElementId, $newVraElement, $subelementData);
+
+                } else {
+                    foreach($subelementsData as $subelementData) {
+                        if (empty($subelementData['content'])) {
+                            continue;
+                        }
+                        $subelementData['name'] = $subelementName;
+                        $this->processNewSubelement($omekaRecord, $omekaElementId, $newVraElement, $subelementData);
+                    }
                 }
+                
+
             }
         } else {
             if (empty($elementData['content'])) {
@@ -461,9 +501,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $vraElementId = $parentVraElement->element_id;
         //this value is actually the parent vra xml element
         $elementData['vra_element_id'] = $parentVraElement->id;
-        
+        debug(print_r($elementData, true));
         $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
         $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $newVraElement->id );
+        return $newVraElement;
     }
 
     protected function processExistingSubelement($omekaRecord, $omekaElementId, $vraElementId, $elementData)
@@ -477,9 +518,17 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         if (empty($elementData['hasSubelements'])) {
             return false;
         }
-
         foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
             foreach($subelementsData as $subelementData) {
+                if($subelementName == 'dates') {
+                    debug(print_r($subelementData, true));
+                    foreach($subelementData as $datesData) {
+                        debug(print_r($datesData, true));
+                        if (!empty($datesData['content'])) {
+                            return true;
+                        }
+                    }
+                }
                 if (! empty($subelementData['content'])) {
                     return true;
                 }

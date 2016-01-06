@@ -36,7 +36,23 @@
                         </li>
                     <?php endforeach; ?>
                     </ul>
-                
+                    <?php if(metadata($subelement, 'name') == 'dates'): ?>
+                        <?php $datesSubelements = $subelement->getSubelements(); ?>
+                        
+                        <div style='margin-left: 5px;'>
+                            <?php foreach($datesSubelements as $datesSubelement): ?>
+                            <h5 class='vra-core-element-name'> <?php echo metadata($datesSubelement, 'name'); ?> </h5>
+                            <?php echo metadata($datesSubelement, 'content'); ?>
+                            <ul class='vra-core-attributes'>
+                                <?php foreach($datesSubelement->getAttributes() as $datesSubAttribute): ?>
+                                    <li><span class='vra-core-attribute-name'>@<?php echo metadata($datesSubAttribute, 'name'); ?></span>
+                                    <?php echo metadata($datesSubAttribute, 'content'); ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             <?php endif;?>
         <?php endforeach; ?>

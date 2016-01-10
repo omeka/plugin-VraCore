@@ -585,13 +585,15 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                     $notesObject->record_type = get_class($omekaRecord);
                     $notesObject->element_id = $omekaElementId;
                     $notesObject->name = 'notes';
+                    $notesObject->save(true);
                     $notesObject->updateDataDate();
                 }
                 if ($notesObject->content != $notes['content']) {
+                    $notesObject->save(true);
                     $notesObject->updateDataDate();
                 }
                 $notesObject->content = $notes['content'];
-                $notesObject->save(true);
+                
                 $this->storeAttributes($notes['attrs'], $omekaRecord, $omekaElementId, $notesObject->id);
             }
         }

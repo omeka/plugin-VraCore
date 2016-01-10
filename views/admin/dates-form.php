@@ -87,7 +87,7 @@ $dates = $datesElements['dates'];
 </div>
 <div class='vra-subelement vra-element-inputs'>
     <label><?php echo __('Latest Date'); ?></label>
-    <textarea name='<?php echo $nameBase; ?>[newElements][$newSubelementCount][newSubelements][<?php echo $subelementName; ?>][$newSubelementCount][latestDate][content]' value='<?php echo $latestDate->content; ?>'></textarea>
+    <textarea name='<?php echo $nameBase; ?>[newElements][$newSubelementCount][newSubelements][<?php echo $subelementName; ?>][$newSubelementCount][latestDate][content]' value='<?php echo $latestDate->content; ?>'><?php echo $latestDate->content; ?></textarea>
 
         
         <?php echo $this->partial('element-attribute-form.php', 

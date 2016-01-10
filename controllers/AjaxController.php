@@ -39,7 +39,6 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
         } else {
             $attributeNames = $globalAttrs;
         }
-        
 
         $this->view->attributeNames = $attributeNames;
         $this->view->nameBase = $nameBase;

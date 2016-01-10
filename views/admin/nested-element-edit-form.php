@@ -85,10 +85,11 @@
                                   'subelementsData'  => $this->subelementsData,
                                   'subelementName'   => $subelementName,
                                   'nameBase'         => $nameBase,
+                                  'vraElementObjects' => $vraElementObjects,
                                     //@todo : how many of these are still actually used?
                                   'globalAttributes' => $this->globalAttrs,
                                   'attributeNames'    => $attributeNames,
-                                  'vraElementObjects' => $vraElementObjects,
+                                  
                                   'attributeObjects'  => $attributeObjects
                             )
                         );
@@ -110,7 +111,7 @@
                         //even though I'll roll through again below to check and display
                         $hasVraElementObject = false;
                         foreach($vraElementObjects as $vraElementObject) {
-                            if($vraElementObject->name ==$subelementName) {
+                            if($vraElementObject->name == $subelementName) {
                                 $hasVraElementObject = true;
                                 break;
                             }

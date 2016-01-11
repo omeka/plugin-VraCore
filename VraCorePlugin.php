@@ -19,6 +19,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     public $_filters = array(
             );
 
+    protected $searchTexts = '';
+    
     protected $elementsData = array(
             'Title' => array('attrs' => array('type')),
             'Agent' => array(
@@ -377,6 +379,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                     $vraAttribute->vra_element_id = $vraElementId;
                     $vraAttribute->name = $attrName;
                     $vraAttribute->content = $content;
+                    $this->searchTexts .= ' ' . $vraAttribute->content;
                     $vraAttribute->save();
                 }
             }
@@ -402,6 +405,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         
         
         $vraElement->content = isset($elementData['content']) ? $elementData['content'] :  null;
+        $this->searchTexts .= ' ' . $vraElement->content . ' ';
         $vraElement->save();
         return $vraElement;
     }
@@ -489,7 +493,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                     $vraElementObject->updateDataDate();
                 }
                 $vraElementObject->content = $elementData['content'];
+                //@TODO: reuse the storeElement function if possible, or rename it for clarity
+                
                 $vraElementObject->save();
+                $this->searchTexts .= ' ' . $vraElementObject->content;
                 $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $vraElementId);
             }
         }
@@ -521,9 +528,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
             foreach($subelementsData as $subelementData) {
                 if($subelementName == 'dates') {
-                    debug(print_r($subelementData, true));
                     foreach($subelementData as $datesData) {
-                        debug(print_r($datesData, true));
                         if (!empty($datesData['content'])) {
                             return true;
                         }
@@ -597,8 +602,25 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 $this->storeAttributes($notes['attrs'], $omekaRecord, $omekaElementId, $notesObject->id);
             }
         }
+        $this->updateSearchTexts($omekaRecord);
     }
 
+    protected function updateSearchTexts($omekaRecord)
+    {
+        $searchText = $this->_db->getTable('SearchText')->findByRecord(get_class($omekaRecord), $omekaRecord->id);
+debug($searchText->id);
+        if (!$searchText) {
+            $searchText = new SearchText;
+            $searchText->record_type = get_class($omekaRecord);
+            $searchText->record_id = $omekaRecord->id;
+            $searchText->public = $omekaRecord->public;
+            $searchText->title = metadata($omekaRecord, array('Dublin Core', 'Title'));
+        }
+        $searchText->text .= ' ' . $this->searchTexts;
+        debug($this->searchTexts);
+        $searchText->save();
+    }
+    
     protected function installVraCoreElements()
     {
         $VraCoreElementSet = $this->_db->getTable('ElementSet')->findByName('VRA Core');

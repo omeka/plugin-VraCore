@@ -593,7 +593,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                     $notesObject->updateDataDate();
                 }
                 $notesObject->content = $notes['content'];
-                
+                $notesObject->save();
                 $this->storeAttributes($notes['attrs'], $omekaRecord, $omekaElementId, $notesObject->id);
             }
         }

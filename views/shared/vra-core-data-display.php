@@ -6,7 +6,23 @@
 <?php endforeach; ?>
 </ul>
 
+<?php if(isset($groupedElements['notes'])): ?>
+<?php 
+$notesElement = $groupedElements['notes'][0];
 
+?>
+<h5 class='vra-core-element-name'><?php echo __('Notes'); ?></h5>
+
+<?php echo metadata($notesElement, 'content'); ?>
+<ul class='vra-core-attributes'>
+<?php foreach($notesElement->getAttributes() as $attribute): ?>
+    <li><span class='vra-core-attribute-name'>@<?php echo metadata($attribute, 'name'); ?></span>
+    <?php echo metadata($attribute, 'content'); ?>
+    </li>
+<?php endforeach; ?>
+</ul>
+<?php unset($groupedElements['notes']); ?>
+<?php endif;?>
 
 <?php if (count($groupedElements) != 0): ?>
     <h4>Elements</h4>

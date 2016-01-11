@@ -15,7 +15,7 @@ If you do not want to store or show attribute data, check the "Hide Attributes" 
 
 This plugin negotiates the differences between Omeka's data model and the XML-based data model of VRA Core in the following ways.
 
-* The VRA Core Element Set provides the usual Omeka inputs for metadata, exactly parallel to Dublin Core. That "usual" input in Omeka corresponds to the `<display>` element of VRA Core within an `<elementSet>`. All inputs should be considered child elements of a VRA `<elementSet>`. For example, to represent something like
+The VRA Core Element Set provides the usual Omeka inputs for metadata, exactly parallel to Dublin Core. That "usual" input in Omeka corresponds to the `<display>` element of VRA Core within an `<elementSet>`. All inputs should be considered child elements of a VRA `<elementSet>`. For example, to represent something like
 
 ```xml
 <titleSet>

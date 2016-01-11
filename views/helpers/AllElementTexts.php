@@ -14,6 +14,16 @@
  */
 class VraCore_View_Helper_AllElementTexts extends Omeka_View_Helper_AllElementTexts
 {
+    
+    protected function _elementIsShowable(Element $element, $texts)
+    {
+        $elementSet = $element->getElementSet();
+        if ($elementSet->name == 'VRA Core') {
+            //check if there are VRA elements attached
+            return get_db()->getTable('VraCoreElement')->omekaElementHasVraElements($element, $this->_record);
+        }
+        return $this->_showEmptyElements || !empty($texts);
+    }
     /**
      * Path for the view partial.
      *

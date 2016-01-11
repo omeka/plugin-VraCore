@@ -171,9 +171,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     public function hookUninstall()
     {
         $db = $this->_db;
-        $sql = "DROP TABLE `$db->VraCore_Attribute`";
+        $sql = "DROP TABLE `$db->VraCoreAttribute`";
         $db->query($sql);
-        $sql = "DROP TABLE `$db->VraCore_Element`";
+        $sql = "DROP TABLE `$db->VraCoreElement`";
         $db->query($sql);
     }
 

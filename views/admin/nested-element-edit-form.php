@@ -81,7 +81,6 @@
                     foreach($vraElementObjects as $agentElementObject ) {
                         $datesElementObjects = $agentElementObject->getSubelements('dates');
                         if (! empty($datesElementObjects)) {
-                                                
                             echo $this->partial('dates-form.php',
                                 array('omekaElement'     => $omekaElement,
                                       'record'           => $record,
@@ -113,7 +112,9 @@
                         <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
                     </div>
                     <fieldset style='display: none'>
+                        <?php if($subelementName != 'earliestDate' && $subelementName != 'latestDate'): ?>
                         <input class='subelement-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
+                        <?php endif; ?>
                         <?php 
                         //ugh, this is ughly
                         //roll through all the objects to just check if there is one extant,

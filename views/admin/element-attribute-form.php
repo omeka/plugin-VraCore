@@ -1,7 +1,4 @@
-<?php
-$ignoreAttributes =  get_option('vra-core-ignore-attributes');
-?>
-<?php if(! $ignoreAttributes): ?>
+<?php if(! get_option('vra-core-ignore-attributes')): ?>
 <div class='vra-attributes'>
     <div class='vra-attributes-header'>
         <div class='drawer closed'></div><label class='vra-attributes-label'><?php echo $label; ?></label>

@@ -8,24 +8,6 @@ if (! isset($newSubelementCount)) {
 //roll through vraeelments to get dates elements
 //then roll through again to again to align earliestDate and latestDate with those
 //display accordingly
-
-$datesElementObjects = array();
-foreach($vraElementObjects as $vraElementObject) {
-    switch ($vraElementObject->name) {
-        case 'dates':
-            $datesElementObjects[$vraElementObject->id]['dates'] = $vraElementObject;
-            break;
-            
-        case 'earliestDate':
-            $datesElementObjects[$vraElementObject->vra_element_id]['earliestDate'] = $vraElementObject;
-            break;
-            
-        case 'latestDate':
-            $datesElementObjects[$vraElementObject->vra_element_id]['latestDate'] = $vraElementObject;
-            break;
-    }
-}
-debug(count($datesElementObjects));
 ?>
 
 <div class='vra-subelement vra-element-inputs new'>
@@ -46,7 +28,7 @@ debug(count($datesElementObjects));
 </div>
 <div class='vra-subelement vra-element-inputs new'>
     <label><?php echo __('Latest Date'); ?></label>
-    <textarea name='<?php echo $nameBase; ?>[newElements][$newSubelementCount][newSubelements][<?php echo $subelementName; ?>][$newSubelementCount][latestDate][content]' value=''></textarea>
+    <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newSubelementCount; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][latestDate][content]' value=''></textarea>
 
         
         <?php echo $this->partial('element-attribute-form.php', 
@@ -62,16 +44,17 @@ debug(count($datesElementObjects));
         ?>
 </div>
 
-<?php foreach($datesElementObjects as $datesId=>$datesElements):?>
-<?php 
-$earliestDate = $datesElements['earliestDate'];
-$latestDate = $datesElements['latestDate'];
-$dates = $datesElements['dates'];
 
+<?php
+
+foreach($datesElementObjects as $datesElementObject):?>
+<?php 
+$earliestDateObject = $datesElementObject->getSubelements('earliestDate')[0];
+$latestDateObject = $datesElementObject->getSubelements('latestDate')[0];
 ?>
 <div class='vra-subelement vra-element-inputs'>
     <label><?php echo __('Earliest Date'); ?></label>
-    <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newSubelementCount; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][earliestDate][content]' value='<?php echo $earliestDate->content; ?>'><?php echo $earliestDate->content; ?></textarea>
+    <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newSubelementCount; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][earliestDate][content]' value='<?php echo $earliestDateObject->content; ?>'><?php echo $earliestDateObject->content; ?></textarea>
         
         <?php echo $this->partial('element-attribute-form.php', 
                 array(
@@ -85,9 +68,10 @@ $dates = $datesElements['dates'];
                 );
         ?>
 </div>
+
 <div class='vra-subelement vra-element-inputs'>
     <label><?php echo __('Latest Date'); ?></label>
-    <textarea name='<?php echo $nameBase; ?>[newElements][$newSubelementCount][newSubelements][<?php echo $subelementName; ?>][$newSubelementCount][latestDate][content]' value='<?php echo $latestDate->content; ?>'><?php echo $latestDate->content; ?></textarea>
+    <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newSubelementCount; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][latestDate][content]' value='<?php echo $latestDateObject->content; ?>'><?php echo $latestDateObject->content; ?></textarea>
 
         
         <?php echo $this->partial('element-attribute-form.php', 

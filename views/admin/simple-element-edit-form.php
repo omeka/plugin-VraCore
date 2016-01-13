@@ -1,6 +1,5 @@
 <?php
     $nameBase = "vra-element[{$omekaElement->id}]";
-    $ignoreAttributes =  get_option('vra-core-ignore-attributes');
 ?>
 
 <script type='text/javascript'>
@@ -9,7 +8,7 @@
 
 <div class='vra-data'>
 <!-- Display Element Attributes -->
-        <?php echo $this->partial('element-attribute-form.php', 
+        <?php  echo $this->partial('element-attribute-form.php', 
                 array(
                      'attributeNames'   => $globalAttributes,
                      'attributeObjects' => $attributeObjects,

@@ -359,7 +359,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     protected function storeAttributes($attributesData, $omekaRecord, $omekaElementId, $vraElementId = null)
     {
         if(empty($attributesData)) {
-            throw new Exception('No attributes data');
+         //   throw new Exception('No attributes data');
         }
         foreach($attributesData as $id => $attributeContent) {
             foreach($attributeContent as $attrName=>$content) {
@@ -508,7 +508,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $vraElementId = $parentVraElement->element_id;
         //this value is actually the parent vra xml element
         $elementData['vra_element_id'] = $parentVraElement->id;
-        debug(print_r($elementData, true));
         $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
         $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $newVraElement->id );
         return $newVraElement;
@@ -608,7 +607,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     protected function updateSearchTexts($omekaRecord)
     {
         $searchText = $this->_db->getTable('SearchText')->findByRecord(get_class($omekaRecord), $omekaRecord->id);
-debug($searchText->id);
         if (!$searchText) {
             $searchText = new SearchText;
             $searchText->record_type = get_class($omekaRecord);
@@ -617,7 +615,6 @@ debug($searchText->id);
             $searchText->title = metadata($omekaRecord, array('Dublin Core', 'Title'));
         }
         $searchText->text .= ' ' . $this->searchTexts;
-        debug($this->searchTexts);
         $searchText->save();
     }
     

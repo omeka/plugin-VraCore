@@ -32,9 +32,11 @@ For example, to represent something like
 
 the data entry would look like
 
-@todo
+![VRA Title Example](/../readme-screenshots/readme-screenshots/vraTitleExample.png?raw=true "VRA Title Example")
 
 The various layers of subelements appear as expandable sections. Appropriate attributes also appear under each entry form for a VRA element. `@dataDate` attribute values are added automatically when the data is saved.
+
+This system applies to Omeka Items, Collections, and Files, which could be used to correspond to VRA Core Works, Collections, and Images.
 
 # Developer Gotchas
 

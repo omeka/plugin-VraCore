@@ -76,8 +76,26 @@
                                  )
                             );
                     ?>
-                    
                 <?php 
+                    if (empty($vraElementObjects)) {
+                            echo $this->partial('dates-form.php',
+                                array('omekaElement'     => $omekaElement,
+                                      'record'           => $record,
+                                      'elementsData'     => $this->elementsData,
+                                      'subelementsData'  => $this->subelementsData,
+                                      'subelementName'   => $subelementName,
+                                      'nameBase'         => $nameBase,
+                                      'vraElementObjects' => $vraElementObjects,
+                                        //@todo : how many of these are still actually used?
+                                      'globalAttributes' => $this->globalAttrs,
+                                      'attributeNames'    => $attributeNames,
+                                      
+                                      'attributeObjects'  => $attributeObjects
+                                )
+                            );
+                    }
+                ?>
+                <?php
                     foreach($vraElementObjects as $agentElementObject ) {
                         $datesElementObjects = $agentElementObject->getSubelements('dates');
                         if (! empty($datesElementObjects)) {

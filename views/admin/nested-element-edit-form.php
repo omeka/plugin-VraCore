@@ -13,6 +13,7 @@
                      'attributeObjects' => $attributeObjects,
                      'nameBase'         => $nameBase . "[display]",
                      'label'            => __('Display Element Attributes'),
+                     'topLevel'         => 'display',
                      )
                 );
         ?>
@@ -31,6 +32,7 @@
                                      'attributeObjects' => $attributeObjects,
                                      'nameBase'         => $nameBase . "[notes]",
                                      'label'            => __('Notes Attributes'),
+                                     'topLevel'         => 'notes',
                                      )
                                 );
                         ?>

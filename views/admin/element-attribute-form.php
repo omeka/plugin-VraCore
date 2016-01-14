@@ -1,4 +1,8 @@
 <?php if(! get_option('vra-core-ignore-attributes')): ?>
+<?php if (! isset($topLevel)) {
+    $topLevel = false;
+}
+?>
 <div class='vra-attributes'>
     <div class='vra-attributes-header'>
         <div class='drawer closed'></div><label class='vra-attributes-label'><?php echo $label; ?></label>
@@ -23,8 +27,8 @@
                         <?php endif; ?>
                 <?php else: ?>
         
-                    <?php if (isset($attributeObjects['display'][$attributeName])): ?>
-                        <?php $attributeObject = $attributeObjects['display'][$attributeName]; ?>
+                    <?php if ($topLevel && isset($attributeObjects[$topLevel][$attributeName])) : ?>
+                        <?php $attributeObject = $attributeObjects[$topLevel][$attributeName]; ?>
                         <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' value='<?php echo $attributeObject->content; ?>' ></input>
                     <?php else: ?>
                         <input name='<?php echo $nameBase; ?>[attrs][new][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' ></input>

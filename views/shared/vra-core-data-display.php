@@ -27,8 +27,8 @@ $notesElement = $groupedElements['notes'][0];
 <?php if (count($groupedElements) != 0): ?>
     <h4>Elements</h4>
     <?php foreach($groupedElements as $name => $elements): ?>
-
         <?php foreach($elements as $element): ?>
+        
             <?php $subelements = $element->getSubelements(); ?>
             <?php if (empty($subelements)): ?>
                 <h5 class='vra-core-element-name'><?php echo $name; ?></h5>
@@ -43,6 +43,7 @@ $notesElement = $groupedElements['notes'][0];
                 </ul>
             <?php else: ?>
                 <?php foreach($subelements as $subelement): ?>
+                <h4><?php echo $name; ?></h4>
                     <h5 class='vra-core-element-name'> <?php echo metadata($subelement, 'name'); ?> </h5>
                     <?php echo metadata($subelement, 'content'); ?>
                     <ul class='vra-core-attributes'>

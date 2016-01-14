@@ -235,12 +235,12 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             }
             $groupedElements = array();
             foreach($elements as $element) {
+                debug($element->name);
                 $groupedElements[$element->name][] = $element;
             }
             $view = get_view();
             echo $view->partial('vra-core-data-display.php',
                     array('attributes' => $attributes,
-                          'elements'   => $elements,
                           'groupedElements' => $groupedElements
                             )
                     );

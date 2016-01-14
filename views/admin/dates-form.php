@@ -44,12 +44,19 @@ if (! isset($newSubelementCount)) {
     <?php foreach($datesElementObjects as $datesElementObject):?>
     
     <?php
-        $earliestDateObjects = $datesElementObject->getSubelements('earliestDate'); 
-        $earliestDateObject = $earliestDateObjects[0];
-
+        $earliestDateObjects = $datesElementObject->getSubelements('earliestDate');
+        if (! empty($earliestDateObjects)) {
+            $earliestDateObject = $earliestDateObjects[0];
+        }
         $latestDateObjects = $datesElementObject->getSubelements('latestDate');
-        $latestDateObject = $latestDateObjects[0];
+        
+        if (! empty($latestDateObjects)) {
+            $latestDateObject = $latestDateObjects[0];
+        }
+        
     ?>
+    
+    <?php if(isset($earliestDateObject)): ?>
     <div class='vra-subelement vra-element-inputs'>
         <label><?php echo __('Earliest Date'); ?></label>
         <textarea name='<?php echo $nameBase; ?>[<?php echo $earliestDateObject->id; ?>][content]'><?php echo $earliestDateObject->content; ?></textarea>
@@ -66,7 +73,9 @@ if (! isset($newSubelementCount)) {
                     );
             ?>
     </div>
+    <?php endif; ?>
     
+    <?php if(isset($latestDateObject)): ?>
     <div class='vra-subelement vra-element-inputs'>
         <label><?php echo __('Latest Date'); ?></label>
         <textarea name='<?php echo $nameBase; ?>[<?php echo $latestDateObject->id; ?>][content]'><?php echo $latestDateObject->content; ?></textarea>
@@ -84,6 +93,6 @@ if (! isset($newSubelementCount)) {
                     );
             ?>
     </div>
-    
+    <?php endif; ?>
     <?php endforeach; ?>
 <?php endif; ?>

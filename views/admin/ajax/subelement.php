@@ -20,7 +20,7 @@
     ?>
 
 <?php else: ?>
-<div class='vra-subelement vra-element-inputs new'>
+<div class='vra-subelement vra-element-inputs new added'>
     <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newSubelementCount; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][content]' value=''></textarea>
         <?php echo $this->partial('element-attribute-form.php', 
                 array(

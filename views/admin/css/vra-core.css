@@ -50,6 +50,10 @@ div.vra-element-header, div.vra-attributes-header {
     cursor: pointer;
 }
 
+div.vra-element-inputs.added, div.vra-element.added {
+    border: 2px solid #A4C637;
+}
+
 div.vra-attributes-header {
     font-size: 12px;
     line-height: 1.2em;

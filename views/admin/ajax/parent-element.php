@@ -1,4 +1,4 @@
-<div class='vra-element'>
+<div class='vra-element new added'>
     <div class='vra-element-header'>
         <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElementName . ' ' . __('Subelements'); ?></label>
     </div>

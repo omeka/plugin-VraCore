@@ -13,7 +13,7 @@ class Table_VraCoreElement extends Omeka_Db_Table
         }
         return $select;
     }
-    
+
     public function findNotesForRecordElement($omekaRecord, $omekaElementId)
     {
         $params = array(
@@ -25,7 +25,7 @@ class Table_VraCoreElement extends Omeka_Db_Table
         $select = $this->getSelectForFindBy($params);
         return $this->fetchObject($select);
     }
-    
+
     public function omekaElementHasVraElements($omekaElement, $omekaRecord)
     {
         $count = $this->count(array('element_id' => $omekaElement->id,

@@ -1,8 +1,6 @@
 <?php if ($subelementName == 'dates'): ?>
-
     <?php echo $this->partial('dates-form.php',
                           array(
-                              
                               'elementsData'     => $this->elementsData,
                               'subelementsData'  => $this->subelementsData,
                               'subelementName'   => $subelementName,
@@ -11,12 +9,9 @@
                                 //@todo : how many of these are still actually used?
                               'globalAttributes' => $this->globalAttrs,
                               'attributeNames'    => $attributeNames,
-                              
                               'attributeObjects'  => array()
-                              
                         )
             );
-    
     ?>
 
 <?php else: ?>

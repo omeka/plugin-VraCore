@@ -7,7 +7,6 @@
     <div class='vra-attributes-header'>
         <div class='drawer closed'></div><label class='vra-attributes-label'><?php echo $label; ?></label>
     </div>
-    
     <fieldset class='vra-attributes' style='display: none;'>
         <?php foreach($attributeNames as $attributeName): ?>
             <div class='vra-attribute'>
@@ -26,7 +25,6 @@
                             <input name='<?php echo $nameBase; ?>[attrs][new][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' ></input>
                         <?php endif; ?>
                 <?php else: ?>
-        
                     <?php if ($topLevel && isset($attributeObjects[$topLevel][$attributeName])) : ?>
                         <?php $attributeObject = $attributeObjects[$topLevel][$attributeName]; ?>
                         <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' value='<?php echo $attributeObject->content; ?>' ></input>

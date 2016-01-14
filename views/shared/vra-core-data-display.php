@@ -28,11 +28,9 @@ $notesElement = $groupedElements['notes'][0];
     <h4>Elements</h4>
     <?php foreach($groupedElements as $name => $elements): ?>
         <?php foreach($elements as $element): ?>
-        
             <?php $subelements = $element->getSubelements(); ?>
             <?php if (empty($subelements)): ?>
                 <h5 class='vra-core-element-name'><?php echo $name; ?></h5>
-                
                 <?php echo metadata($element, 'content'); ?>
                 <ul class='vra-core-attributes'>
                 <?php foreach($element->getAttributes() as $attribute): ?>
@@ -55,7 +53,6 @@ $notesElement = $groupedElements['notes'][0];
                     </ul>
                     <?php if(metadata($subelement, 'name') == 'dates'): ?>
                         <?php $datesSubelements = $subelement->getSubelements(); ?>
-                        
                         <div style='margin-left: 5px;'>
                             <?php foreach($datesSubelements as $datesSubelement): ?>
                             <h5 class='vra-core-element-name'> <?php echo metadata($datesSubelement, 'name'); ?> </h5>

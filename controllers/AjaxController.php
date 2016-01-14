@@ -3,13 +3,11 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
 {
     public function elementAction()
     {
-        
         //@todo there has to be a cleaner way to pass the data around with statics
         // or at least know that it already exists someplace
         $plugin = new VraCorePlugin();
         $globalAttrs = $plugin->getGlobalAttrs();
         $elementsData = $plugin->getElementsData();
-        
         $nameBase = $this->getParam('nameBase');
         $omekaElementName = $this->getParam('omekaElementName');
         $newElementCount = $this->getParam('newElementCount');
@@ -33,7 +31,7 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
         $nameBase = $this->getParam('nameBase');
         $subelementName = $this->getParam('subelementName');
         $newSubelementCount = $this->getParam('newSubelementCount');
-        
+
         if (isset($subelementsData[$subelementName])) {
             $attributeNames = array_merge($subelementsData[$subelementName]['attrs'], $globalAttrs);
         } else {
@@ -44,9 +42,8 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
         $this->view->nameBase = $nameBase;
         $this->view->subelementName = $subelementName;
         $this->view->newSubelementCount  = $newSubelementCount;
-        
     }
-    
+
     public function parentElementAction()
     {
         $plugin = new VraCorePlugin();
@@ -56,7 +53,6 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
         $omekaElementName = $this->getParam('omekaElementName');
         $nameBase = $this->getParam('nameBase');
         $newElementCount = $this->getParam('newElementCount');
-        
         $attributeNames = array_merge($elementsData[$omekaElementName]['attrs'], $globalAttrs);
 
         $this->view->attributeNames = $attributeNames;

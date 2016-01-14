@@ -7,15 +7,11 @@
         <input type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][hasSubelements]' value='1'></input>
         <div class='vra-subelements'>
         <?php foreach($elementsData[$omekaElementName]['subelements'] as $subelementName): ?>
-            <?php debug($subelementName); ?>
-            
             <?php if($subelementName == 'dates'): ?>
-            
             <div class='vra-subelement-container'>
                 <div class='vra-element-header'>
                     <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
                 </div>
-            
                 <fieldset style='display:none'>
                     <input class='subelement-add' type='submit' value='Add Dates Element' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
                     <?php echo $this->partial('element-attribute-form.php', 
@@ -44,15 +40,6 @@
                 ?>
                 </fieldset>
             </div>
-            
-            
-            
-            
-            
-            
-            
-            
-            
             <?php else: ?>
             <div class='vra-subelement-container'>
                 <div class='vra-element-header'>
@@ -61,7 +48,6 @@
                 <fieldset style='display: none'>
                     <input class='subelement-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElementName; ?>'></input>
                     <div class='vra-subelement vra-element-inputs new'>
-                        
                         <?php
                             if (isset($subelementsData[$subelementName])) {
                                 $attributeNames = array_merge($subelementsData[$subelementName]['attrs'], $globalAttrs);
@@ -69,7 +55,6 @@
                                 $attributeNames = $globalAttrs;
                             }
                         ?>
-                        
                         <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
                             <?php echo $this->partial('element-attribute-form.php', 
                                     array(

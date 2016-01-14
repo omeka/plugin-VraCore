@@ -20,7 +20,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             );
 
     protected $searchTexts = '';
-    
+
     protected $elementsData = array(
             'Title' => array('attrs' => array('type')),
             'Agent' => array(
@@ -199,7 +199,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         queue_js_string($js);
         queue_js_file('vra-core');
     }
-    
+
     public function hookPublicHead($args)
     {
         queue_css_file('vra-core');
@@ -235,7 +235,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             }
             $groupedElements = array();
             foreach($elements as $element) {
-                debug($element->name);
                 $groupedElements[$element->name][] = $element;
             }
             $view = get_view();
@@ -246,7 +245,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                     );
         }
     }
-    
+
     public function hookAfterSaveItem($args)
     {
         $this->afterSaveRecord($args);
@@ -261,7 +260,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         $this->afterSaveRecord($args);
     }
-    
+
     public function filterVraIdInput($components, $args)
     {
         $components['html_checkbox'] = false;
@@ -345,17 +344,17 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         return $this->globalAttrs;
     }
-    
+
     public function getElementsData()
     {
         return $this->elementsData;
     }
-    
+
     public function getSubelementsData()
     {
         return $this->subelementsData;
     }
-    
+
     protected function storeAttributes($attributesData, $omekaRecord, $omekaElementId, $vraElementId = null)
     {
         if(empty($attributesData)) {
@@ -386,8 +385,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         }
     }
 
-    /*
-     * 
+    /**
      * $vraElementId the id of the VraCoreElement record, not the optional vra_element_id column value
      */
     protected function storeElement($elementData, $omekaRecord, $omekaElementId, $vraElementId = null)
@@ -402,8 +400,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             $vraElement->vra_element_id = isset($elementData['vra_element_id']) ? $elementData['vra_element_id'] : null;
             $vraElement->name = $elementData['name'];
         }
-        
-        
         $vraElement->content = isset($elementData['content']) ? $elementData['content'] :  null;
         $this->searchTexts .= ' ' . $vraElement->content . ' ';
         $vraElement->save();
@@ -427,21 +423,18 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                                 'name'  => 'dates',
                                 'attrs' => $datesSubelements['attrs'],
                                 );
-                    
+
                         $datesSubelementObject = $this->processNewSubelement($omekaRecord,
                                                                              $omekaElementId,
                                                                              $newVraElement,
                                                                              $datesSubelementData);
-                        
+
                         $earliestDateData = $datesSubelements['earliestDate'];
                         $earliestDateData['name'] = 'earliestDate';
                         $latestDateData = $datesSubelements['latestDate'];
                         $latestDateData['name'] = 'latestDate';
-                        
-                        
+
                         if(!empty($earliestDateData['content'])) {
-                            
-                        
                             $this->processNewSubelement($omekaRecord,
                                                     $omekaElementId,
                                                     $datesSubelementObject,
@@ -464,8 +457,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                         $this->processNewSubelement($omekaRecord, $omekaElementId, $newVraElement, $subelementData);
                     }
                 }
-                
-
             }
         } else {
             if (empty($elementData['content'])) {
@@ -477,10 +468,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         }
         return $newVraElement;
     }
-    
+
     protected function processExistingElement($omekaRecord, $omekaElementId, $vraElementId, $elementData)
     {
-        
         $hasSubelements = !empty($elementData['hasSubElements']);
         $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
         if ($hasSubelements) {
@@ -494,14 +484,13 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 }
                 $vraElementObject->content = $elementData['content'];
                 //@TODO: reuse the storeElement function if possible, or rename it for clarity
-                
                 $vraElementObject->save();
                 $this->searchTexts .= ' ' . $vraElementObject->content;
                 $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $vraElementId);
             }
         }
     }
-    
+
     protected function processNewSubelement($omekaRecord, $omekaElementId, $parentVraElement, $elementData)
     {
         //this is the id of the element in Omeka's Elements table
@@ -540,7 +529,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         }
         return false;
     }
-    
+
     public function afterSaveRecord($args)
     {
         $insert = $args['insert'];

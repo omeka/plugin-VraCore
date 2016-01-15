@@ -6,6 +6,7 @@
                               'subelementName'   => $subelementName,
                               'nameBase'         => $nameBase,
                               'vraElementObjects' => array(true),
+                              'added'             => 'added',
                                 //@todo : how many of these are still actually used?
                               'globalAttributes' => $this->globalAttrs,
                               'attributeNames'    => $attributeNames,

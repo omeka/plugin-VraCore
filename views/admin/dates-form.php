@@ -3,7 +3,12 @@ if (! isset($newSubelementCount)) {
     $newSubelementCount = 0;
 }
 
+if (! isset($added)) {
+    $added = '';
+}
+
 ?>
+<div class='vra-element-inputs <?php echo $added; ?>'>
 <?php if(empty($datesElementObjects)): ?>
 
     <div class='vra-subelement vra-element-inputs new'>
@@ -57,7 +62,7 @@ if (! isset($newSubelementCount)) {
     ?>
     
     <?php if(isset($earliestDateObject)): ?>
-    <div class='vra-subelement vra-element-inputs'>
+    <div class="vra-subelement vra-element-inputs">
         <label><?php echo __('Earliest Date'); ?></label>
         <textarea name='<?php echo $nameBase; ?>[<?php echo $earliestDateObject->id; ?>][content]'><?php echo $earliestDateObject->content; ?></textarea>
             
@@ -96,3 +101,4 @@ if (! isset($newSubelementCount)) {
     <?php endif; ?>
     <?php endforeach; ?>
 <?php endif; ?>
+</div>

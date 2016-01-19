@@ -1,5 +1,5 @@
 # plugin-VraCore
-Use the VRA Core metadata standard in Omeka
+Use the (VRA Core metadata standard in Omeka.
 
 # Installation
 Usual Omeka installation procedure. A "VRA Core" Element Set will be installed, as well as tables for VRA Elements and Attributes data.

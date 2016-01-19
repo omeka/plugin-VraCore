@@ -40,8 +40,9 @@ $notesElement = $groupedElements['notes'][0];
                 <?php endforeach; ?>
                 </ul>
             <?php else: ?>
-                <?php foreach($subelements as $subelement): ?>
                 <h4><?php echo $name; ?></h4>
+                <?php foreach($subelements as $subelement): ?>
+                
                     <h5 class='vra-core-element-name'> <?php echo metadata($subelement, 'name'); ?> </h5>
                     <?php echo metadata($subelement, 'content'); ?>
                     <ul class='vra-core-attributes'>

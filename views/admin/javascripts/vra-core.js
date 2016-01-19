@@ -46,12 +46,14 @@
             var nameBase = $(this).data('namebase');
             var subelementName = $(this).data('subelement-name');
             var omekaElementName = $(this).data('omeka-element-name');
+            var vraParentId = $(this).data('vra-parent-id');
             var data = {
                     'newSubelementCount' : newSubelementCount,
                     'newElementCount' : 1,
                     'nameBase'        : nameBase,
                     'omekaElementName' : omekaElementName,
-                    'subelementName'  : subelementName
+                    'subelementName'  : subelementName,
+                    'vraParentId'     : vraParentId,
             };
             $.get(OmekaWebDir + '/vra-core/ajax/subelement', data, function(response, textStatus, jqXHR) {
                 $(e.target).after(response);

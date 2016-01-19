@@ -9,6 +9,20 @@ if (! isset($added)) {
 
 ?>
 <div class='vra-element-inputs <?php echo $added; ?>'>
+    <?php if ($added == 'added') {
+            echo $this->partial('element-attribute-form.php', 
+                    array(
+                         'attributeNames'   => $attributeNames,
+                         'attributeObjects' => $attributeObjects,
+                         //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                         'vraElementObjects' => array(true),
+                         'nameBase'         => $nameBase . "[newElements][0][newSubelements][$subelementName][0]",
+                         'label'            => __('Dates Element Attributes')
+                         )
+                    );
+    }
+    
+    ?>
 <?php if(empty($datesElementObjects)): ?>
 
     <div class='vra-subelement vra-element-inputs new'>

@@ -31,6 +31,7 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
         $nameBase = $this->getParam('nameBase');
         $subelementName = $this->getParam('subelementName');
         $newSubelementCount = $this->getParam('newSubelementCount');
+        $vraParentId = $this->getParam('vraParentId');
 
         if (isset($subelementsData[$subelementName])) {
             $attributeNames = array_merge($subelementsData[$subelementName]['attrs'], $globalAttrs);
@@ -42,6 +43,7 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
         $this->view->nameBase = $nameBase;
         $this->view->subelementName = $subelementName;
         $this->view->newSubelementCount  = $newSubelementCount;
+        $this->view->vraParentId = $vraParentId;
     }
 
     public function parentElementAction()

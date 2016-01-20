@@ -1,3 +1,11 @@
+<?php
+
+if (! isset($parentVraElementId)) {
+    $parentVraElementId = '';
+}
+
+?>
+
 <div class='vra-element new added'>
     <div class='vra-element-header'>
         <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElementName . ' ' . __('Subelements'); ?></label>
@@ -46,7 +54,10 @@
                     <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
                 </div>
                 <fieldset style='display: none'>
-                    <input class='subelement-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElementName; ?>'></input>
+                    <?php if($subelementName != 'earliestDate' && $subelementName != 'latestDate'): ?>
+                        <input class='subelement-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElementName; ?>'></input>
+                    <?php endif; ?>
+                    
                     <div class='vra-subelement vra-element-inputs new'>
                         <?php
                             if (isset($subelementsData[$subelementName])) {
@@ -56,6 +67,7 @@
                             }
                         ?>
                         <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
+                        <input type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][parent_id]' value='<?php echo $parentVraElementId; ?>'></input>
                             <?php echo $this->partial('element-attribute-form.php', 
                                     array(
                                          'attributeNames'   => $attributeNames,

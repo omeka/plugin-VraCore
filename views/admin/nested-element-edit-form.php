@@ -133,22 +133,20 @@
                         foreach($vraElementObjects as $vraElementObject) {
                             if($vraElementObject->name == $subelementName) {
                                 $hasVraElementObject = true;
-                                $vraParentId = $vraElementObject->id;
+                                $vraParentVraId = $vraElementObject->id;
                                 break;
                             }
                         }
                         ?>
                         <?php if($subelementName != 'earliestDate' && $subelementName != 'latestDate'): ?>
 
-                        <input class='subelement-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-vra-parent-id='<?php echo $vraParentId; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
+                            <input class='subelement-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-vra-parent-id='<?php echo $vraParentId; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
                         <?php endif; ?>
 
                         <?php if(! $hasVraElementObject): ?>
                         <div class='vra-subelement vra-element-inputs new'>
                             <textarea name='<?php echo $nameBase; ?>[newElements][0][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
-                            <?php if(isset($parentVraElementId)): ?>
-                            <input name='<?php echo $nameBase; ?>[newElements][0][newSubelements][<?php echo $subelementName; ?>][0][parent_id]' value='<?php echo $parentVraElementId; ?>'></input>
-                            <?php endif; ?>
+                            <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][newSubelements][<?php echo $subelementName; ?>][0][parent_id]' value='<?php echo $parentVraElementId; ?>'></input>
                                 <?php echo $this->partial('element-attribute-form.php', 
                                         array(
                                              'attributeNames'   => $attributeNames,

@@ -41,7 +41,19 @@
     </div>
 
     <input class='parent-element-add' type='submit' value='Add <?php echo $omekaElement->name; ?> element' data-namebase='<?php echo $nameBase; ?>' data-element-name='<?php echo $omekaElement->name; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
+
+    
+    <?php foreach($vraElementObjects as $parentObject): ?>
+    <?php 
+        $vraSubElementObjects = $parentObject->getSubelements();
+    ?>
+    
+    
     <div class='vra-element'>
+    
+    
+        
+    
         <div class='vra-element-header'>
             <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElement->name . ' ' . __('Subelements'); ?></label>
         </div>
@@ -76,7 +88,7 @@
                             );
                     ?>
                 <?php 
-                    if (empty($vraElementObjects)) {
+                    if (empty($vraSubElementObjects)) {
                             echo $this->partial('dates-form.php',
                                 array('omekaElement'     => $omekaElement,
                                       'record'           => $record,
@@ -94,7 +106,7 @@
                     }
                 ?>
                 <?php
-                    foreach($vraElementObjects as $agentElementObject ) {
+                    foreach($vraSubElementObjects as $agentElementObject ) {
                         $datesElementObjects = $agentElementObject->getSubelements('dates');
                         if (! empty($datesElementObjects)) {
                             echo $this->partial('dates-form.php',
@@ -130,10 +142,10 @@
                         //even though I'll roll through again below to check and display
                         $hasVraElementObject = false;
                         $parentVraElementId = '';
-                        foreach($vraElementObjects as $vraElementObject) {
-                            if($vraElementObject->name == $subelementName) {
+                        foreach($vraSubElementObjects as $vraSubElementObject) {
+                            if($vraSubElementObject->name == $subelementName) {
                                 $hasVraElementObject = true;
-                                $vraParentVraId = $vraElementObject->id;
+                                $vraParentVraId = $vraSubElementObject->id;
                                 break;
                             }
                         }
@@ -163,18 +175,18 @@
                         
                         <!-- insert the existing data: content and attributes -->
                         <div class='vra-subelement vra-element-inputs existing'>
-                        <?php foreach($vraElementObjects as $vraElementObject): ?>
-                            <?php if($vraElementObject->name == $subelementName): ?>
+                        <?php foreach($vraSubElementObjects as $vraSubElementObject): ?>
+                            <?php if($vraSubElementObject->name == $subelementName): ?>
                                 <div class='vra-element-inputs'>
-                                    <textarea name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]' value='<?php echo $vraElementObject->content; ?>'><?php echo $vraElementObject->content; ?></textarea>
+                                    <textarea name='<?php echo $nameBase; ?>[<?php echo $vraSubElementObject->id; ?>][content]' value='<?php echo $vraSubElementObject->content; ?>'><?php echo $vraSubElementObject->content; ?></textarea>
                                     
                                     <?php echo $this->partial('element-attribute-form.php', 
                                             array(
                                                  'attributeNames'   => $attributeNames,
                                                  'attributeObjects' => $attributeObjects,
-                                                 'vraElementObject' => $vraElementObject,
-                                                 'vraElementObjects' => $vraElementObjects,
-                                                 'nameBase'         => $nameBase . "[{$vraElementObject->id}]",
+                                                 'vraElementObject' => $vraSubElementObject,
+                                                 'vraElementObjects' => $vraSubElementObjects,
+                                                 'nameBase'         => $nameBase . "[{$vraSubElementObject->id}]",
                                                  'label'            => __('Attributes')
                                                  )
                                             );
@@ -190,4 +202,18 @@
             </div>
         </fieldset>
     </div>
+
+    
+    
+    
+    
+    
+    <?php endforeach; ?>
+    
+    
+    
+    
+    
+    
+    
 </div>

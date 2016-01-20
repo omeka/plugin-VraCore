@@ -304,7 +304,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 ->getTable('VraCoreElement')
                 ->findBy(array('element_id'  => $omekaElement->id,
                                'record_id'   => $record->id,
-                               'record_type' => get_class($record)
+                               'record_type' => get_class($record),
+                               'vra_element_id' => false
                         ));
 
             foreach ($elements as $element) {
@@ -318,7 +319,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $attributeNames = array_merge($this->elementsData[$omekaElement->name]['attrs'], $this->globalAttrs);
 
         $view = get_view();
-        $partialArgs = array('omekaElement'          => $omekaElement,
+        $partialArgs = array(
+                  'omekaElement'     => $omekaElement,
                   'record'           => $record,
                   'elementsData'     => $this->elementsData,
                   'subelementsData'  => $this->subelementsData,
@@ -332,6 +334,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
         if (isset($this->elementsData[$omekaElement->name]['subelements'])) {
             $html = $view->partial('nested-element-edit-form.php', $partialArgs);
+            debug(count($vraElementObjects));
         } else {
             $html = $view->partial('simple-element-edit-form.php', $partialArgs);
         }

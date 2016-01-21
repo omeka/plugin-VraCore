@@ -334,7 +334,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
         if (isset($this->elementsData[$omekaElement->name]['subelements'])) {
             $html = $view->partial('nested-element-edit-form.php', $partialArgs);
-            debug(count($vraElementObjects));
         } else {
             $html = $view->partial('simple-element-edit-form.php', $partialArgs);
         }
@@ -504,7 +503,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         if (isset($elementData['vra_parent_id']) && is_numeric($elementData['vra_parent_id'])) {
             //$elementData['vra_element_id'] = $elementData['vra_parent_id'];
             $elementData['vra_element_id'] = $parentVraElement->id;
-            debug('subelement parent');
         } else {
             $elementData['vra_element_id'] = $parentVraElement->id;
         }

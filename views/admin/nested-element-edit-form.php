@@ -230,7 +230,6 @@ $omekaElementName = $omekaElement->name;
                 </fieldset>
             </div>
             <?php else: ?>
-            <?php debug('in else'); ?>
                 <div class='vra-subelement-container'>
                     <div class='vra-element-header'>
                         <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
@@ -252,27 +251,7 @@ $omekaElementName = $omekaElement->name;
                         ?>
                         <?php if($subelementName != 'earliestDate' && $subelementName != 'latestDate'): ?>
 
-                            <input class='subelement-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-vra-parent-id='<?php echo $vraParentId; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
-                        <?php endif; ?>
-
-                        <?php if(true): ?>
-                        <?php debug('double dammit');?>
-                        <p>dammit</p>
-                        <div class='vra-subelement vra-element-inputs new'>
-                            <textarea name='<?php echo $nameBase; ?>[newElements][0][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
-                            <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][newSubelements][<?php echo $subelementName; ?>][0][parent_id]' value='<?php echo $parentVraElementId; ?>'></input>
-                                <?php echo $this->partial('element-attribute-form.php', 
-                                        array(
-                                             'attributeNames'   => $attributeNames,
-                                             'attributeObjects' => $attributeObjects,
-                                             //kind of a cheat. put true at the front to produce a new set of attributes for new element
-                                             'vraElementObjects' => array(true),
-                                             'nameBase'         => $nameBase . "[newElements][0][newSubelements][$subelementName][0]",
-                                             'label'            => __('Attributes')
-                                             )
-                                        );
-                                ?>
-                        </div>
+                            <input class='subelement-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-vra-parent-id='<?php echo $parentObject->id; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
                         <?php endif; ?>
                         
                         <!-- insert the existing data: content and attributes -->

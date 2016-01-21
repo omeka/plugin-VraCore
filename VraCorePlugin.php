@@ -412,7 +412,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         $hasSubelements = $this->hasNewSubelements($elementData);
         if ($hasSubelements) {
-            $parentVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
+            debug(print_r($elementData, true));
+            
+            
             
             foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
                 //special handling for the dates subelement because it has only
@@ -456,6 +458,13 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                         if (empty($subelementData['content'])) {
                             continue;
                         }
+                        
+                        if (isset($subelementData['vra_parent_id']) && is_numeric($subelementData['vra_parent_id'])) {
+                            $parentVraElement = $subelementData['vra_parent_id'];
+                        } else {
+                            $parentVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
+                        }
+                        
                         $subelementData['name'] = $subelementName;
                         $this->processNewSubelement($omekaRecord, $omekaElementId, $parentVraElement, $subelementData);
                     }
@@ -497,14 +506,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     protected function processNewSubelement($omekaRecord, $omekaElementId, $parentVraElement, $elementData)
     {
         //this is the id of the element in Omeka's Elements table
-        $vraElementId = $parentVraElement->element_id;
-        //this value is actually the parent vra xml element
-        
-        if (isset($elementData['vra_parent_id']) && is_numeric($elementData['vra_parent_id'])) {
-            //$elementData['vra_element_id'] = $elementData['vra_parent_id'];
-            $elementData['vra_element_id'] = $parentVraElement->id;
+        if (is_numeric($parentVraElement)) {
+            $elementData['vra_element_id'] = $parentVraElement;
         } else {
-            $elementData['vra_element_id'] = $parentVraElement->id;
+            $elementData['vra_element_id'] = $parentVraElement->element_id;
         }
         
         $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);

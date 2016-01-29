@@ -30,7 +30,7 @@
     </div>
     <div class="inputs five columns omega">
         <p class="explanation"><?php echo __(
-            "If checked, the VRA Core cataloging data will not be displayed publicly."
+            "If checked, only VRA Core display data will be shown publicly."
         ); ?></p>
         <?php echo get_view()->formCheckbox('vra-core-hide-public-details', true,
         array('checked'=>(boolean)get_option('vra-core-hide-public-details'))); ?>
@@ -43,7 +43,7 @@
     </div>
     <div class="inputs five columns omega">
         <p class="explanation"><?php echo __(
-            "If checked, the VRA Core attribute data will not be displayed publicly."
+            "If checked, and the details setting above is not checked, the VRA Core attribute data will not be displayed publicly."
         ); ?></p>
         <?php echo get_view()->formCheckbox('vra-core-hide-public-attributes', true,
         array('checked'=>(boolean)get_option('vra-core-hide-public-attributes'))); ?>

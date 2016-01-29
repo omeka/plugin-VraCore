@@ -1,3 +1,16 @@
+<?php
+//check if public side, and if attributes should be shown
+if (is_admin_theme()) {
+    $showAttributes = true;
+} elseif (get_option('vra-core-hide-public-attributes' )) {
+    $showAttributes = false;
+} else {
+    $showAttributes = true;
+}
+
+
+?>
+
 <ul class='vra-core-attributes'>
 <?php foreach($attributes as $attribute): ?>
     <li><span class='vra-core-attribute-name'>@<?php echo metadata($attribute, 'name'); ?></span>
@@ -14,6 +27,7 @@ $notesElement = $groupedElements['notes'][0];
 <h5 class='vra-core-element-name'><?php echo __('Notes'); ?></h5>
 
 <?php echo metadata($notesElement, 'content'); ?>
+<?php if ($showAttributes): ?>
 <ul class='vra-core-attributes'>
 <?php foreach($notesElement->getAttributes() as $attribute): ?>
     <li><span class='vra-core-attribute-name'>@<?php echo metadata($attribute, 'name'); ?></span>
@@ -21,6 +35,7 @@ $notesElement = $groupedElements['notes'][0];
     </li>
 <?php endforeach; ?>
 </ul>
+<?php endif; ?>
 <?php unset($groupedElements['notes']); ?>
 <?php endif;?>
 
@@ -32,6 +47,7 @@ $notesElement = $groupedElements['notes'][0];
             <?php if (empty($subelements)): ?>
                 <h5 class='vra-core-element-name'><?php echo $name; ?></h5>
                 <?php echo metadata($element, 'content'); ?>
+                <?php if ($showAttributes): ?>
                 <ul class='vra-core-attributes'>
                 <?php foreach($element->getAttributes() as $attribute): ?>
                     <li><span class='vra-core-attribute-name'>@<?php echo metadata($attribute, 'name'); ?></span>
@@ -39,12 +55,14 @@ $notesElement = $groupedElements['notes'][0];
                     </li>
                 <?php endforeach; ?>
                 </ul>
+                <?php endif; ?>
             <?php else: ?>
                 <h4><?php echo $name; ?></h4>
                 <?php foreach($subelements as $subelement): ?>
                 
                     <h5 class='vra-core-element-name'> <?php echo metadata($subelement, 'name'); ?> </h5>
                     <?php echo metadata($subelement, 'content'); ?>
+                    <?php if ($showAttributes): ?>
                     <ul class='vra-core-attributes'>
                     <?php foreach($subelement->getAttributes() as $attribute): ?>
                         <li><span class='vra-core-attribute-name'>@<?php echo metadata($attribute, 'name'); ?></span>
@@ -52,12 +70,14 @@ $notesElement = $groupedElements['notes'][0];
                         </li>
                     <?php endforeach; ?>
                     </ul>
+                    <?php endif; ?>
                     <?php if(metadata($subelement, 'name') == 'dates'): ?>
                         <?php $datesSubelements = $subelement->getSubelements(); ?>
                         <div style='margin-left: 5px;'>
                             <?php foreach($datesSubelements as $datesSubelement): ?>
                             <h5 class='vra-core-element-name'> <?php echo metadata($datesSubelement, 'name'); ?> </h5>
                             <?php echo metadata($datesSubelement, 'content'); ?>
+                            <?php if ($showAttributes): ?>
                             <ul class='vra-core-attributes'>
                                 <?php foreach($datesSubelement->getAttributes() as $datesSubAttribute): ?>
                                     <li><span class='vra-core-attribute-name'>@<?php echo metadata($datesSubAttribute, 'name'); ?></span>
@@ -65,6 +85,7 @@ $notesElement = $groupedElements['notes'][0];
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
+                            <?php endif; ?>
                         <?php endforeach; ?>
                         </div>
                     <?php endif; ?>

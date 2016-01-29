@@ -36,3 +36,16 @@
         array('checked'=>(boolean)get_option('vra-core-hide-public-details'))); ?>
     </div>
 </div>
+
+<div class="field">
+    <div id="vra-core-hide-public-attributes" class="two columns alpha">
+        <label for="vra-core-hide-public-attributes"><?php echo __('Hide VRA Core attributes on public side?'); ?></label>
+    </div>
+    <div class="inputs five columns omega">
+        <p class="explanation"><?php echo __(
+            "If checked, the VRA Core attribute data will not be displayed publicly."
+        ); ?></p>
+        <?php echo get_view()->formCheckbox('vra-core-hide-public-attributes', true,
+        array('checked'=>(boolean)get_option('vra-core-hide-public-attributes'))); ?>
+    </div>
+</div>

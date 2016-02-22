@@ -406,6 +406,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $vraElement->content = isset($elementData['content']) ? $elementData['content'] :  null;
         $this->searchTexts .= ' ' . $vraElement->content . ' ';
         $vraElement->save();
+        $vraElement->updateDataDate();
         return $vraElement;
     }
     
@@ -413,9 +414,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         $hasSubelements = $this->hasNewSubelements($elementData);
         if ($hasSubelements) {
-            debug(print_r($elementData, true));
-            
-            
             
             foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
                 //special handling for the dates subelement because it has only
@@ -476,7 +474,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                  return;
             }
             $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
-            $newVraElement->updateDataDate();
             $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $newVraElement->id );
         }
         return $newVraElement;

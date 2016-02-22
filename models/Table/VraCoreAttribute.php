@@ -2,7 +2,7 @@
 
 class Table_VraCoreAttribute extends Omeka_Db_Table
 {
-    public function getSelectForFindBy($params)
+    public function getSelectForFindBy($params = array())
     {
         if (isset($params['vra_element_id']) && !$params['vra_element_id']) {
             unset($params['vra_element_id']);

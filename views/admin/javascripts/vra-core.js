@@ -1,5 +1,17 @@
 (function($) {
     $(function() {
+        //need to disable vra data with no value to avoid
+        //exceeding php's max_inputs security setting
+        //leave the vra elements untouched, so usual process of deleting
+        //by erasing will still be in place
+        $('form').submit(function(e) {
+            $('.vra-data input').each(function() {
+                if ($(this).val() == '') {
+                    $(this).prop('disabled', true);
+                }
+            });
+        });
+        
         $('div.vra-data').on('click', 'div.vra-element-header', function(e) {
             e.stopPropagation();
             var drawer = $(this).children('.drawer');

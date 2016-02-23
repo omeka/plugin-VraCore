@@ -22,14 +22,14 @@
                             <?php $attributeObject = $attributeObjects[$vraElementObject->id][$attributeName]; ?>
                             <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' value='<?php echo $attributeObject->content; ?>' ></input>
                         <?php else: ?>
-                            <input name='<?php echo $nameBase; ?>[attrs][new][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' ></input>
+                            <input class='vra-new' name='<?php echo $nameBase; ?>[attrs][new][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' ></input>
                         <?php endif; ?>
                 <?php else: ?>
                     <?php if ($topLevel && isset($attributeObjects[$topLevel][$attributeName])) : ?>
                         <?php $attributeObject = $attributeObjects[$topLevel][$attributeName]; ?>
                         <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' value='<?php echo $attributeObject->content; ?>' ></input>
                     <?php else: ?>
-                        <input name='<?php echo $nameBase; ?>[attrs][new][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' ></input>
+                        <input class='vra-new' name='<?php echo $nameBase; ?>[attrs][new][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' ></input>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>

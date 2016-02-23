@@ -58,8 +58,8 @@ $omekaElementName = $omekaElement->name;
         <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElementName . ' ' . __('Subelements'); ?></label>
     </div>
     <fieldset style='display: none;'>
-        <input type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][name]' value='<?php echo $omekaElementName; ?>'></input>
-        <input type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][hasSubelements]' value='1'></input>
+        <input type='hidden' class='vra-new' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][name]' value='<?php echo $omekaElementName; ?>'></input>
+        <input type='hidden' class='vra-new' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][hasSubelements]' value='1'></input>
         <div class='vra-subelements'>
         <?php foreach($elementsData[$omekaElementName]['subelements'] as $subelementName): ?>
             <?php if($subelementName == 'dates'): ?>
@@ -113,7 +113,7 @@ $omekaElementName = $omekaElement->name;
                                 $attributeNames = $globalAttributes;
                             }
                         ?>
-                        <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
+                        <textarea class='vra-new' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
                         <input type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][parent_id]' value='<?php echo $parentVraElementId; ?>'></input>
                             <?php echo $this->partial('element-attribute-form.php', 
                                     array(

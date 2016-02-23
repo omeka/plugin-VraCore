@@ -5,7 +5,7 @@
         //leave the vra elements untouched, so usual process of deleting
         //by erasing will still be in place
         $('form').submit(function(e) {
-            $('.vra-data input').each(function() {
+            $('.vra-new').each(function() {
                 if ($(this).val() == '') {
                     $(this).prop('disabled', true);
                 }

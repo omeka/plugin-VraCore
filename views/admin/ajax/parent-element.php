@@ -11,8 +11,8 @@ if (! isset($parentVraElementId)) {
         <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElementName . ' ' . __('Subelements'); ?></label>
     </div>
     <fieldset style='display: none;'>
-        <input type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][name]' value='<?php echo $omekaElementName; ?>'></input>
-        <input type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][hasSubelements]' value='1'></input>
+        <input class='vra-new' type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][name]' value='<?php echo $omekaElementName; ?>'></input>
+        <input class='vra-new' type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][hasSubelements]' value='1'></input>
         <div class='vra-subelements'>
         <?php foreach($elementsData[$omekaElementName]['subelements'] as $subelementName): ?>
             <?php if($subelementName == 'dates'): ?>
@@ -66,8 +66,8 @@ if (! isset($parentVraElementId)) {
                                 $attributeNames = $globalAttrs;
                             }
                         ?>
-                        <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
-                        <input type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][parent_id]' value='<?php echo $parentVraElementId; ?>'></input>
+                        <textarea class='vra-new' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
+                        <input class='vra-new' type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][parent_id]' value='<?php echo $parentVraElementId; ?>'></input>
                             <?php echo $this->partial('element-attribute-form.php', 
                                     array(
                                          'attributeNames'   => $attributeNames,

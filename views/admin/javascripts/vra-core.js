@@ -54,14 +54,13 @@
         $('div.vra-data').on('click', "input.subelement-add", function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var newSubelementCount = $(this).siblings('div.vra-element-inputs.new').length;
+            var newSubelementCount = $(this).siblings('div.vra-subelement.new').length;
             var nameBase = $(this).data('namebase');
             var subelementName = $(this).data('subelement-name');
             var omekaElementName = $(this).data('omeka-element-name');
             var vraParentId = $(this).data('vra-parent-id');
             var data = {
                     'newSubelementCount' : newSubelementCount,
-                    'newElementCount' : 1,
                     'nameBase'        : nameBase,
                     'omekaElementName' : omekaElementName,
                     'subelementName'  : subelementName,
@@ -75,12 +74,11 @@
         $('div.vra-data').on('click', "input.parent-element-add", function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var newSubelementCount = $(this).siblings('div.vra-element-inputs.new').length;
+            var newElementCount = $(this).siblings('div.vra-element.new').length;
             var nameBase = $(this).data('namebase');
             var omekaElementName = $(this).data('omeka-element-name');
             var data = {
-                    'newSubelementCount' : newSubelementCount,
-                    'newElementCount' : 1,
+                    'newElementCount' : newElementCount,
                     'nameBase'        : nameBase,
                     'omekaElementName' : omekaElementName,
                     //'subelementName'  : subelementName

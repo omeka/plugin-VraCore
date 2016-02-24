@@ -414,7 +414,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         $hasSubelements = $this->hasNewSubelements($elementData);
         if ($hasSubelements) {
-            
+            $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
+            $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $newVraElement->id );
+
             foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
                 //special handling for the dates subelement because it has only
                 //it's own subelements. No other subelements go down this many levels
@@ -461,7 +463,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                         if (isset($subelementData['vra_parent_id']) && is_numeric($subelementData['vra_parent_id'])) {
                             $parentVraElement = $subelementData['vra_parent_id'];
                         } else {
-                            $parentVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
+                            $parentVraElement = $newVraElement;
                         }
                         
                         $subelementData['name'] = $subelementName;
@@ -507,7 +509,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         if (is_numeric($parentVraElement)) {
             $elementData['vra_element_id'] = $parentVraElement;
         } else {
-            $elementData['vra_element_id'] = $parentVraElement->element_id;
+            $elementData['vra_element_id'] = $parentVraElement->id;
         }
         
         $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);

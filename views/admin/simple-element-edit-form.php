@@ -2,10 +2,6 @@
     $nameBase = "vra-element[{$omekaElement->id}]";
 ?>
 
-<script type='text/javascript'>
-    var nameBase = "<?php echo $nameBase; ?>";
-</script>
-
 <div class='vra-data'>
 <!-- Display Element Attributes -->
         <?php  echo $this->partial('element-attribute-form.php', 

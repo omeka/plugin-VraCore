@@ -375,6 +375,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 } elseif(empty($content)) {
                     continue;
                 } else {
+                    if ($attrName == 'circa') {
+                        $content = 'true';
+                    }
                     $vraAttribute->record_id = $omekaRecord->id;
                     $vraAttribute->record_type = get_class($omekaRecord);
                     $vraAttribute->element_id = $omekaElementId;

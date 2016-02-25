@@ -4,12 +4,18 @@ if (! isset($newSubelementCount)) {
 }
 
 if (! isset($added)) {
-    $added = '';
+    $classes = '';
+} elseif($added == 'added') {
+    $classes = 'added new';
+}
+
+if ($classes == '' && empty($datesElementObjects)) {
+    $classes = 'new';
 }
 
 ?>
-<div class='vra-element-inputs <?php echo $added; ?>'>
-    <?php if ($added == 'added') {
+<div class='vra-element-inputs vra-subelement <?php echo $classes; ?>'>
+    <?php if ($classes == 'added new') {
             echo $this->partial('element-attribute-form.php', 
                     array(
                          'attributeNames'   => $attributeNames,

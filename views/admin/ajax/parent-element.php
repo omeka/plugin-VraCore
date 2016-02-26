@@ -22,7 +22,7 @@ if (! isset($parentVraElementId)) {
                     <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
                 </div>
                 <fieldset style='display:none'>
-                    <input class='subelement-add' type='submit' value='Add Dates Element' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
+                    <input class='subelement-add' type='submit' value='Add Dates Element'  data-newAgentIndex='<?php echo $newAgentCount; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
                     <?php echo $this->partial('element-attribute-form.php', 
                             array(
                                  'attributeNames'   => $attributeNames,
@@ -39,7 +39,7 @@ if (! isset($parentVraElementId)) {
                                   'elementsData'     => $this->elementsData,
                                   'subelementsData'  => $this->subelementsData,
                                   'subelementName'   => $subelementName,
-                                  'newElementsCount' => $newElementCount,
+                                  'newElementCount'  => $newElementCount,
                                   'nameBase'         => $nameBase,
                                     //@todo : how many of these are still actually used?
                                   'globalAttributes' => $this->globalAttrs,

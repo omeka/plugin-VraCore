@@ -32,7 +32,7 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
         $subelementName = $this->getParam('subelementName');
         $newSubelementCount = $this->getParam('newSubelementCount');
         //to handle the extra nesting of agent/dates
-        $newAgentsCount = $this->getParam('newAgentsCount');
+        $newAgentIndex = $this->getParam('newAgentIndex');
         $vraParentId = $this->getParam('vraParentId');
 
         if (isset($subelementsData[$subelementName])) {
@@ -45,7 +45,7 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
         $this->view->nameBase = $nameBase;
         $this->view->subelementName = $subelementName;
         $this->view->newSubelementCount  = $newSubelementCount;
-        $this->view->newAgentsCount = 1; //fix this
+        $this->view->newAgentIndex = $newAgentIndex;
         $this->view->vraParentId = $vraParentId;
     }
 

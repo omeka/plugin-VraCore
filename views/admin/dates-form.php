@@ -13,8 +13,8 @@ if ($classes == '' && empty($datesElementObjects)) {
     $classes = 'new';
 }
 
-if (! isset($newAgentsCount)) {
-    $newAgentsCount = $newElementCount;
+if (! isset($newAgentIndex)) {
+    $newAgentIndex = $newElementCount;
 }
 
 ?>
@@ -26,7 +26,7 @@ if (! isset($newAgentsCount)) {
                          'attributeObjects' => $attributeObjects,
                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                          'vraElementObjects' => array(true),
-                         'nameBase'         => $nameBase . "[newElements][$newAgentsCount][newSubelements][$subelementName][0]",
+                         'nameBase'         => $nameBase . "[newElements][$newAgentIndex][newSubelements][$subelementName][0]",
                          'label'            => __('Dates Element Attributes')
                          )
                     );
@@ -37,7 +37,7 @@ if (! isset($newAgentsCount)) {
 
     <div class='vra-subelement vra-element-inputs new'>
         <label><?php echo __('Earliest Date'); ?></label>
-        <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newAgentsCount; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][earliestDate][content]' value=''></textarea>
+        <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][earliestDate][content]' value=''></textarea>
             
             <?php echo $this->partial('element-attribute-form.php', 
                     array(
@@ -45,7 +45,7 @@ if (! isset($newAgentsCount)) {
                          'attributeObjects' => $attributeObjects,
                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                          'vraElementObjects' => array(true),
-                         'nameBase'         => $nameBase . "[newElements][$newAgentsCount][newSubelements][$subelementName][$newSubelementCount][earliestDate]",
+                         'nameBase'         => $nameBase . "[newElements][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][earliestDate]",
                          'label'            => __('Attributes')
                          )
                     );
@@ -53,7 +53,7 @@ if (! isset($newAgentsCount)) {
     </div>
     <div class='vra-subelement vra-element-inputs new'>
         <label><?php echo __('Latest Date'); ?></label>
-        <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newAgentsCount; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][latestDate][content]' value=''></textarea>
+        <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][latestDate][content]' value=''></textarea>
     
             
             <?php echo $this->partial('element-attribute-form.php', 
@@ -62,7 +62,7 @@ if (! isset($newAgentsCount)) {
                          'attributeObjects' => $attributeObjects,
                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                          'vraElementObjects' => array(true),
-                         'nameBase'         => $nameBase . "[newElements][$newAgentsCount][newSubelements][$subelementName][$newSubelementCount][latestDate]",
+                         'nameBase'         => $nameBase . "[newElements][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][latestDate]",
                          'label'            => __('Attributes')
                          )
                     );
@@ -96,7 +96,7 @@ if (! isset($newAgentsCount)) {
                          'attributeObjects' => $attributeObjects,
                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                          'vraElementObjects' => array(true),
-                         'nameBase'         => $nameBase . "[newElements][$newAgentsCount][newSubelements][$subelementName][$newSubelementCount][earliestDate]",
+                         'nameBase'         => $nameBase . "[newElements][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][earliestDate]",
                          'label'            => __('Attributes')
                          )
                     );
@@ -116,7 +116,7 @@ if (! isset($newAgentsCount)) {
                          'attributeObjects' => $attributeObjects,
                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                          'vraElementObjects' => array(true),
-                         'nameBase'         => $nameBase . "[newElements][$newAgentsCount][newSubelements][$subelementName][$newSubelementCount][latestDate]",
+                         'nameBase'         => $nameBase . "[newElements][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][latestDate]",
                          'label'            => __('Attributes')
                          )
                     );

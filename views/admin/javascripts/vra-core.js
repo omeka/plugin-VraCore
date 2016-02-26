@@ -67,8 +67,8 @@
                     'vraParentId'     : vraParentId,
             };
             
-            if (false) {
-                data.newAgentsCount = 1;
+            if (subelementName === 'dates') {
+                data.newAgentIndex = $(this).data('newagentindex');
             }
             $.get(OmekaWebDir + '/vra-core/ajax/subelement', data, function(response, textStatus, jqXHR) {
                 $(e.target).after(response);

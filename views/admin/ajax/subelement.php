@@ -7,7 +7,7 @@
                               'nameBase'         => $nameBase,
                               'vraElementObjects' => array(true),
                               'added'             => 'added',
-                              'newAgentsCount'   => $newAgentsCount,
+                              'newAgentIndex'   => $newAgentIndex,
                               'newSubelementCount' => $newSubelementCount,
                                 //@todo : how many of these are still actually used?
                               'globalAttributes' => $this->globalAttrs,

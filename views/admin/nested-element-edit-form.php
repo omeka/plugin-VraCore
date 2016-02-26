@@ -1,8 +1,8 @@
 <?php
     $nameBase = "vra-element[{$omekaElement->id}]";
     
-    if(! isset($newAgentsCount)) {
-        $newAgentsCount = 0;
+    if(! isset($newAgentCount)) {
+        $newAgentCount = 0;
     }
 ?>
 
@@ -68,13 +68,13 @@ $omekaElementName = $omekaElement->name;
                     <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
                 </div>
                 <fieldset style='display:none'>
-                    <input class='subelement-add' type='submit' value='Add Dates Element' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
+                    <input class='subelement-add' type='submit' value='Add Dates Element' data-newAgentIndex='<?php echo $newAgentCount; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
                     <?php echo $this->partial('element-attribute-form.php', 
                             array(
                                  'attributeNames'   => $attributeNames,
                                  //kind of a cheat. put true at the front to produce a new set of attributes for new element
                                  'vraElementObjects' => array(true),
-                                 'nameBase'         => $nameBase . "[newElements][$newAgentsCount][newSubelements][$subelementName][0]",
+                                 'nameBase'         => $nameBase . "[newElements][$newAgentCount][newSubelements][$subelementName][0]",
                                  'label'            => __('Attributes')
                                  )
                             );
@@ -86,7 +86,8 @@ $omekaElementName = $omekaElement->name;
                                   'subelementsData'  => $this->subelementsData,
                                   'subelementName'   => $subelementName,
                                   'nameBase'         => $nameBase,
-                                  'newAgentsCount'   => $newAgentsCount,
+                                  'newAgentCount'    => $newAgentCount,
+                                  'newElementCount'  => 0,
                                     //@todo : how many of these are still actually used?
                                   'globalAttributes' => $this->globalAttrs,
                                   'attributeNames'    => $attributeNames,

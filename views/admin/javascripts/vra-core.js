@@ -66,6 +66,10 @@
                     'subelementName'  : subelementName,
                     'vraParentId'     : vraParentId,
             };
+            
+            if (false) {
+                data.newAgentsCount = 1;
+            }
             $.get(OmekaWebDir + '/vra-core/ajax/subelement', data, function(response, textStatus, jqXHR) {
                 $(e.target).after(response);
             });

@@ -4,6 +4,7 @@ if (! isset($parentVraElementId)) {
     $parentVraElementId = '';
 }
 
+
 ?>
 
 <div class='vra-element new added'>
@@ -27,7 +28,7 @@ if (! isset($parentVraElementId)) {
                                  'attributeNames'   => $attributeNames,
                                  //kind of a cheat. put true at the front to produce a new set of attributes for new element
                                  'vraElementObjects' => array(true),
-                                 'nameBase'         => $nameBase . "[newElements][0][newSubelements][$subelementName][0]",
+                                 'nameBase'         => $nameBase . "[newElements][$newElementCount][newSubelements][$subelementName][0]",
                                  'label'            => __('Attributes')
                                  )
                             );
@@ -38,6 +39,7 @@ if (! isset($parentVraElementId)) {
                                   'elementsData'     => $this->elementsData,
                                   'subelementsData'  => $this->subelementsData,
                                   'subelementName'   => $subelementName,
+                                  'newElementsCount' => $newElementCount,
                                   'nameBase'         => $nameBase,
                                     //@todo : how many of these are still actually used?
                                   'globalAttributes' => $this->globalAttrs,

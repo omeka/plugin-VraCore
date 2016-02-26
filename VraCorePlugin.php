@@ -424,6 +424,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 //special handling for the dates subelement because it has only
                 //it's own subelements. No other subelements go down this many levels
                 if($subelementName == 'dates') {
+                    debug(print_r($subelementsData, true));
                     foreach($subelementsData as $datesSubelements) {
                         $datesSubelementData = array(
                                 'name'  => 'dates',

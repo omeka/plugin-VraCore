@@ -1,5 +1,9 @@
 <?php
     $nameBase = "vra-element[{$omekaElement->id}]";
+    
+    if(! isset($newAgentsCount)) {
+        $newAgentsCount = 0;
+    }
 ?>
 
 <div class='vra-data'>
@@ -70,7 +74,7 @@ $omekaElementName = $omekaElement->name;
                                  'attributeNames'   => $attributeNames,
                                  //kind of a cheat. put true at the front to produce a new set of attributes for new element
                                  'vraElementObjects' => array(true),
-                                 'nameBase'         => $nameBase . "[newElements][0][newSubelements][$subelementName][0]",
+                                 'nameBase'         => $nameBase . "[newElements][$newAgentsCount][newSubelements][$subelementName][0]",
                                  'label'            => __('Attributes')
                                  )
                             );
@@ -82,6 +86,7 @@ $omekaElementName = $omekaElement->name;
                                   'subelementsData'  => $this->subelementsData,
                                   'subelementName'   => $subelementName,
                                   'nameBase'         => $nameBase,
+                                  'newAgentsCount'   => $newAgentsCount,
                                     //@todo : how many of these are still actually used?
                                   'globalAttributes' => $this->globalAttrs,
                                   'attributeNames'    => $attributeNames,

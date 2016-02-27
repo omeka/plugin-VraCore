@@ -13,7 +13,7 @@ if ($classes == '' && empty($datesElementObjects)) {
     $classes = 'new';
 }
 
-if (! isset($newAgentIndex)) {
+if (! isset($newAgentIndex) && isset($newElementCount)) {
     $newAgentIndex = $newElementCount;
 }
 

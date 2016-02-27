@@ -147,6 +147,8 @@ $omekaElementName = $omekaElement->name;
     <?php foreach($vraElementObjects as $parentObject): ?>
     <?php 
         $vraSubElementObjects = $parentObject->getSubelements();
+        debug($parentObject->name);
+        debug(count($vraSubElementObjects));
     ?>
     
     
@@ -170,7 +172,14 @@ $omekaElementName = $omekaElement->name;
                     $attributeNames = $globalAttributes;
                 }
             ?>
+            
+            
+            
+            
+            
+            
             <?php if($subelementName == 'dates') :?>
+            <?php debug('in dates'); ?>
             <div class='vra-subelement-container'>
                 <div class='vra-element-header'>
                     <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
@@ -207,30 +216,43 @@ $omekaElementName = $omekaElement->name;
                     }
                 ?>
                 <?php
-                    foreach($vraSubElementObjects as $agentElementObject ) {
-                        $datesElementObjects = $agentElementObject->getSubelements('dates');
-                        if (! empty($datesElementObjects)) {
-                            echo $this->partial('dates-form.php',
-                                array('omekaElement'     => $omekaElement,
-                                      'record'           => $record,
-                                      'elementsData'     => $this->elementsData,
-                                      'subelementsData'  => $this->subelementsData,
-                                      'subelementName'   => $subelementName,
-                                      'nameBase'         => $nameBase,
-                                      'vraElementObjects' => $vraElementObjects,
-                                      'agentElementObject' => $agentElementObject,
-                                      'datesElementObjects' => $datesElementObjects,
-                                        //@todo : how many of these are still actually used?
-                                      'globalAttributes' => $this->globalAttrs,
-                                      'attributeNames'    => $attributeNames,
-                                      'attributeObjects'  => $attributeObjects
-                                )
-                            );
+                    foreach($vraSubElementObjects as $subElementObject ) {
+                        debug('in foreach');
+                        if ($subElementObject->name != 'dates') {
+                            continue;
                         }
+                        debug($subElementObject->name);
+                        echo $this->partial('dates-form.php',
+                            array('omekaElement'     => $omekaElement,
+                                  'record'           => $record,
+                                  'elementsData'     => $this->elementsData,
+                                  'subelementsData'  => $this->subelementsData,
+                                  'subelementName'   => $subelementName,
+                                  'nameBase'         => $nameBase,
+                                  'vraElementObjects' => $vraElementObjects,
+                                  //'agentElementObject' => $agentElementObject,
+                                  'datesElementObjects' => array($subElementObject),
+                                    //@todo : how many of these are still actually used?
+                                  'globalAttributes' => $this->globalAttrs,
+                                  'attributeNames'    => $attributeNames,
+                                  'attributeObjects'  => $attributeObjects
+                            )
+                        );
                     }
                 ?>
                 </fieldset>
             </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             <?php else: ?>
                 <div class='vra-subelement-container'>
                     <div class='vra-element-header'>
@@ -275,6 +297,7 @@ $omekaElementName = $omekaElement->name;
                                             );
                                     ?>
                                 </div>
+                                
                             <?php endif; ?>
                         <?php endforeach;?>
                         </div>

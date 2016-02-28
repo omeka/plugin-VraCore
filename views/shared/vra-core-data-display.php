@@ -10,7 +10,6 @@ if (is_admin_theme()) {
 
 
 ?>
-
 <ul class='vra-core-attributes'>
 <?php foreach($attributes as $attribute): ?>
     <li><span class='vra-core-attribute-name'>@<?php echo metadata($attribute, 'name'); ?></span>
@@ -57,7 +56,20 @@ $notesElement = $groupedElements['notes'][0];
                 </ul>
                 <?php endif; ?>
             <?php else: ?>
+            
                 <h4><?php echo $name; ?></h4>
+
+                <?php if ($showAttributes): ?>
+                    <ul class='vra-core-attributes'>
+                    <?php foreach($element->getAttributes() as $attribute): ?>
+                        <li><span class='vra-core-attribute-name'>@<?php echo metadata($attribute, 'name'); ?></span>
+                        <?php echo metadata($attribute, 'content'); ?>
+                        </li>
+                    <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+
+                
                 <?php foreach($subelements as $subelement): ?>
                 
                     <h5 class='vra-core-element-name'> <?php echo metadata($subelement, 'name'); ?> </h5>

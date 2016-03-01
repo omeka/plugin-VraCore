@@ -17,6 +17,7 @@
                           $inputType = 'text';
                       }
                 ?>
+                
                 <?php if (isset($vraElementObject)): ?>
                         <?php if (is_object($vraElementObject) && isset($attributeObjects[$vraElementObject->id][$attributeName])):?>
                             <?php $attributeObject = $attributeObjects[$vraElementObject->id][$attributeName]; ?>

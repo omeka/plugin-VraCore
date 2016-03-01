@@ -484,23 +484,35 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
     protected function processExistingElement($omekaRecord, $omekaElementId, $vraElementId, $elementData)
     {
-        $hasSubelements = !empty($elementData['hasSubElements']);
+        echo $vraElementId . ' vra element id ';
         $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
-        if ($hasSubelements) {
-            //@TODO
-        } else {
-            if (empty($elementData['content'])) {
+        echo 'object ' . $vraElementObject->name;
+        if (empty($elementData['content'])) {
+            //elements to skip deletion. these are containers for other elements, so 
+            //content is alway null
+            $skipElements = array('Agent',
+                                  'Date',
+                                  'dates',
+                                  'Inscription',
+                                  'Location',
+                                  'Rights',
+                                  'Source',
+                                  'State Edition',
+                                  'Subject',
+                                  'Textref');
+            if( ! in_array($vraElementObject->name, $skipElements)) {
                 $vraElementObject->delete();
-            } else {
-                if ($vraElementObject->content != $elementData['content']) {
-                    $vraElementObject->updateDataDate();
-                }
-                $vraElementObject->content = $elementData['content'];
-                //@TODO: reuse the storeElement function if possible, or rename it for clarity
-                $vraElementObject->save();
-                $this->searchTexts .= ' ' . $vraElementObject->content;
-                $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $vraElementId);
             }
+            
+        } else {
+            if ($vraElementObject->content != $elementData['content']) {
+                $vraElementObject->updateDataDate();
+            }
+            $vraElementObject->content = $elementData['content'];
+            //@TODO: reuse the storeElement function if possible, or rename it for clarity
+            $vraElementObject->save();
+            $this->searchTexts .= ' ' . $vraElementObject->content;
+            $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $vraElementId);
         }
     }
 
@@ -526,7 +538,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
     protected function hasNewSubelements($elementData)
     {
-        if (empty($elementData['hasSubelements'])) {
+        if (empty($elementData['hasSubelements']) || !isset($elementData['newSubelements'])) {
             return false;
         }
         foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
@@ -562,9 +574,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         }
         
         foreach($vraElementData as $omekaElementId => $elementArray) {
-            $displayAttributes = $elementArray['display'];
-            $this->storeAttributes($displayAttributes['attrs'], $omekaRecord, $omekaElementId);
-            
+            if (isset($elementArray['display'])) {
+                $displayAttributes = $elementArray['display'];
+                $this->storeAttributes($displayAttributes['attrs'], $omekaRecord, $omekaElementId);
+            }
             //elementArray has keys display, newElements, and existing VRAelement ids
             unset($elementArray['display']);
 

@@ -163,8 +163,6 @@ $omekaElementName = $omekaElement->name;
     <?php foreach($vraElementObjects as $parentObject): ?>
     <?php 
         $vraSubElementObjects = $parentObject->getSubelements();
-        debug($parentObject->name);
-        debug(count($vraSubElementObjects));
     ?>
     
     
@@ -177,6 +175,29 @@ $omekaElementName = $omekaElement->name;
             <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElement->name . ' ' . __('Subelements'); ?></label>
         </div>
         <fieldset style='display: none;'>
+        
+        
+        
+        
+        
+        <?php echo $this->partial('element-attribute-form.php', 
+                array(
+                     'attributeNames'   => $attributeNames,
+                     'attributeObjects' => $attributeObjects,
+                     //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                     'vraElementObjects' => array(true),
+                     'vraElementObject' => $parentObject, 
+                     'nameBase'         => $nameBase . "[{$parentObject->id}]",
+                     'label'            => __('Attributes'),
+                     )
+                );
+        ?>
+        
+        
+        
+        
+        
+        
             <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][name]' value='<?php echo $omekaElement->name; ?>'></input>
             <input type='hidden' name='<?php echo $nameBase; ?>[newElements][0][hasSubelements]' value='1'></input>
             <div class='vra-subelements'>
@@ -195,7 +216,6 @@ $omekaElementName = $omekaElement->name;
             
             
             <?php if($subelementName == 'dates') :?>
-            <?php debug('in dates'); ?>
             <div class='vra-subelement-container'>
                 <div class='vra-element-header'>
                     <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
@@ -233,11 +253,9 @@ $omekaElementName = $omekaElement->name;
                 ?>
                 <?php
                     foreach($vraSubElementObjects as $subElementObject ) {
-                        debug('in foreach');
                         if ($subElementObject->name != 'dates') {
                             continue;
                         }
-                        debug($subElementObject->name);
                         echo $this->partial('dates-form.php',
                             array('omekaElement'     => $omekaElement,
                                   'record'           => $record,

@@ -94,6 +94,7 @@ if (! isset($newAgentIndex) && isset($newElementCount)) {
                     array(
                          'attributeNames'   => array_merge(array('circa'), $attributeNames),
                          'attributeObjects' => $attributeObjects,
+                         'vraElementObject' => $earliestDateObject,
                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                          'vraElementObjects' => array(true),
                          'nameBase'         => $nameBase . "[{$earliestDateObject->id}]",
@@ -114,6 +115,7 @@ if (! isset($newAgentIndex) && isset($newElementCount)) {
                     array(
                          'attributeNames'   => array_merge(array('circa'), $attributeNames),
                          'attributeObjects' => $attributeObjects,
+                         'vraElementObject' => $latestDateObject,
                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                          'vraElementObjects' => array(true),
                          'nameBase'         =>  $nameBase . "[{$latestDateObject->id}]",

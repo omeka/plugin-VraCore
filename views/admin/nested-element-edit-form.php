@@ -226,9 +226,9 @@ $omekaElementName = $omekaElement->name;
                             array(
                                  'attributeNames'   => $attributeNames,
                                  'attributeObjects' => $attributeObjects,
-                                 //kind of a cheat. put true at the front to produce a new set of attributes for new element
-                                 'vraElementObjects' => array(true),
-                                 'nameBase'         => $nameBase . "[newElements][0][newSubelements][$subelementName][0]",
+                                 'vraElementObject' => $vraSubElementObject,
+                                 'vraElementObjects' => $vraSubElementObjects,
+                                 'nameBase'         => $nameBase . "[{$vraSubElementObject->id}]",
                                  'label'            => __('Dates Element Attributes')
                                  )
                             );

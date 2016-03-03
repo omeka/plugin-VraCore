@@ -360,9 +360,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
     protected function storeAttributes($attributesData, $omekaRecord, $omekaElementId, $vraElementId = null)
     {
-        if(empty($attributesData)) {
-         //   throw new Exception('No attributes data');
-        }
         foreach($attributesData as $id => $attributeContent) {
             foreach($attributeContent as $attrName=>$content) {
                 if ($id == 'new') {
@@ -370,8 +367,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 } else {
                     $vraAttribute = $this->_db->getTable('VraCoreAttribute')->find($id);
                 }
-                if (empty($content) && $vraAttribute->exists()) {
-                    $vraAttribute->delete();
+                if ($vraAttribute->exists()) {
+                    if (empty($content) || ($attrName == 'circa' && $content=='delete')) {
+                        $vraAttribute->delete();
+                    }
                 } elseif(empty($content)) {
                     continue;
                 } else {

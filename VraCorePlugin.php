@@ -367,12 +367,19 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 } else {
                     $vraAttribute = $this->_db->getTable('VraCoreAttribute')->find($id);
                 }
+                
                 if ($vraAttribute->exists()) {
                     if (empty($content) || ($attrName == 'circa' && $content=='delete')) {
                         $vraAttribute->delete();
+                    } else {
+                        if ($attrName == 'circa') {
+                            $content = 'true';
+                        }
+                        $vraAttribute->content = $content;
+                        $this->searchTexts .= ' ' . $vraAttribute->content;
+                        $vraAttribute->save();
+                            
                     }
-                } elseif(empty($content)) {
-                    continue;
                 } else {
                     if ($attrName == 'circa') {
                         $content = 'true';
@@ -483,9 +490,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
     protected function processExistingElement($omekaRecord, $omekaElementId, $vraElementId, $elementData)
     {
-        echo $vraElementId . ' vra element id ';
         $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
-        echo 'object ' . $vraElementObject->name;
         if (empty($elementData['content'])) {
             //elements to skip deletion. these are containers for other elements, so 
             //content is alway null
@@ -511,7 +516,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             //@TODO: reuse the storeElement function if possible, or rename it for clarity
             $vraElementObject->save();
             $this->searchTexts .= ' ' . $vraElementObject->content;
-            $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $vraElementId);
+            if(!empty($elementData['attrs'])) {
+                $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $vraElementId);
+            }
         }
     }
 
@@ -574,7 +581,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         
         foreach($vraElementData as $omekaElementId => $elementArray) {
             if (isset($elementArray['display'])) {
+                debug('display');
+                
                 $displayAttributes = $elementArray['display'];
+                debug(print_r($displayAttributes, true));
                 $this->storeAttributes($displayAttributes['attrs'], $omekaRecord, $omekaElementId);
             }
             //elementArray has keys display, newElements, and existing VRAelement ids

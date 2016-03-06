@@ -490,24 +490,22 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
     protected function processExistingElement($omekaRecord, $omekaElementId, $vraElementId, $elementData)
     {
+
+        //elements to skip deletion. these are containers for other elements, so 
+        //content is alway null
+        $skipElements = array('Agent',
+                              'Date',
+                              'dates',
+                              'Inscription',
+                              'Location',
+                              'Rights',
+                              'Source',
+                              'State Edition',
+                              'Subject',
+                              'Textref');
         $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
-        if (empty($elementData['content'])) {
-            //elements to skip deletion. these are containers for other elements, so 
-            //content is alway null
-            $skipElements = array('Agent',
-                                  'Date',
-                                  'dates',
-                                  'Inscription',
-                                  'Location',
-                                  'Rights',
-                                  'Source',
-                                  'State Edition',
-                                  'Subject',
-                                  'Textref');
-            if( ! in_array($vraElementObject->name, $skipElements)) {
-                $vraElementObject->delete();
-            }
-            
+        if (empty($elementData['content']) &&  ! in_array($vraElementObject->name, $skipElements)) {
+            $vraElementObject->delete();
         } else {
             if ($vraElementObject->content != $elementData['content']) {
                 $vraElementObject->updateDataDate();
@@ -539,6 +537,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     protected function processExistingSubelement($omekaRecord, $omekaElementId, $vraElementId, $elementData)
     {
         //@todo check if still needed
+        debug('processExistingSubelement');
         $omekaRecordData = array('id' => $omekaRecord->id, 'type' => get_class($omekaRecord));
     }
 

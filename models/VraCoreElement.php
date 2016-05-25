@@ -39,6 +39,51 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
             ->findBy($params);
         return $this->subelements;
     }
+    
+    public function hasSubelements($name = null)
+    {
+        $params = array('vra_element_id' => $this->id);
+        if ($name) {
+            $params['name'] = $name;
+        }
+        $count = $this->subelements = $this->getDb()->getTable('VraCoreElement')
+            ->count($params);
+        return $count !== 0;
+    }
+    
+    public function hasAttributes()
+    {
+        $attributes = $this->getAttributes();
+        $hasAttributes = true;
+        if (count($attributes == 1)) {
+            $attribute = $attributes[0];
+            if ($attribute->name == 'dataDate') {
+                $hasAttributes = false;
+            }
+        }
+        return $hasAttributes;
+    }
+    
+    public function getParentElements()
+    {
+        $allParentElements = array();
+        
+        if($this->vra_element_id) {
+            $params = array('id' => $this->vra_element_id);
+            $parentElements = $this->getDb()->getTable('VraCoreElement')
+                ->findBy($params);
+            $allParentElements = array_merge($allParentElements, $parentElements);
+        }
+        //agent can go more than one level deep, so add those in, too
+        foreach($parentElements as $parentElement) {
+            if ($parentElement->vra_element_id) {
+                $superParentElements = $this->getDb()->getTable('VraCoreElement')
+                    ->findBy(array('id' => $parentElement->vra_element_id));
+                $allParentElements = array_merge($allParentElements, $superParentElements);
+            }
+        }
+        return $allParentElements;
+    }
 
     public function updateDataDate()
     {
@@ -69,6 +114,13 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
         {
             $attribute->delete();
         }
-    }
+        
+        $parentElements = $this->getParentElements();
+        foreach($parentElements as $parentElement) {
 
+            if (! $parentElement->hasSubElements() && ! $parentElement->hasAttributes()) {
+                $parentElement->delete();
+            }
+        }
+    }
 }

@@ -9,6 +9,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             'after_save_item',
             'after_save_collection',
             'after_save_file',
+            'after_delete_item',
+            'after_delete_collection',
+            'after_delete_file',
             'elements_show',
             'config',
             'config_form',
@@ -260,6 +263,21 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     public function hookAfterSaveFile($args)
     {
         $this->afterSaveRecord($args);
+    }
+    
+    public function hookAfterDeleteItem($args)
+    {
+        $this->afterDeleteRecord($args);
+    }
+
+    public function hookAfterDeleteCollection($args)
+    {
+        $this->afterDeleteRecord($args);
+    }
+
+    public function hookAfterDeleteFile($args)
+    {
+        $this->afterDeleteRecord($args);
     }
 
     public function filterVraIdInput($components, $args)
@@ -561,6 +579,19 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             }
         }
         return false;
+    }
+    
+    public function afterDeleteRecord($args)
+    {
+        $omekaRecord = $args['record'];
+        $recordType = get_class($omekaRecord);
+        $recordId = $omekaRecord->id;
+        $vraElements = get_db()
+                            ->getTable('VraCoreElement')
+                            ->findBy(array('record_type' => $recordType, 'record_id' => $recordId));
+        foreach($vraElements as $vraElement) {
+            $vraElement->delete();
+        }
     }
 
     public function afterSaveRecord($args)

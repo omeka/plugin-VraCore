@@ -277,16 +277,6 @@ $omekaElementName = $omekaElement->name;
                 </fieldset>
             </div>
             
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             <?php else: ?>
                 <div class='vra-subelement-container'>
                     <div class='vra-element-header'>

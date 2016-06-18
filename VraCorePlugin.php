@@ -546,7 +546,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         } else {
             $elementData['vra_element_id'] = $parentVraElement->id;
         }
-        
+        debug($elementData);
         $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
         $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $newVraElement->id );
         return $newVraElement;
@@ -564,6 +564,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         if (empty($elementData['hasSubelements']) || !isset($elementData['newSubelements'])) {
             return false;
         }
+        
         foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
             foreach($subelementsData as $subelementData) {
                 if($subelementName == 'dates') {
@@ -611,10 +612,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         
         foreach($vraElementData as $omekaElementId => $elementArray) {
             if (isset($elementArray['display'])) {
-                debug('display');
-                
                 $displayAttributes = $elementArray['display'];
-                debug(print_r($displayAttributes, true));
                 $this->storeAttributes($displayAttributes['attrs'], $omekaRecord, $omekaElementId);
             }
             //elementArray has keys display, newElements, and existing VRAelement ids

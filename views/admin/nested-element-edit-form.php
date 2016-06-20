@@ -286,10 +286,11 @@ $omekaElementName = $omekaElement->name;
                                 <?php endif; ?>
                                 <div class='vra-subelement vra-element-inputs existing'>
                                 <?php foreach($vraSubElementObjects as $vraSubElementObject): ?>
-                                    <?php if($vraSubElementObject->name == $subelementName): ?>
-                                    <?php 
+                                    <?php
                                         $content = $vraSubElementObject->content ? $vraSubElementObject->content : '';
                                     ?>
+                                    <?php if($vraSubElementObject->name == $subelementName): ?>
+
                                         <div class='vra-element-inputs'>
                                             <textarea name='<?php echo $nameBase; ?>[<?php echo $vraSubElementObject->id; ?>][content]'><?php echo $content; ?></textarea>
         
@@ -307,7 +308,7 @@ $omekaElementName = $omekaElement->name;
                                         </div>
                                         <?php else: ?>
                                         <div class='vra-element-inputs'>
-                                            <textarea name='<?php echo $nameBase; ?>[<?php echo $parentObject->id; ?>][newSubelements]<?php echo $subelementName; ?>[0][content]'></textarea>
+                                            <textarea name='<?php echo $nameBase; ?>[<?php echo $parentObject->id; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]'></textarea>
         
                                             <?php echo $this->partial('element-attribute-form.php', 
                                                     array(

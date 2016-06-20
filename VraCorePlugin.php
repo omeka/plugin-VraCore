@@ -444,7 +444,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
             $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $newVraElement->id );
 
-            $this->processNewSubelements($omekaRecord, $omekaElementId, $elementData['newSubelements']);
+            $this->processNewSubelements($omekaRecord,
+                                         $omekaElementId,
+                                         $elementData['newSubelements'],
+                                         $newVraElement);
         } else {
             if (empty($elementData['content'])) {
                  return;
@@ -455,7 +458,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         return $newVraElement;
     }
 
-    protected function processNewSubelements($omekaRecord, $omekaElementId, $subelementsData)
+    protected function processNewSubelements($omekaRecord, $omekaElementId, $subelementsData, $parentVraElement)
     {
         foreach($subelementsData as $subelementName => $subelementsData) {
         //special handling for the dates subelement because it has only
@@ -466,7 +469,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                         'name'  => 'dates',
                         'attrs' => $datesSubelements['attrs'],
                         );
-                $parentVraElement = $newVraElement;
                 $datesSubelementObject = $this->processNewSubelement($omekaRecord,
                                                                      $omekaElementId,
                                                                      $parentVraElement,
@@ -494,17 +496,19 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         } else {
             foreach($subelementsData as $subelementData) {
                 if (empty($subelementData['content'])) {
+                    debug('continuing');
                     continue;
                 }
                 
                 if (isset($subelementData['vra_parent_id']) && is_numeric($subelementData['vra_parent_id'])) {
                     $parentVraElement = $subelementData['vra_parent_id'];
-                } else {
-                    $parentVraElement = $newVraElement;
                 }
                 
                 $subelementData['name'] = $subelementName;
-                $this->processNewSubelement($omekaRecord, $omekaElementId, $parentVraElement, $subelementData);
+                $this->processNewSubelement($omekaRecord,
+                                            $omekaElementId,
+                                            $parentVraElement,
+                                            $subelementData);
             }
         }
     }
@@ -544,7 +548,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             
             //@TODO: duplicate from processNewElement subelement handling
             //refactor
-            $this->processNewSubelements($omekaRecord, $omekaElementId, $vraElementObject, $elementData['newSubelements']);
+            $this->processNewSubelements($omekaRecord,
+                                         $omekaElementId,
+                                         $elementData['newSubelements'],
+                                         $vraElementObject);
             
             
             

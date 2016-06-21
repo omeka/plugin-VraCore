@@ -19,16 +19,14 @@
 
 <?php else: ?>
 <div class='vra-subelement vra-element-inputs new added'>
-    <textarea class='vra-new' name='<?php echo $nameBase; ?>[newElements][<?php echo $newSubelementCount; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][content]' value=''></textarea>
-    <input class='vra-new' type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newSubelementCount; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][vra_parent_id]' value='<?php echo $vraParentId; ?>'></input>
-        
+    <textarea class='vra-new' name='<?php echo $nameBase; ?>[<?php echo $vraParentId; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][content]'></textarea>
         <?php echo $this->partial('element-attribute-form.php', 
                 array(
                      'attributeNames'   => $attributeNames,
                      'attributeObjects' => array(),
                      //kind of a cheat. put true at the front to produce a new set of attributes for new element
                      'vraElementObjects' => array(true),
-                     'nameBase'         => $nameBase . "[newElements][$newSubelementCount][newSubelements][$subelementName][$newSubelementCount]",
+                     'nameBase'         => $nameBase . "[$vraParentId][newSubelements][$subelementName][$newSubelementCount]",
                      'label'            => __('Attributes')
                      )
                 );

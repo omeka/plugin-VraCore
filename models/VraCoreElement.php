@@ -31,7 +31,9 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
     public function getSubelements($name = null)
     {
     
-        $params = array('vra_element_id' => $this->id);
+        $params = array('vra_element_id' => $this->id,
+                        'sort_field' => 'name',
+                  );
         if ($name) {
             $params['name'] = $name;
         }
@@ -101,6 +103,11 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
             $dataDateAttr->content = date('Y-m-d H:i:s');
             $dataDateAttr->save();
         }
+    }
+    
+    protected function beforeSave($args)
+    {
+        $this->content = trim($this->content);
     }
 
     protected function afterDelete()

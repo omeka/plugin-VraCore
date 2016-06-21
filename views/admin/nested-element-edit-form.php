@@ -322,6 +322,7 @@ $omekaElementName = $omekaElement->name;
                                                     );
                                             ?>
                                         </div>
+                                        <?php break; ?>
                                     <?php endif; ?>
                                 <?php endforeach;?>
                                 </div>

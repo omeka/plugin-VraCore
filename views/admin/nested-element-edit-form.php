@@ -306,7 +306,7 @@ $omekaElementName = $omekaElement->name;
                                                     );
                                             ?>
                                         </div>
-                                        <?php else: ?>
+                                        <?php elseif (!$hasVraElementObject): ?>
                                         <div class='vra-element-inputs'>
                                             <textarea name='<?php echo $nameBase; ?>[<?php echo $parentObject->id; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]'></textarea>
         

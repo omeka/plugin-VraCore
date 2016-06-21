@@ -316,7 +316,7 @@ $omekaElementName = $omekaElement->name;
                                                          'attributeObjects' => $attributeObjects,
                                                          'vraElementObject' => $parentObject,
                                                          'vraElementObjects' => $vraSubElementObjects,
-                                                         'nameBase'         => $nameBase . "[{$parentObject->id}][newSubelements]$subelementName[0]",
+                                                         'nameBase'         => $nameBase . "[{$parentObject->id}][newSubelements][$subelementName][0]",
                                                          'label'            => __('Attributes')
                                                          )
                                                     );

@@ -496,7 +496,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         } else {
             foreach($subelementsData as $subelementData) {
                 if (empty($subelementData['content'])) {
-                    debug('continuing');
                     continue;
                 }
                 
@@ -509,14 +508,13 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                                             $omekaElementId,
                                             $parentVraElement,
                                             $subelementData);
+                }
             }
         }
-    }
     }
     
     protected function processExistingElement($omekaRecord, $omekaElementId, $vraElementId, $elementData)
     {
-
         //elements to skip deletion. these are containers for other elements, so 
         //content is alway null
         $skipElements = array('Agent',
@@ -530,24 +528,15 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                               'Subject',
                               'Textref');
         $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
-        if($vraElementId == 17) {
-            debug('processExistingElement');
-        }
         if (empty($elementData['content']) &&  ! in_array($vraElementObject->name, $skipElements)) {
             $vraElementObject->delete();
         } else {
-            if($vraElementId == 17) {
-                debug('processExistingElement in else');
-                debug(print_r($elementData, true));
-            }
             if ($vraElementObject->content != $elementData['content']) {
                 $vraElementObject->updateDataDate();
             }
             $vraElementObject->content = $elementData['content'];
             
             
-            //@TODO: duplicate from processNewElement subelement handling
-            //refactor
             $this->processNewSubelements($omekaRecord,
                                          $omekaElementId,
                                          $elementData['newSubelements'],
@@ -634,7 +623,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         if (! is_array($vraElementData)) {
             return;
         }
-        
+        //omekaElementId is the VRA ElementText id
         foreach($vraElementData as $omekaElementId => $elementArray) {
             if (isset($elementArray['display'])) {
                 $displayAttributes = $elementArray['display'];
@@ -654,14 +643,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
             foreach($elementArray as $vraElementId => $existingElementData) {
                 //see @todo below
-                debug($vraElementId);
-                if($vraElementId == 17) {
-                    
-                   // debug(print_r($elementArray, true));
-                    
-                  //  debug(print_r($vraElementData, true));
-                  //  die();
-                }
                 if ($vraElementId != 'notes') {
                     $this->processExistingElement($omekaRecord, $omekaElementId, $vraElementId, $existingElementData);
                 }

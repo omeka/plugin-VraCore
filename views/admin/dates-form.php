@@ -15,6 +15,8 @@ if ($classes == '' && empty($datesElementObjects)) {
 
 if (! isset($newAgentIndex) && isset($newElementCount)) {
     $newAgentIndex = $newElementCount;
+} else {
+    $newAgentIndex = 0;
 }
 
 ?>
@@ -51,6 +53,7 @@ if (! isset($newAgentIndex) && isset($newElementCount)) {
             ?>
     </div>
     <div class='vra-subelement vra-element-inputs new'>
+    
         <label><?php echo __('Latest Date'); ?></label>
         <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][latestDate][content]' value=''></textarea>
             <?php echo $this->partial('element-attribute-form.php', 
@@ -95,6 +98,23 @@ if (! isset($newAgentIndex) && isset($newElementCount)) {
                         );
                 ?>
         </div>
+        
+        <?php else: ?>
+        <div class='vra-subelement vra-element-inputs new'>
+            <label><?php echo __('Earliest Date'); ?></label>
+            <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][earliestDate][content]' value=''></textarea>
+                <?php echo $this->partial('element-attribute-form.php', 
+                        array(
+                             'attributeNames'   => array_merge(array('circa'), $attributeNames),
+                             'attributeObjects' => $attributeObjects,
+                             //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                             'vraElementObjects' => array(true),
+                             'nameBase'         => $nameBase . "[newElements][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][earliestDate]",
+                             'label'            => __('Attributes')
+                             )
+                        );
+                ?>
+        </div>
         <?php endif; ?>
         <?php if(isset($latestDateObject)): ?>
         <div class='vra-subelement vra-element-inputs'>
@@ -113,6 +133,24 @@ if (! isset($newAgentIndex) && isset($newElementCount)) {
                         );
                 ?>
         </div>
+        <?php else: ?>
+        <div class='vra-subelement vra-element-inputs new'>
+        
+            <label><?php echo __('Latest Date'); ?></label>
+            <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][latestDate][content]' value=''></textarea>
+                <?php echo $this->partial('element-attribute-form.php', 
+                        array(
+                             'attributeNames'   => array_merge(array('circa'), $attributeNames),
+                             'attributeObjects' => $attributeObjects,
+                             //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                             'vraElementObjects' => array(true),
+                             'nameBase'         => $nameBase . "[newElements][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][latestDate]",
+                             'label'            => __('Attributes')
+                             )
+                        );
+                ?>
+        </div>
+        
         <?php endif; ?>
     <?php endforeach; ?>
 <?php endif; ?>

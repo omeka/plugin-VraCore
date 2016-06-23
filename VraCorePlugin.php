@@ -566,13 +566,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         return $newVraElement;
     }
 
-    protected function processExistingSubelement($omekaRecord, $omekaElementId, $vraElementId, $elementData)
-    {
-        //@todo check if still needed
-        debug('processExistingSubelement');
-        $omekaRecordData = array('id' => $omekaRecord->id, 'type' => get_class($omekaRecord));
-    }
-
     protected function hasNewSubelements($elementData)
     {
         if (empty($elementData['hasSubelements']) || !isset($elementData['newSubelements'])) {

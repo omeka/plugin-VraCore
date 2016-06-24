@@ -527,7 +527,20 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                               'State Edition',
                               'Subject',
                               'Textref');
+        debug("id $vraElementId");
         $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
+        if($vraElementObject->name == 'Agent') {
+            debug('is Agent');
+            debug(print_r($elementData, true));
+            foreach($elementData as $key=>$subElementData) {
+                if(is_numeric($key)) {
+                    $this->processNewSubelements($omekaRecord,
+                                                 $omekaElementId,
+                                                 $subElementData['newSubelements'],
+                                                 $vraElementObject);
+                }
+            }
+        }
         if (empty($elementData['content']) &&  ! in_array($vraElementObject->name, $skipElements)) {
             $vraElementObject->delete();
         } else {

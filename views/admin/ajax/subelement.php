@@ -5,6 +5,7 @@
                               'subelementsData'  => $this->subelementsData,
                               'subelementName'   => $subelementName,
                               'nameBase'         => $nameBase,
+                              'agentId'          => $vraParentId,
                               'vraElementObjects' => array(true),
                               'added'             => 'added',
                               'newAgentIndex'   => $newAgentIndex,

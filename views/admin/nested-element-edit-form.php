@@ -203,7 +203,14 @@ $omekaElementName = $omekaElement->name;
                             <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
                         </div>
                         <fieldset style='display:none'>
-                            <input class='subelement-add' type='submit' value='Add Dates Element' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
+                            <input class='subelement-add'
+                                   type='submit'
+                                   value='Add Dates Element'
+                                   data-namebase='<?php echo $nameBase; ?>'
+                                   data-subelement-name='<?php echo $subelementName; ?>'
+                                   data-omeka-element-name='<?php echo $omekaElement->name; ?>'
+                                   data-vra-parent-id='<?php echo $parentObject->id ?>' >
+                           </input>
                             <?php echo $this->partial('element-attribute-form.php', 
                                     array(
                                          'attributeNames'   => $attributeNames,

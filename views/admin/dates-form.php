@@ -19,6 +19,10 @@ if (! isset($newAgentIndex) && isset($newElementCount)) {
     $newAgentIndex = 0;
 }
 
+if (! isset($agentId)) {
+    $agentId = '';
+}
+
 ?>
 <div class='vra-element-inputs vra-subelement <?php echo $classes; ?>'>
     <?php if ($classes == 'added new') {
@@ -39,7 +43,7 @@ if (! isset($newAgentIndex) && isset($newElementCount)) {
 
     <div class='vra-subelement vra-element-inputs new'>
         <label><?php echo __('Earliest Date'); ?></label>
-        <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][earliestDate][content]' value=''></textarea>
+        <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][earliestDate][content]'></textarea>
             <?php echo $this->partial('element-attribute-form.php', 
                     array(
                          'attributeNames'   => array_merge(array('circa'), $attributeNames),
@@ -55,7 +59,7 @@ if (! isset($newAgentIndex) && isset($newElementCount)) {
     <div class='vra-subelement vra-element-inputs new'>
     
         <label><?php echo __('Latest Date'); ?></label>
-        <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][latestDate][content]' value=''></textarea>
+        <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][latestDate][content]'></textarea>
             <?php echo $this->partial('element-attribute-form.php', 
                     array(
                          'attributeNames'   => array_merge(array('circa'), $attributeNames),
@@ -102,7 +106,9 @@ if (! isset($newAgentIndex) && isset($newElementCount)) {
         <?php else: ?>
         <div class='vra-subelement vra-element-inputs new'>
             <label><?php echo __('Earliest Date'); ?></label>
-            <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][earliestDate][content]' value=''></textarea>
+            <textarea name='<?php echo $nameBase; ?>[existingDates][earliestDate][content]'></textarea>
+            <input type='hidden'
+                   name='<?php echo $nameBase; ?>[existingDates][earliestDate][dateId]' value='<?php echo $datesElementObject->id; ?>'></input>
                 <?php echo $this->partial('element-attribute-form.php', 
                         array(
                              'attributeNames'   => array_merge(array('circa'), $attributeNames),
@@ -116,6 +122,8 @@ if (! isset($newAgentIndex) && isset($newElementCount)) {
                 ?>
         </div>
         <?php endif; ?>
+        
+        <!-- latest dates -->
         <?php if(isset($latestDateObject)): ?>
         <div class='vra-subelement vra-element-inputs'>
             <label><?php echo __('Latest Date'); ?></label>
@@ -137,7 +145,9 @@ if (! isset($newAgentIndex) && isset($newElementCount)) {
         <div class='vra-subelement vra-element-inputs new'>
         
             <label><?php echo __('Latest Date'); ?></label>
-            <textarea name='<?php echo $nameBase; ?>[newElements][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][latestDate][content]' value=''></textarea>
+            <textarea name='<?php echo $nameBase; ?>[existingDates][latestDate][content]'></textarea>
+            <input type='hidden'
+                   name='<?php echo $nameBase; ?>[existingDates][latestDate][dateId]' value='<?php echo $datesElementObject->id; ?>'></input>
                 <?php echo $this->partial('element-attribute-form.php', 
                         array(
                              'attributeNames'   => array_merge(array('circa'), $attributeNames),

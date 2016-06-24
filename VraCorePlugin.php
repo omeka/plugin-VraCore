@@ -633,6 +633,23 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 unset($elementArray['newElements']);
 
             }
+            
+            //special handling for agent/dates
+            //this handles situation where there is one of an earliestDate or latestDate,
+            //but not both for an existing dates element
+            if(isset($elementArray['existingDates'])) {
+                foreach($elementArray['existingDates'] as $elementName=>$data) {
+                    $newDatesSubelement = new VraCoreElement();
+                    $newDatesSubelement->name = $elementName;
+                    $newDatesSubelement->record_id = $omekaRecord->id;
+                    $newDatesSubelement->record_type = get_class($omekaRecord);
+                    $newDatesSubelement->element_id = $omekaElementId;
+                    $newDatesSubelement->vra_element_id = $data['dateId'];
+                    $newDatesSubelement->content = $data['content'];
+                    $newDatesSubelement->save();
+                }
+                unset($elementArray['existingDates']);
+            }
 
             foreach($elementArray as $vraElementId => $existingElementData) {
                 //see @todo below

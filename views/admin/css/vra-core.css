@@ -84,3 +84,10 @@ ul.vra-core-attributes {
     margin-top: 0px;
     margin-bottom: 0px;
 }
+
+span.name-data {
+    font-size: small;
+    font-weight: initial;
+    margin-left: 4px;
+}
+

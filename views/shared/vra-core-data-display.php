@@ -56,8 +56,15 @@ $notesElement = $groupedElements['notes'][0];
                 </ul>
                 <?php endif; ?>
             <?php else: ?>
-            
-                <h4><?php echo $name; ?></h4>
+                <?php if(array_key_exists('name', $subelements)) {
+                          $nameElement = $subelements['name'];
+                          
+                          $nameData = $nameElement->content;
+                      } else {
+                          $nameData = '';
+                      }
+                ?>
+                <h4><?php echo $name; ?><span class='name-data'><?php echo $nameData; ?></span></h4>
 
                 <?php if ($showAttributes): ?>
                     <ul class='vra-core-attributes'>

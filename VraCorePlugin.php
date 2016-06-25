@@ -660,6 +660,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                     $newDatesSubelement->vra_element_id = $data['dateId'];
                     $newDatesSubelement->content = $data['content'];
                     $newDatesSubelement->save();
+                    $newDatesSubelement->updateDataDate();
                 }
                 unset($elementArray['existingDates']);
             }

@@ -115,7 +115,7 @@ if(!isset($agentId)) {
                              'attributeObjects' => $attributeObjects,
                              //kind of a cheat. put true at the front to produce a new set of attributes for new element
                              'vraElementObjects' => array(true),
-                             'nameBase'         => $nameBase . "[$agentId][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][earliestDate]",
+                             'nameBase'         => $nameBase . "[existingDates][earliestDate]",
                              'label'            => __('Attributes')
                              )
                         );
@@ -154,7 +154,7 @@ if(!isset($agentId)) {
                              'attributeObjects' => $attributeObjects,
                              //kind of a cheat. put true at the front to produce a new set of attributes for new element
                              'vraElementObjects' => array(true),
-                             'nameBase'         => $nameBase . "[$agentId][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][latestDate]",
+                             'nameBase'         => $nameBase . "[existingDates][latestDate]",
                              'label'            => __('Attributes')
                              )
                         );

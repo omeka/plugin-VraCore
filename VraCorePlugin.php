@@ -378,6 +378,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
     protected function storeAttributes($attributesData, $omekaRecord, $omekaElementId, $vraElementId = null)
     {
+        //debug('storing attrs');
+        //debug(print_r($attributesData, true));
         foreach($attributesData as $id => $attributeContent) {
             foreach($attributeContent as $attrName=>$content) {
                 if ($id == 'new') {
@@ -480,13 +482,13 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 $latestDateData['name'] = 'latestDate';
 
                 if(!empty($earliestDateData['content'])) {
-                    $this->processNewSubelement($omekaRecord,
+                    $newVraElement = $this->processNewSubelement($omekaRecord,
                                             $omekaElementId,
                                             $datesSubelementObject,
                                             $earliestDateData);
                 }
                 if(!empty($latestDateData['content'])) {
-                    $this->processNewSubelement($omekaRecord,
+                    $newVraElement = $this->processNewSubelement($omekaRecord,
                                             $omekaElementId,
                                             $datesSubelementObject,
                                             $latestDateData);
@@ -527,11 +529,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                               'State Edition',
                               'Subject',
                               'Textref');
-        debug("id $vraElementId");
         $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
         if($vraElementObject->name == 'Agent') {
-            debug('is Agent');
-            debug(print_r($elementData, true));
             foreach($elementData as $key=>$subElementData) {
                 if(is_numeric($key)) {
                     $this->processNewSubelements($omekaRecord,
@@ -652,15 +651,19 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             //but not both for an existing dates element
             if(isset($elementArray['existingDates'])) {
                 foreach($elementArray['existingDates'] as $elementName=>$data) {
-                    $newDatesSubelement = new VraCoreElement();
-                    $newDatesSubelement->name = $elementName;
-                    $newDatesSubelement->record_id = $omekaRecord->id;
-                    $newDatesSubelement->record_type = get_class($omekaRecord);
-                    $newDatesSubelement->element_id = $omekaElementId;
-                    $newDatesSubelement->vra_element_id = $data['dateId'];
-                    $newDatesSubelement->content = $data['content'];
-                    $newDatesSubelement->save();
-                    $newDatesSubelement->updateDataDate();
+                    if(!empty($data['content'])) {
+                        $newDatesSubelement = new VraCoreElement();
+                        $newDatesSubelement->name = $elementName;
+                        $newDatesSubelement->record_id = $omekaRecord->id;
+                        $newDatesSubelement->record_type = get_class($omekaRecord);
+                        $newDatesSubelement->element_id = $omekaElementId;
+                        $newDatesSubelement->vra_element_id = $data['dateId'];
+                        $newDatesSubelement->content = $data['content'];
+                        $newDatesSubelement->save();
+                        $newDatesSubelement->updateDataDate();
+                        $this->storeAttributes($data['attrs'], $omekaRecord, $omekaElementId, $newDatesSubelement->id );
+                        
+                    }
                 }
                 unset($elementArray['existingDates']);
             }

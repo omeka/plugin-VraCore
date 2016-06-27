@@ -91,5 +91,19 @@
                 $(e.target).after(response);
             });
         });
+        
+        $('#vra-core-metadata').on('keypress', 'div.input textarea', function(e) {
+            var target = $(this);
+            if (! target.data('changed')) {
+                var field = target.parents('.field');
+                var id = field.attr('id').replace('element-', '');
+                var newInput = $('<input />');
+                newInput.attr('name', "vra-element[" + id + "][display][is-changed]");
+                newInput.attr('type', 'hidden');
+                newInput.val(1);
+                newInput.insertAfter(target);
+                target.data('changed', true);
+            }
+        });
     });
 }(jQuery));

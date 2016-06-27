@@ -634,26 +634,28 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 $displayAttributes = $elementArray['display'];
                 $this->storeAttributes($displayAttributes['attrs'], $omekaRecord, $omekaElementId);
                 //force in @dataDate. Assumes display was looked at, and so updates as such
-                //lookup existing @dataDate @todo
-                $AttrTable = get_db()->getTable('VraCoreAttribute');
-                $dataDates = $AttrTable->findBy(array(
-                        'name'         => 'dataDate',
-                        'record_type'  => get_class($omekaRecord),
-                        'record_id'    => $omekaRecord->id,
-                        'element_id'   => $omekaElementId
-                        ));
-                if (empty($dataDates)) {
-                    $dataDateAttr = new VraCoreAttribute();
-                    $dataDateAttr->name = 'dataDate';
-                    $dataDateAttr->record_type = get_class($omekaRecord);
-                    $dataDateAttr->record_id = $omekaRecord->id;
-                    $dataDateAttr->element_id = $omekaElementId;
-
-                } else {
-                    $dataDateAttr = $dataDates[0];
+                //lookup existing @dataDate
+                if(isset($displayAttributes['is-changed'])) {
+                    $attrTable = get_db()->getTable('VraCoreAttribute');
+                    $dataDates = $attrTable->findBy(array(
+                            'name'         => 'dataDate',
+                            'record_type'  => get_class($omekaRecord),
+                            'record_id'    => $omekaRecord->id,
+                            'element_id'   => $omekaElementId
+                            ));
+                    if (empty($dataDates)) {
+                        $dataDateAttr = new VraCoreAttribute();
+                        $dataDateAttr->name = 'dataDate';
+                        $dataDateAttr->record_type = get_class($omekaRecord);
+                        $dataDateAttr->record_id = $omekaRecord->id;
+                        $dataDateAttr->element_id = $omekaElementId;
+    
+                    } else {
+                        $dataDateAttr = $dataDates[0];
+                    }
+                    $dataDateAttr->content = date('Y-m-d H:i:s');
+                    $dataDateAttr->save();
                 }
-                $dataDateAttr->content = date('Y-m-d H:i:s');
-                $dataDateAttr->save();
             }
             //elementArray has keys display, newElements, and existing VRAelement ids
             unset($elementArray['display']);

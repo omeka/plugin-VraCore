@@ -40,7 +40,7 @@
         </fieldset>
     </div>
 
-    <input class='parent-element-add' type='submit' value='Add <?php echo $omekaElement->name; ?> element' data-namebase='<?php echo $nameBase; ?>' data-element-name='<?php echo $omekaElement->name; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
+    <input class='parent-element-add' type='submit' value='Add VRA <?php echo $omekaElement->name; ?> element' data-namebase='<?php echo $nameBase; ?>' data-element-name='<?php echo $omekaElement->name; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
 
 <?php if(count($vraElementObjects) == 0 ): ?>
     <!-- copy of parent-element.php -->
@@ -84,7 +84,7 @@ $omekaElementName = $omekaElement->name;
                     <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
                 </div>
                 <fieldset style='display:none'>
-                    <input class='subelement-add' type='submit' value='Add Dates Element' data-newAgentIndex='<?php echo $newAgentCount; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
+                    <input class='subelement-add' type='submit' value='Add VRA  Dates Element' data-newAgentIndex='<?php echo $newAgentCount; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
                     <?php echo $this->partial('element-attribute-form.php', 
                             array(
                                  'attributeNames'   => $attributeNames,
@@ -205,7 +205,7 @@ $omekaElementName = $omekaElement->name;
                         <fieldset style='display:none'>
                             <input class='subelement-add'
                                    type='submit'
-                                   value='Add Dates Element'
+                                   value='Add VRA  Dates Element'
                                    data-namebase='<?php echo $nameBase; ?>'
                                    data-subelement-name='<?php echo $subelementName; ?>'
                                    data-omeka-element-name='<?php echo $omekaElement->name; ?>'

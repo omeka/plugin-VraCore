@@ -30,7 +30,7 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
 
     public function getSubelements($name = null)
     {
-    
+
         if(! is_null($this->subelements)) {
             return $this->subelements;
         }
@@ -46,16 +46,14 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
         foreach($subelements as $subelement) {
             $keyedSubelements[$subelement->name] = $subelement;
         }
-        
+
         if(array_key_exists('name', $keyedSubelements)) {
             $keyedSubelements = array('name' => $keyedSubelements['name']) + $keyedSubelements;
         }
-        
-        
         $this->subelements = $keyedSubelements;
         return $this->subelements;
     }
-    
+
     public function hasSubelements($name = null)
     {
         $params = array('vra_element_id' => $this->id);

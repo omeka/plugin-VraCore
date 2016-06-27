@@ -109,7 +109,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             );
 
     protected $globalAttrs = array(
-          //  'dataDate',
             'extent',
             'href',
             'pref',
@@ -169,7 +168,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
         ";
         $db->query($sql);
-
         $this->installVraCoreElements();
     }
 
@@ -208,8 +206,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         queue_css_file('vra-core');
     }
-
-
 
     public function hookElementsShow($args)
     {
@@ -378,8 +374,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
     protected function storeAttributes($attributesData, $omekaRecord, $omekaElementId, $vraElementId = null)
     {
-        //debug('storing attrs');
-        //debug(print_r($attributesData, true));
         foreach($attributesData as $id => $attributeContent) {
             foreach($attributeContent as $attrName=>$content) {
                 if ($id == 'new') {
@@ -387,7 +381,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 } else {
                     $vraAttribute = $this->_db->getTable('VraCoreAttribute')->find($id);
                 }
-                
+
                 if ($vraAttribute->exists()) {
                     if (empty($content) || ($attrName == 'circa' && $content=='delete')) {
                         $vraAttribute->delete();
@@ -398,7 +392,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                         $vraAttribute->content = $content;
                         $this->searchTexts .= ' ' . $vraAttribute->content;
                         $vraAttribute->save();
-                            
                     }
                 } else {
                     if ($attrName == 'circa') {
@@ -438,7 +431,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $vraElement->updateDataDate();
         return $vraElement;
     }
-    
+
     protected function processNewElement($omekaRecord, $omekaElementId, $elementData)
     {
         $hasSubelements = $this->hasNewSubelements($elementData);
@@ -500,11 +493,11 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 if (empty($subelementData['content'])) {
                     continue;
                 }
-                
+
                 if (isset($subelementData['vra_parent_id']) && is_numeric($subelementData['vra_parent_id'])) {
                     $parentVraElement = $subelementData['vra_parent_id'];
                 }
-                
+
                 $subelementData['name'] = $subelementName;
                 $this->processNewSubelement($omekaRecord,
                                             $omekaElementId,
@@ -514,7 +507,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             }
         }
     }
-    
+
     protected function processExistingElement($omekaRecord, $omekaElementId, $vraElementId, $elementData)
     {
         //elements to skip deletion. these are containers for other elements, so 
@@ -547,15 +540,11 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 $vraElementObject->updateDataDate();
             }
             $vraElementObject->content = $elementData['content'];
-            
-            
             $this->processNewSubelements($omekaRecord,
                                          $omekaElementId,
                                          $elementData['newSubelements'],
                                          $vraElementObject);
-            
-            
-            
+
             //@TODO: reuse the storeElement function if possible, or rename it for clarity
             $vraElementObject->save();
             $this->searchTexts .= ' ' . $vraElementObject->content;
@@ -583,7 +572,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         if (empty($elementData['hasSubelements']) || !isset($elementData['newSubelements'])) {
             return false;
         }
-        
+
         foreach($elementData['newSubelements'] as $subelementName => $subelementsData) {
             foreach($subelementsData as $subelementData) {
                 if($subelementName == 'dates') {
@@ -600,7 +589,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         }
         return false;
     }
-    
+
     public function afterDeleteRecord($args)
     {
         $omekaRecord = $args['record'];
@@ -624,7 +613,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         //save element first, so I have the ID
         //and make sure the data posted makes it possible to line up correct
         //attributes with the right subelements, if they're there
-        
+
         if (! is_array($vraElementData)) {
             return;
         }
@@ -668,7 +657,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 unset($elementArray['newElements']);
 
             }
-            
+
             //special handling for agent/dates
             //this handles situation where there is one of an earliestDate or latestDate,
             //but not both for an existing dates element
@@ -685,7 +674,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                         $newDatesSubelement->save();
                         $newDatesSubelement->updateDataDate();
                         $this->storeAttributes($data['attrs'], $omekaRecord, $omekaElementId, $newDatesSubelement->id );
-                        
                     }
                 }
                 unset($elementArray['existingDates']);
@@ -736,7 +724,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $searchText->text .= ' ' . $this->searchTexts;
         $searchText->save();
     }
-    
+
     protected function installVraCoreElements()
     {
         $VraCoreElementSet = $this->_db->getTable('ElementSet')->findByName('VRA Core');

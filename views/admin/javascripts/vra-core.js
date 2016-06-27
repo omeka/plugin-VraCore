@@ -66,7 +66,7 @@
                     'subelementName'  : subelementName,
                     'vraParentId'     : vraParentId,
             };
-            
+
             if (subelementName === 'dates') {
                 data.newAgentIndex = $(this).data('newagentindex');
             }
@@ -85,13 +85,13 @@
                     'newElementCount' : newElementCount,
                     'nameBase'        : nameBase,
                     'omekaElementName' : omekaElementName,
-                    //'subelementName'  : subelementName
             };
             $.get(OmekaWebDir + '/vra-core/ajax/parent-element', data, function(response, textStatus, jqXHR) {
                 $(e.target).after(response);
             });
         });
-        
+
+        //mark changed display elements so @dataDate can be updated
         $('#vra-core-metadata').on('keypress', 'div.input textarea', function(e) {
             var target = $(this);
             if (! target.data('changed')) {

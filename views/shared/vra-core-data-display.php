@@ -92,7 +92,7 @@ $notesElement = $groupedElements['notes'][0];
                     <?php endif; ?>
                     <?php if(metadata($subelement, 'name') == 'dates'): ?>
                         <?php $datesSubelements = $subelement->getSubelements(); ?>
-                        <div style='margin-left: 5px;'>
+                        <div class='dates-subelements'>
                             <?php foreach($datesSubelements as $datesSubelement): ?>
                             <h5 class='vra-core-element-name'> <?php echo metadata($datesSubelement, 'name'); ?> </h5>
                             <?php echo metadata($datesSubelement, 'content'); ?>

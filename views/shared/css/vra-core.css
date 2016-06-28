@@ -2,3 +2,7 @@ span.name-data {
     font-size: small;
     font-weight: initial;
 }
+
+.dates-subelements {
+    margin-left: 25px;
+}

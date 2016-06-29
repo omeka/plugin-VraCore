@@ -5,6 +5,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     public $_hooks = array(
             'install',
             'uninstall',
+            'upgrade',
             'initialize',
             'after_save_item',
             'after_save_collection',
@@ -123,14 +124,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     public function hookInitialize()
     {
         $elements = array_keys($this->elementsData);
-        //VRA id omeka element is a bit weird, as it's a VRA attribute on the Omeka record
-        //thus, it isn't in the elementsData
-        add_filter(array('ElementForm', 'Item', "VRA Core", 'ID'), array($this, 'filterVraIdForm'), 1);
-        add_filter(array('ElementInput', 'Item', "VRA Core", 'ID'), array($this, 'filterVraIdInput'), 1);
-        add_filter(array('ElementForm', 'Collection', "VRA Core", 'ID'), array($this, 'filterVraIdForm'), 1);
-        add_filter(array('ElementInput', 'Collection', "VRA Core", 'ID'), array($this, 'filterVraIdInput'), 1);
-        add_filter(array('ElementForm', 'File', "VRA Core", 'ID'), array($this, 'filterVraIdForm'), 1);
-        add_filter(array('ElementInput', 'File', "VRA Core", 'ID'), array($this, 'filterVraIdInput'), 1);
         foreach ($elements as $element) {
             add_filter(array('ElementForm', 'Item', "VRA Core", $element), array($this, 'addVraInputs'), 1);
             add_filter(array('ElementForm', 'Collection', "VRA Core", $element), array($this, 'addVraInputs'), 1);
@@ -160,7 +153,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
           `record_id` int(11) NOT NULL,
           `record_type` tinytext COLLATE utf8_unicode_ci NOT NULL,
-          `element_id` int(10) unsigned NOT NULL,
+          `element_id` int(10) unsigned NULL,
           `vra_element_id` int(10) unsigned NULL,
           `name` text COLLATE utf8_unicode_ci NOT NULL,
           `content` text COLLATE utf8_unicode_ci NOT NULL,
@@ -180,6 +173,28 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $db->query($sql);
     }
 
+    public function hookUpgrade($args) 
+    {
+        $oldVersion = $args['old_version'];
+        $newVersion = $args['new_version'];
+        $db = $this->_db;
+        if (version_compare($newVersion, '1.1-rc', '>')) {
+            $sql = "
+            ALTER TABLE `$db->VraCoreAttribute` CHANGE `element_id` `element_id` INT( 10 ) UNSIGNED NULL ;
+            ";
+            $db->query($sql);
+
+            $vraIdElement = $db->getTable('Element')->findByElementSetNameAndElementName('VRA Core', 'ID');
+            if($vraIdElement) {
+                $vraIdElTexts = $db->getTable('ElementText')->findByElementId($vraIdElement->id);
+                foreach($vraIdElTexts as $vraIdElText) {
+                    $vraIdElText->delete();
+                }
+                $vraIdElement->delete();
+            }
+        }
+    }
+    
     public function hookConfig($args)
     {
         $post = $args['post'];
@@ -279,12 +294,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     public function filterVraIdInput($components, $args)
     {
         $components['html_checkbox'] = false;
-        return $components;
-    }
-
-    public function filterVraIdForm($components, $args)
-    {
-        $components['add_input'] = '';
         return $components;
     }
 

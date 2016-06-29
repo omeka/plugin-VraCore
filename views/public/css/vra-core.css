@@ -21,6 +21,10 @@ span.name-data {
     margin-left: 4px;
 }
 
+div.vra-element {
+    display: block;
+    justify-content: none !important;
+}
 
 .dates-subelements {
     margin-left: 25px;

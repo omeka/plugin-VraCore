@@ -1,7 +1,7 @@
 <?php foreach ($elementsForDisplay as $setName => $setElements): ?>
 <?php
 if($setName == 'VRA Core') {
-    $class = '';
+    $class = 'element';
 } else {
     $class = 'element';
 }
@@ -16,12 +16,19 @@ if($setName == 'VRA Core') {
         <?php foreach ($elementInfo['texts'] as $text): ?>
             <div class="element-text"><?php echo $text; ?></div>
         <?php endforeach; ?>
-        <?php fire_plugin_hook('elements_show',
-                                array('view' => $this,
-                                     'elementInfo' => $elementInfo,
-                                     'record' => $record
-                                     )
-                               );?>
+        <div class='element-text'>
+            <div class='vra-subelements'>
+            <?php
+                    fire_plugin_hook('elements_show',
+                                    array('view' => $this,
+                                         'elementInfo' => $elementInfo,
+                                         'record' => $record
+                                         )
+                                   );
+            ?>
+            <!-- end vra-subelements -->
+            </div>
+        </div>
     </div><!-- end element -->
     <?php endforeach; ?>
 </div><!-- end element-set -->

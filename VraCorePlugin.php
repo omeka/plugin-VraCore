@@ -26,6 +26,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     protected $searchTexts = '';
 
     protected $elementsData = array(
+            'Toplevel' => array('attrs' => array()), //mostly fake, to filter out and allow top-level attributes
             'Title' => array('attrs' => array('type')),
             'Agent' => array(
                     'attrs' => array(), 
@@ -125,9 +126,15 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         $elements = array_keys($this->elementsData);
         foreach ($elements as $element) {
-            add_filter(array('ElementForm', 'Item', "VRA Core", $element), array($this, 'addVraInputs'), 1);
-            add_filter(array('ElementForm', 'Collection', "VRA Core", $element), array($this, 'addVraInputs'), 1);
-            add_filter(array('ElementForm', 'File', "VRA Core", $element), array($this, 'addVraInputs'), 1);
+            if ($element == 'Toplevel') {
+                add_filter(array('ElementForm', 'Item', "VRA Core", $element), array($this, 'filterRecordlevelInput'), 1);
+                add_filter(array('ElementForm', 'Collection', "VRA Core", $element), array($this, 'filterRecordlevelInput'), 1);
+                add_filter(array('ElementForm', 'File', "VRA Core", $element), array($this, 'filterRecordlevelInput'), 1);
+            } else {
+                add_filter(array('ElementForm', 'Item', "VRA Core", $element), array($this, 'addVraInputs'), 1);
+                add_filter(array('ElementForm', 'Collection', "VRA Core", $element), array($this, 'addVraInputs'), 1);
+                add_filter(array('ElementForm', 'File', "VRA Core", $element), array($this, 'addVraInputs'), 1);
+            }
         }
     }
 
@@ -290,10 +297,50 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         $this->afterDeleteRecord($args);
     }
-
-    public function filterVraIdInput($components, $args)
+    
+    public function filterRecordlevelInput($components, $args)
     {
-        $components['html_checkbox'] = false;
+        $db = $this->_db;
+        $view = get_view();
+        $record = $args['record'];
+        $recordClass = get_class($record);
+        switch($recordClass) {
+            case 'Item':
+                $label = __('Work Attributes');
+            break;
+            case 'File':
+                $label = __('Image Attributes');
+            break;
+            case 'Collection':
+                $label = __('Collection Attributes');
+            break;
+        }
+        $components['add_input'] = '';
+        $components['label'] = "<label>$label</label>";
+        $globalAttributes = $this->getGlobalAttrs();
+        $attributeObjects = $db->getTable('VraCoreAttribute')
+                                ->findBy(array(
+                                     'record_id' => $record->id,
+                                     'record_type' => $recordClass,
+                                     'vra_element_id' => false,
+                                     'element_id' => false,
+                                    ));
+        $keyedAttributeObjects = array('recordLevel' => array());
+        if (!empty($attributeObjects)) {
+            foreach($attributeObjects as $attributeObject) {
+                $keyedAttributeObjects['recordLevel'][$attributeObject->name] = $attributeObject;
+            }
+        }
+        
+        $partialArgs = array(
+                     'attributeNames'   => $globalAttributes,
+                     'attributeObjects' => $keyedAttributeObjects,
+                     'nameBase'         => 'vra-element[recordLevel]', //not really element, but forces into the pattern elsewhere
+                     'label'            => $label,
+                     'topLevel'         => 'recordLevel',
+                     );
+        $html = $view->partial('element-attribute-form.php', $partialArgs);
+        $components['inputs'] = $html;
         return $components;
     }
 
@@ -356,10 +403,11 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                   'attributeObjects'  => $attributeObjects
             );
 
+        $html = '';
         if (isset($this->elementsData[$omekaElement->name]['subelements'])) {
-            $html = $view->partial('nested-element-edit-form.php', $partialArgs);
+            $html .= $view->partial('nested-element-edit-form.php', $partialArgs);
         } else {
-            $html = $view->partial('simple-element-edit-form.php', $partialArgs);
+            $html .= $view->partial('simple-element-edit-form.php', $partialArgs);
         }
 
         $components['inputs'] .= $html;
@@ -381,7 +429,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         return $this->subelementsData;
     }
 
-    protected function storeAttributes($attributesData, $omekaRecord, $omekaElementId, $vraElementId = null)
+    protected function storeAttributes($attributesData, $omekaRecord, $omekaElementId = null, $vraElementId = null)
     {
         foreach($attributesData as $id => $attributeContent) {
             foreach($attributeContent as $attrName=>$content) {
@@ -626,6 +674,12 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         if (! is_array($vraElementData)) {
             return;
         }
+        
+        if(isset($vraElementData['recordLevel'])) {
+            $this->storeAttributes($vraElementData['recordLevel']['attrs'], $omekaRecord);
+            unset($vraElementData['recordLevel']);
+        }
+        
         //omekaElementId is the VRA Element id
         foreach($vraElementData as $omekaElementId => $elementArray) {
             if (isset($elementArray['display'])) {
@@ -687,6 +741,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 }
                 unset($elementArray['existingDates']);
             }
+            
+            
 
             foreach($elementArray as $vraElementId => $existingElementData) {
                 //see @todo below

@@ -4,12 +4,19 @@ class Table_VraCoreAttribute extends Omeka_Db_Table
 {
     public function getSelectForFindBy($params = array())
     {
+        //let me search by some columns being null
+        $nulledColumns = array();
         if (isset($params['vra_element_id']) && !$params['vra_element_id']) {
             unset($params['vra_element_id']);
-            $select = parent::getSelectForFindBy($params);
-            $select->where('vra_element_id IS NULL');
-        } else {
-            $select = parent::getSelectForFindBy($params);
+            $nulledColumns[] = 'vra_element_id';
+        }
+        if (isset($params['element_id']) && !$params['element_id']) {
+            unset($params['element_id']);
+            $nulledColumns[] = 'element_id';
+        }
+        $select = parent::getSelectForFindBy($params);
+        foreach($nulledColumns as $nulledColumn) {
+            $select->where("$nulledColumn IS NULL");
         }
         return $select;
     }

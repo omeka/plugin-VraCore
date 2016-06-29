@@ -12,7 +12,7 @@
             });
         });
         
-        $('div.vra-data').on('click', 'div.vra-element-header', function(e) {
+        $('div#vra-core-metadata').on('click', 'div.vra-element-header', function(e) {
             e.stopPropagation();
             var drawer = $(this).children('.drawer');
             $(this).siblings('fieldset').toggle();
@@ -23,7 +23,7 @@
             }
         });
 
-        $('div.vra-data').on('click', 'div.vra-attributes-header', function(e) {
+        $('div#vra-core-metadata').on('click', 'div.vra-attributes-header', function(e) {
             e.stopPropagation();
             var drawer = $(this).children('.drawer');
             $(this).siblings('fieldset').toggle();

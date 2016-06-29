@@ -64,7 +64,7 @@ $notesElement = $groupedElements['notes'][0];
                     </ul>
                     <?php endif; ?>
                 </div>
-                    
+
             <?php else: ?>
                 <?php if(array_key_exists('name', $subelements)) {
                           $nameElement = $subelements['name'];
@@ -88,7 +88,6 @@ $notesElement = $groupedElements['notes'][0];
                     </ul>
                 <?php endif; ?>
 
-                
                 <?php foreach($subelements as $subelement): ?>
                     <div class='element vra-element'>
                     <h5 class='vra-core-element-name'> <?php echo metadata($subelement, 'name'); ?> </h5>
@@ -107,7 +106,7 @@ $notesElement = $groupedElements['notes'][0];
                     <?php if(metadata($subelement, 'name') == 'dates'): ?>
                         <?php $datesSubelements = $subelement->getSubelements(); ?>
                             <?php foreach($datesSubelements as $datesSubelement): ?>
-                            <div class='element vra-element'>
+                            <div class='element vra-element dates-subelements'>
                             <h5 class='vra-core-element-name'> <?php echo metadata($datesSubelement, 'name'); ?> </h5>
                             <div class='element-text vra-element-text'>
                             <?php echo metadata($datesSubelement, 'content'); ?>

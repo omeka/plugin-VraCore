@@ -24,8 +24,7 @@
             case 'Collection':
                 $label = __('Collection Attributes');
             break;
-        }
-            
+            }
         }
     ?>
 

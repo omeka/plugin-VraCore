@@ -129,9 +129,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $elements = array_keys($this->elementsData);
         foreach ($elements as $element) {
             if ($element == 'Toplevel') {
-                add_filter(array('ElementForm', 'Item', "VRA Core", $element), array($this, 'filterRecordlevelInput'), 1);
-                add_filter(array('ElementForm', 'Collection', "VRA Core", $element), array($this, 'filterRecordlevelInput'), 1);
-                add_filter(array('ElementForm', 'File', "VRA Core", $element), array($this, 'filterRecordlevelInput'), 1);
+                add_filter(array('ElementForm', 'Item', "VRA Core", $element), array($this, 'filterRecordLevelInput'), 1);
+                add_filter(array('ElementForm', 'Collection', "VRA Core", $element), array($this, 'filterRecordLevelInput'), 1);
+                add_filter(array('ElementForm', 'File', "VRA Core", $element), array($this, 'filterRecordLevelInput'), 1);
             } else {
                 add_filter(array('ElementForm', 'Item', "VRA Core", $element), array($this, 'addVraInputs'), 1);
                 add_filter(array('ElementForm', 'Collection', "VRA Core", $element), array($this, 'addVraInputs'), 1);
@@ -307,6 +307,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $params = $controller->getAllParams();
         $vraControllers = array('items', 'files', 'collections');
         if(in_array($params['controller'], $vraControllers) && $params['action'] == 'show') {
+            debug('in array');
             $type = Inflector::classify($params['controller']);
             $record = $db->getTable($type)->find($params['id']);
             $vraElementCount = $db->getTable('VraCoreElement')
@@ -322,12 +323,13 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     
     public function filterResponseContexts($contexts)
     {
+        debug('response contexts');
         $contexts['vra'] = array('suffix' => 'vra', 
                                  'headers' => array('Content-Type' => 'text/xml'));
         return $contexts;
     }
     
-    public function filterRecordlevelInput($components, $args)
+    public function filterRecordLevelInput($components, $args)
     {
         if(get_option('vra-core-hide-public-attributes' )) {
             return $components;
@@ -350,20 +352,24 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $components['add_input'] = '';
         $components['label'] = "<label>$label</label>";
         $globalAttributes = $this->getGlobalAttrs();
-        $attributeObjects = $db->getTable('VraCoreAttribute')
-                                ->findBy(array(
-                                     'record_id' => $record->id,
-                                     'record_type' => $recordClass,
-                                     'vra_element_id' => false,
-                                     'element_id' => false,
-                                    ));
-        $keyedAttributeObjects = array('recordLevel' => array());
-        if (!empty($attributeObjects)) {
-            foreach($attributeObjects as $attributeObject) {
-                $keyedAttributeObjects['recordLevel'][$attributeObject->name] = $attributeObject;
-            }
-        }
         
+        if ($record->exists()) {
+            $attributeObjects = $db->getTable('VraCoreAttribute')
+                                    ->findBy(array(
+                                         'record_id' => $record->id,
+                                         'record_type' => $recordClass,
+                                         'vra_element_id' => false,
+                                         'element_id' => false,
+                                        ));
+            $keyedAttributeObjects = array('recordLevel' => array());
+            if (!empty($attributeObjects)) {
+                foreach($attributeObjects as $attributeObject) {
+                    $keyedAttributeObjects['recordLevel'][$attributeObject->name] = $attributeObject;
+                }
+            }
+        } else {
+            $keyedAttributeObjects = array();
+        }
         $partialArgs = array(
                      'attributeNames'   => $globalAttributes,
                      'attributeObjects' => $keyedAttributeObjects,

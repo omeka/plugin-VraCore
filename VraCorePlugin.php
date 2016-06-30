@@ -300,6 +300,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     
     public function filterRecordlevelInput($components, $args)
     {
+        if(get_option('vra-core-hide-public-attributes' )) {
+            return $components;
+        }
         $db = $this->_db;
         $view = get_view();
         $record = $args['record'];

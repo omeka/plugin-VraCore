@@ -27,6 +27,16 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
         }
         return $this->attributes;
     }
+    
+    public function getAttributesAsHtml()
+    {
+        $attrs = $this->getAttributes();
+        $attrsHtml = ' ';
+        foreach($attrs as $attr) {
+            $attrsHtml .= $attr->name . "='{$attr->content}' ";
+        }
+        return $attrsHtml;
+    }
 
     public function getSubelements($name = null)
     {

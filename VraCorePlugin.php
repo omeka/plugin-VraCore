@@ -21,6 +21,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             );
 
     public $_filters = array(
+            'action_contexts',
+            'response_contexts',
             );
 
     protected $searchTexts = '';
@@ -298,6 +300,33 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $this->afterDeleteRecord($args);
     }
     
+    public function filterActionContexts($contexts, $args)
+    {
+        $db = get_db();
+        $controller = $args['controller'];
+        $params = $controller->getAllParams();
+        $vraControllers = array('items', 'files', 'collections');
+        if(in_array($params['controller'], $vraControllers) && $params['action'] == 'show') {
+            $type = Inflector::classify($params['controller']);
+            $record = $db->getTable($type)->find($params['id']);
+            $vraElementCount = $db->getTable('VraCoreElement')
+                                  ->count(array('record_type' => get_class($record),
+                                                'record_id'   => $record->id,
+                                    ));
+            if($vraElementCount != 0) {
+                $contexts['show'][] = 'vra';
+            }
+        }
+        return $contexts;
+    }
+    
+    public function filterResponseContexts($contexts)
+    {
+        $contexts['vra'] = array('suffix' => 'vra', 
+                                 'headers' => array('Content-Type' => 'text/xml'));
+        return $contexts;
+    }
+    
     public function filterRecordlevelInput($components, $args)
     {
         if(get_option('vra-core-hide-public-attributes' )) {
@@ -431,6 +460,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         return $this->subelementsData;
     }
+    
+    
 
     protected function storeAttributes($attributesData, $omekaRecord, $omekaElementId = null, $vraElementId = null)
     {

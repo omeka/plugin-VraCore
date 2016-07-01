@@ -5,6 +5,34 @@ $vraElements = $db->getTable('VraCoreElement')->findBy(array('record_type' => 'C
                                                 'vra_element_id' => false,
                                     ));
 
+$recordAttributes = $db->getTable('VraCoreAttribute')->findBy(array('record_type' => 'Collection',
+                                                'record_id'   => $collection->id,
+                                                'vra_element_id' => false,
+                                                'element_id' => false,
+                                    ));
+
+
+$recordHref = record_url($collection, 'show', true);
+$recordId = 'c_' . $collection->id;
+$recordRefid = $collection->id;
+
+foreach($recordAttributes as $vraAttribute) {
+    switch($vraAttribute->name) {
+        case 'href':
+            $recordHref = $vraAttribute->content;
+        break;
+        
+        case 'id':
+            $recordId = $vraAttribute->content;
+        break;
+        
+        case 'refid':
+            $recordRefid = $vraAttribute->content;
+        break;
+    }
+}
+
+
 $vraElementSets = array();
 $vraNotes = array();
 foreach($vraElements as $vraElement) {
@@ -23,7 +51,10 @@ ksort($vraElementSets);
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.vraweb.org/vracore4.htm http://www.loc.gov/standards/vracore/vra.xsd">
 
-    <work>
+    <work href='<?php echo $recordHref; ?>'
+           id='<?php echo $recordId; ?>'
+           refid='<?php echo $recordRefid; ?>'
+    >
         <?php foreach($vraElementSets as $elementKey => $vraElementSet): ?>
             <<?php echo lcfirst($elementKey) . 'Set'; ?>>
                 <?php

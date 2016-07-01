@@ -16,6 +16,9 @@ $recordHref = file_display_url($file, 'original');
 $recordId = 'i_' . $file->id;
 $recordRefid = $file->id;
 
+//id, href, and refid ID get to have defaults on output
+//so handle those specially. Others just line up in a string
+$recordAttributesHtml = ' ';
 foreach($recordAttributes as $vraAttribute) {
     switch($vraAttribute->name) {
         case 'href':
@@ -28,6 +31,10 @@ foreach($recordAttributes as $vraAttribute) {
         
         case 'refid':
             $recordRefid = $vraAttribute->content;
+        break;
+        
+        default:
+            $recordAttributesHtml .= " {$vraAttribute->name}='{$vraAttribute->content}' ";
         break;
     }
 }
@@ -54,6 +61,7 @@ ksort($vraElementSets);
     <image href='<?php echo $recordHref; ?>'
            id='<?php echo $recordId; ?>'
            refid='<?php echo $recordRefid; ?>'
+           <?php echo $recordAttributesHtml; ?>
     >
         <?php foreach($vraElementSets as $elementKey => $vraElementSet): ?>
             <<?php echo lcfirst($elementKey) . 'Set'; ?>>

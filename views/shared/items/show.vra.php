@@ -16,6 +16,9 @@ $recordHref = record_url($item, 'show', true);
 $recordId = 'w_' . $item->id;
 $recordRefid = $item->id;
 
+//id, href, and refid ID get to have defaults on output
+//so handle those specially. Others just line up in a string
+$recordAttributesHtml = ' ';
 foreach($recordAttributes as $vraAttribute) {
     switch($vraAttribute->name) {
         case 'href':
@@ -29,9 +32,12 @@ foreach($recordAttributes as $vraAttribute) {
         case 'refid':
             $recordRefid = $vraAttribute->content;
         break;
+        
+        default:
+            $recordAttributesHtml .= " {$vraAttribute->name}='{$vraAttribute->content}' ";
+        break;
     }
 }
-
 
 $vraElementSets = array();
 $vraNotes = array();
@@ -53,7 +59,9 @@ ksort($vraElementSets);
 
     <work href='<?php echo $recordHref; ?>'
            id='<?php echo $recordId; ?>'
-           refid='<?php echo $recordRefid; ?>'>
+           refid='<?php echo $recordRefid; ?>'
+           <?php echo $recordAttributesHtml; ?>
+   >
         <?php foreach($vraElementSets as $elementKey => $vraElementSet): ?>
             <<?php echo lcfirst($elementKey) . 'Set'; ?>>
                 <?php

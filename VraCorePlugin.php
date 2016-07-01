@@ -117,10 +117,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             'href',
             'pref',
             'refid',
+            'id',
             'rules',
             'source',
             'vocab',
-            'xml:id',
             'xml:lang'
             );
 

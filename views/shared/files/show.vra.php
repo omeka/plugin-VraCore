@@ -15,14 +15,15 @@ foreach($vraElements as $vraElement) {
     } else {
         $vraElementSets[$elementKey][] = $vraElement;
     }
-
 }
+
+ksort($vraElementSets);
 ?>
 <vra xmlns="http://www.vraweb.org/vracore4.htm"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.vraweb.org/vracore4.htm http://www.loc.gov/standards/vracore/vra.xsd">
 
-    <work>
+    <image>
         <?php foreach($vraElementSets as $elementKey => $vraElementSet): ?>
             <<?php echo lcfirst($elementKey) . 'Set'; ?>>
                 <?php
@@ -61,5 +62,5 @@ foreach($vraElements as $vraElement) {
                 <?php endforeach; ?>
             </<?php echo lcfirst($elementKey) . 'Set'; ?>>
         <?php endforeach;?>
-    </work>
+    </image>
 </vra>

@@ -17,6 +17,7 @@ foreach($vraElements as $vraElement) {
     }
 
 }
+ksort($vraElementSets);
 ?>
 <vra xmlns="http://www.vraweb.org/vracore4.htm"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

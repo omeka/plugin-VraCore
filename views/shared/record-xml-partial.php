@@ -65,6 +65,17 @@ foreach($vraElements as $vraElement) {
     }
 
 }
+
+//generate existing implicit relations
+if (isset($relation)) {
+    if (! isset($vraElementSets['Relation'])) {
+        $vraElementSets['Relation'] = array();
+    }
+    $relationHtml = "<relation type='{$relation['type']}' refid='{$relation['refid']}'></relation>";
+    $vraElementSets['Relation'][] = $relationHtml;
+    
+}
+
 ksort($vraElementSets);
 ?>
 
@@ -79,7 +90,11 @@ ksort($vraElementSets);
                         //wonky workaround to match notes by vra element id
                         //yes, I've done things I'm not proud of
                         $sampleElement = $vraElementSet[0];
-                        $currentVraElementId = $sampleElement->element_id;
+                        if (is_object($sampleElement)) {
+                            $currentVraElementId = $sampleElement->element_id;
+                        } else {
+                            $currentVraElementId = 'no';
+                        }
                 ?>
                 <display><?php echo metadata($record, array('VRA Core', $elementKey)); ?></display>
                 <?php if(isset($vraNotes[$currentVraElementId])): ?>
@@ -87,6 +102,9 @@ ksort($vraElementSets);
                 <notes><?php echo $currentVraNotes->content; ?></notes>
                 <?php endif;?>
                 <?php foreach($vraElementSet as $vraElement): ?>
+                    <?php if (is_string($vraElement)): ?>
+                        <?php echo $vraElement; ?>
+                    <?php else: ?>
                     <?php $subelements = $vraElement->getSubelements(); ?>
                     <?php if (count($subelements) == 0): ?>
                     <<?php echo lcfirst($elementKey); ?><?php echo $vraElement->getAttributesAsHtml(); ?>><?php echo $vraElement->content; ?></<?php echo lcfirst($elementKey); ?>>
@@ -108,6 +126,7 @@ ksort($vraElementSets);
                         <?php endforeach; ?>
                     </<?php echo lcfirst($elementKey); ?>>
                     <?php endif;?>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </<?php echo lcfirst($elementKey) . 'Set'; ?>>
         <?php endforeach;?>

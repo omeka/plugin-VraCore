@@ -17,12 +17,10 @@ if(!empty($refidAttributes)) {
     $refidAttribute = $refidAttributes[0];
     $refid = $refidAttribute->content;
 } else {
-    $redid = $item->id;
+    $refid = $item->id;
 }
 ?>
-    
-    
-    
+
 <?php  echo $this->partial('record-xml-partial.php', 
         array(
                 'record' => $item,
@@ -30,19 +28,6 @@ if(!empty($refidAttributes)) {
         );
 ?>
 
-<?php
-    foreach($item->Files as $file) {
-         echo $this->partial('record-xml-partial.php', 
-            array(
-                    'record' => $file,
-                    'relation'  => array('type' => 'imageOf',
-                                         'refid' => $refid,
-                                        )
-                 )
-            );
-    }
 
-
-?>
 
 </vra>

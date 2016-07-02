@@ -79,55 +79,121 @@ if (isset($relation)) {
 ksort($vraElementSets);
 ?>
 
-    <<?php echo $xmlElement; ?> href='<?php echo $recordHref; ?>'
-           id='<?php echo $recordId; ?>'
-           refid='<?php echo $recordRefid; ?>'
-           <?php echo $recordAttributesHtml; ?>
-   >
-        <?php foreach($vraElementSets as $elementKey => $vraElementSet): ?>
-            <<?php echo lcfirst($elementKey) . 'Set'; ?>>
-                <?php
-                        //wonky workaround to match notes by vra element id
-                        //yes, I've done things I'm not proud of
-                        $sampleElement = $vraElementSet[0];
-                        if (is_object($sampleElement)) {
-                            $currentVraElementId = $sampleElement->element_id;
-                        } else {
-                            $currentVraElementId = 'no';
-                        }
-                ?>
-                <display><?php echo metadata($record, array('VRA Core', $elementKey)); ?></display>
-                <?php if(isset($vraNotes[$currentVraElementId])): ?>
-                    <?php $currentVraNotes = $vraNotes[$currentVraElementId]; ?>
-                <notes><?php echo $currentVraNotes->content; ?></notes>
+<<?php echo $xmlElement; ?> href='<?php echo $recordHref; ?>'
+       id='<?php echo $recordId; ?>'
+       refid='<?php echo $recordRefid; ?>'
+       <?php echo $recordAttributesHtml; ?>
+>
+    <?php foreach($vraElementSets as $elementKey => $vraElementSet): ?>
+        <<?php echo lcfirst($elementKey) . 'Set'; ?>>
+            <?php
+                    //wonky workaround to match notes by vra element id
+                    //yes, I've done things I'm not proud of
+                    $sampleElement = $vraElementSet[0];
+                    if (is_object($sampleElement)) {
+                        $currentVraElementId = $sampleElement->element_id;
+                    } else {
+                        $currentVraElementId = 'no';
+                    }
+            ?>
+            <display><?php echo metadata($record, array('VRA Core', $elementKey)); ?></display>
+            <?php if(isset($vraNotes[$currentVraElementId])): ?>
+                <?php $currentVraNotes = $vraNotes[$currentVraElementId]; ?>
+            <notes><?php echo $currentVraNotes->content; ?></notes>
+            <?php endif;?>
+            <?php foreach($vraElementSet as $vraElement): ?>
+                <?php if (is_string($vraElement)): ?>
+                    <?php echo $vraElement; ?>
+                <?php else: ?>
+                <?php $subelements = $vraElement->getSubelements(); ?>
+                <?php if (count($subelements) == 0): ?>
+                <<?php echo lcfirst($elementKey); ?><?php echo $vraElement->getAttributesAsHtml(); ?>><?php echo $vraElement->content; ?></<?php echo lcfirst($elementKey); ?>>
+                <?php else: ?>
+                <<?php echo lcfirst($elementKey); ?><?php echo $vraElement->getAttributesAsHtml(); ?>>
+                    <?php foreach($subelements as $subelement): ?>
+                        <?php if($subelement->name == 'dates'): ?>
+                            <?php 
+                                $subDatesElements = $subelement->getSubelements();
+                            ?>
+                        <<?php echo $subelement->name; echo $subelement->getAttributesAsHtml(); ?>><?php echo $subelement->content; ?>
+                            <?php foreach($subDatesElements as $subDatesElement): ?>
+                                <<?php echo $subDatesElement->name; echo $subDatesElement->getAttributesAsHtml(); ?>><?php echo $subDatesElement->content; ?></<?php echo $subDatesElement->name; ?>>
+                            <?php endforeach;?>
+                        </<?php echo $subelement->name; ?>>
+                        <?php else: ?>
+                        <<?php echo $subelement->name; echo $subelement->getAttributesAsHtml(); ?>><?php echo $subelement->content; ?></<?php echo $subelement->name; ?>>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </<?php echo lcfirst($elementKey); ?>>
                 <?php endif;?>
-                <?php foreach($vraElementSet as $vraElement): ?>
-                    <?php if (is_string($vraElement)): ?>
-                        <?php echo $vraElement; ?>
-                    <?php else: ?>
-                    <?php $subelements = $vraElement->getSubelements(); ?>
-                    <?php if (count($subelements) == 0): ?>
-                    <<?php echo lcfirst($elementKey); ?><?php echo $vraElement->getAttributesAsHtml(); ?>><?php echo $vraElement->content; ?></<?php echo lcfirst($elementKey); ?>>
-                    <?php else: ?>
-                    <<?php echo lcfirst($elementKey); ?><?php echo $vraElement->getAttributesAsHtml(); ?>>
-                        <?php foreach($subelements as $subelement): ?>
-                            <?php if($subelement->name == 'dates'): ?>
-                                <?php 
-                                    $subDatesElements = $subelement->getSubelements();
-                                ?>
-                            <<?php echo $subelement->name; echo $subelement->getAttributesAsHtml(); ?>><?php echo $subelement->content; ?>
-                                <?php foreach($subDatesElements as $subDatesElement): ?>
-                                    <<?php echo $subDatesElement->name; echo $subDatesElement->getAttributesAsHtml(); ?>><?php echo $subDatesElement->content; ?></<?php echo $subDatesElement->name; ?>>
-                                <?php endforeach;?>
-                            </<?php echo $subelement->name; ?>>
-                            <?php else: ?>
-                            <<?php echo $subelement->name; echo $subelement->getAttributesAsHtml(); ?>><?php echo $subelement->content; ?></<?php echo $subelement->name; ?>>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </<?php echo lcfirst($elementKey); ?>>
-                    <?php endif;?>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </<?php echo lcfirst($elementKey) . 'Set'; ?>>
-        <?php endforeach;?>
-    </<?php echo $xmlElement; ?>>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </<?php echo lcfirst($elementKey) . 'Set'; ?>>
+    <?php endforeach;?>
+</<?php echo $xmlElement; ?>>
+
+<?php
+if ($recordType == 'Item') {
+    
+    $refidAttributes = $db->getTable('VraCoreAttribute')->findBy(array('record_type' => 'Item',
+                                                'record_id'   => $record->id,
+                                                'name' => 'refid',
+                                                'vra_element_id' => false,
+                                                'element_id' => false,
+                                    ));
+
+    if(!empty($refidAttributes)) {
+        $refidAttribute = $refidAttributes[0];
+        $refid = $refidAttribute->content;
+    } else {
+        $refid = $record->id;
+    }
+
+    foreach($record->Files as $file) {
+         echo $this->partial('record-xml-partial.php',
+            array(
+                    'record' => $file,
+                    'relation'  => array('type' => 'imageOf',
+                                         'refid' => $refid,
+                                        )
+                 )
+            );
+    }
+}
+
+?>
+
+<?php
+if ($recordType == 'Collection') {
+    
+    $refidAttributes = $db->getTable('VraCoreAttribute')->findBy(array('record_type' => 'Collection',
+                                                'record_id'   => $record->id,
+                                                'name' => 'refid',
+                                                'vra_element_id' => false,
+                                                'element_id' => false,
+                                    ));
+
+    if(!empty($refidAttributes)) {
+        $refidAttribute = $refidAttributes[0];
+        $refid = $refidAttribute->content;
+    } else {
+        $refid = $record->id;
+    }
+
+    $items = $db->getTable('Item')->findBy(array('collection' => $record));
+    foreach($items as $item) {
+         echo $this->partial('record-xml-partial.php',
+            array(
+                    'record' => $item,
+                    'relation'  => array('type' => 'partOf',
+                                         'refid' => $refid,
+                                        )
+                 )
+            );
+    }
+}
+
+?>
+
+
+

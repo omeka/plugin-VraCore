@@ -144,7 +144,7 @@ if ($recordType == 'Item') {
         $idAttribute = $idAttributes[0];
         $refid = $idAttribute->content;
     } else {
-        $refid = $record->id;
+        $refid = 'work_' . $record->id;
     }
 
     foreach($record->Files as $file) {
@@ -175,7 +175,7 @@ if ($recordType == 'Collection') {
         $idAttribute = $idAttributes[0];
         $refid = $idAttribute->content;
     } else {
-        $refid = $record->id;
+        $refid = 'collection_' . $record->id;
     }
 
     $items = $db->getTable('Item')->findBy(array('collection' => $record));

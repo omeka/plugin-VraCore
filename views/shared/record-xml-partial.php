@@ -66,14 +66,13 @@ foreach($vraElements as $vraElement) {
 
 }
 
-//generate existing implicit relations
+//generate existing implicit relations, ie between collections and items, and items and files
 if (isset($relation)) {
     if (! isset($vraElementSets['Relation'])) {
         $vraElementSets['Relation'] = array();
     }
     $relationHtml = "<relation type='{$relation['type']}' refid='{$relation['refid']}'></relation>";
     $vraElementSets['Relation'][] = $relationHtml;
-    
 }
 
 ksort($vraElementSets);
@@ -81,7 +80,6 @@ ksort($vraElementSets);
 
 <<?php echo $xmlElement; ?> href='<?php echo $recordHref; ?>'
        id='<?php echo $recordId; ?>'
-       refid='<?php echo $recordRefid; ?>'
        <?php echo $recordAttributesHtml; ?>
 >
     <?php foreach($vraElementSets as $elementKey => $vraElementSet): ?>
@@ -135,16 +133,16 @@ ksort($vraElementSets);
 <?php
 if ($recordType == 'Item') {
     
-    $refidAttributes = $db->getTable('VraCoreAttribute')->findBy(array('record_type' => 'Item',
+    $idAttributes = $db->getTable('VraCoreAttribute')->findBy(array('record_type' => 'Item',
                                                 'record_id'   => $record->id,
-                                                'name' => 'refid',
+                                                'name' => 'id',
                                                 'vra_element_id' => false,
                                                 'element_id' => false,
                                     ));
 
-    if(!empty($refidAttributes)) {
-        $refidAttribute = $refidAttributes[0];
-        $refid = $refidAttribute->content;
+    if(!empty($idAttributes)) {
+        $idAttribute = $idAttributes[0];
+        $refid = $idAttribute->content;
     } else {
         $refid = $record->id;
     }
@@ -166,16 +164,16 @@ if ($recordType == 'Item') {
 <?php
 if ($recordType == 'Collection') {
     
-    $refidAttributes = $db->getTable('VraCoreAttribute')->findBy(array('record_type' => 'Collection',
+    $idAttributes = $db->getTable('VraCoreAttribute')->findBy(array('record_type' => 'Collection',
                                                 'record_id'   => $record->id,
-                                                'name' => 'refid',
+                                                'name' => 'id',
                                                 'vra_element_id' => false,
                                                 'element_id' => false,
                                     ));
 
-    if(!empty($refidAttributes)) {
-        $refidAttribute = $refidAttributes[0];
-        $refid = $refidAttribute->content;
+    if(!empty($idAttributes)) {
+        $idAttribute = $idAttributes[0];
+        $refid = $idAttribute->content;
     } else {
         $refid = $record->id;
     }

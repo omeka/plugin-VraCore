@@ -75,6 +75,36 @@ if (isset($relation)) {
     $vraElementSets['Relation'][] = $relationHtml;
 }
 
+//force in a key when a display value is recorded
+$elementData = array(
+            'Title',
+            'Agent',
+            'Cultural Context',
+            'Date',
+            'Description',
+            'Inscription',
+            'Location',
+            'Material',
+            'Measurements',
+            'Relation',
+            'Rights',
+            'Source',
+            'State Edition',
+            'Style Period',
+            'Subject',
+            'Technique',
+            'Textref',
+            'Worktype'
+        );
+
+foreach($elementData as $elementKey) {
+    if ( !empty(metadata($record, array('VRA Core', $elementKey))) &&
+         !isset($vraElementSets[$elementKey])) {
+        $vraElementSets[$elementKey] = array();
+        
+    }
+}
+
 ksort($vraElementSets);
 ?>
 
@@ -87,12 +117,17 @@ ksort($vraElementSets);
             <?php
                     //wonky workaround to match notes by vra element id
                     //yes, I've done things I'm not proud of
-                    $sampleElement = $vraElementSet[0];
-                    if (is_object($sampleElement)) {
-                        $currentVraElementId = $sampleElement->element_id;
+                    if (isset($vraElementSet[0])) {
+                        $sampleElement = $vraElementSet[0];
+                        if (is_object($sampleElement)) {
+                            $currentVraElementId = $sampleElement->element_id;
+                        } else {
+                            $currentVraElementId = 'no';
+                        }
                     } else {
-                        $currentVraElementId = 'no';
+                       $currentVraElementId = 'no';
                     }
+
             ?>
             <display><?php echo metadata($record, array('VRA Core', $elementKey)); ?></display>
             <?php if(isset($vraNotes[$currentVraElementId])): ?>

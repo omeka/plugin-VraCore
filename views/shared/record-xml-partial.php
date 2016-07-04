@@ -71,7 +71,8 @@ if (isset($relation)) {
     if (! isset($vraElementSets['Relation'])) {
         $vraElementSets['Relation'] = array();
     }
-    $relationHtml = "<relation type='{$relation['type']}' refid='{$relation['refid']}'></relation>";
+    $webRoot = WEB_ROOT; //srsly?
+    $relationHtml = "<relation type='{$relation['type']}' source='$webRoot' refid='{$relation['refid']}'></relation>";
     $vraElementSets['Relation'][] = $relationHtml;
 }
 

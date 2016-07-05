@@ -195,7 +195,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
             $vraIdElement = $db->getTable('Element')->findByElementSetNameAndElementName('VRA Core', 'ID');
             if($vraIdElement) {
-                $vraIdElTexts = $db->getTable('ElementText')->findByElementId($vraIdElement->id);
+                $vraIdElTexts = $db->getTable('ElementText')->findByElement($vraIdElement->id);
                 foreach($vraIdElTexts as $vraIdElText) {
                     $vraIdElText->delete();
                 }

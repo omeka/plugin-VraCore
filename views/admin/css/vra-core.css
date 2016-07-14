@@ -5,6 +5,10 @@ div.vra-attributes {
     margin-bottom: 5px;
 }
 
+div.vra-data {
+    clear: both;
+}
+
 div.vra-data textarea {
     margin-right: 5px;
 }

@@ -114,7 +114,8 @@ ksort($vraElementSets);
        <?php echo $recordAttributesHtml; ?>
 >
     <?php foreach($vraElementSets as $elementKey => $vraElementSet): ?>
-        <<?php echo lcfirst($elementKey) . 'Set'; ?>>
+        <?php $elementName = str_replace(' ', '', $elementKey); ?>
+        <<?php echo lcfirst($elementName) . 'Set'; ?>>
             <?php
                     //wonky workaround to match notes by vra element id
                     //yes, I've done things I'm not proud of
@@ -141,9 +142,9 @@ ksort($vraElementSets);
                 <?php else: ?>
                 <?php $subelements = $vraElement->getSubelements(); ?>
                 <?php if (count($subelements) == 0): ?>
-                <<?php echo lcfirst($elementKey); ?><?php echo $vraElement->getAttributesAsHtml(); ?>><?php echo $vraElement->content; ?></<?php echo lcfirst($elementKey); ?>>
+                <<?php echo lcfirst($elementName); ?><?php echo $vraElement->getAttributesAsHtml(); ?>><?php echo $vraElement->content; ?></<?php echo lcfirst($elementName); ?>>
                 <?php else: ?>
-                <<?php echo lcfirst($elementKey); ?><?php echo $vraElement->getAttributesAsHtml(); ?>>
+                <<?php echo lcfirst($elementName); ?><?php echo $vraElement->getAttributesAsHtml(); ?>>
                     <?php foreach($subelements as $subelement): ?>
                         <?php if($subelement->name == 'dates'): ?>
                             <?php 
@@ -158,11 +159,11 @@ ksort($vraElementSets);
                         <<?php echo $subelement->name; echo $subelement->getAttributesAsHtml(); ?>><?php echo $subelement->content; ?></<?php echo $subelement->name; ?>>
                         <?php endif; ?>
                     <?php endforeach; ?>
-                </<?php echo lcfirst($elementKey); ?>>
+                </<?php echo lcfirst($elementName); ?>>
                 <?php endif;?>
                 <?php endif; ?>
             <?php endforeach; ?>
-        </<?php echo lcfirst($elementKey) . 'Set'; ?>>
+        </<?php echo lcfirst($elementName) . 'Set'; ?>>
     <?php endforeach;?>
 </<?php echo $xmlElement; ?>>
 

@@ -134,7 +134,7 @@ ksort($vraElementSets);
             <display><?php echo metadata($record, array('VRA Core', $elementKey)); ?></display>
             <?php if(isset($vraNotes[$currentVraElementId])): ?>
                 <?php $currentVraNotes = $vraNotes[$currentVraElementId]; ?>
-            <notes><?php echo $currentVraNotes->content; ?></notes>
+            <notes <?php echo $currentVraNotes->getAttributesAsHtml(); ?>  ><?php echo $currentVraNotes->content; ?></notes>
             <?php endif;?>
             <?php foreach($vraElementSet as $vraElement): ?>
                 <?php if (is_string($vraElement)): ?>

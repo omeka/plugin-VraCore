@@ -11,35 +11,23 @@
                 }
             });
         });
-        
-        $('div#vra-core-metadata').on('click', 'div.vra-element-header', function(e) {
-            e.stopPropagation();
-            var drawer = $(this).children('.drawer');
-            $(this).siblings('fieldset').toggle();
-            if(drawer.hasClass('opened')) {
-                drawer.removeClass('opened').addClass('closed');
-            } else {
-                drawer.removeClass('closed').addClass('opened');
-            }
-        });
 
-        $('div#vra-core-metadata').on('click', 'div.vra-attributes-header', function(e) {
-            e.stopPropagation();
-            var drawer = $(this).children('.drawer');
-            $(this).siblings('fieldset').toggle();
-            if(drawer.hasClass('opened')) {
-                drawer.removeClass('opened').addClass('closed');
-            } else {
-                drawer.removeClass('closed').addClass('opened');
+        $('div#vra-core-metadata').on('keydown click', 'div.vra-element-header, div.vra-attributes-header', function(e) {
+            if(e.type == "click" || e.keyCode == 13) {
+                e.stopPropagation();
+                var drawerContainer = $(this);
+                drawerContainer.siblings('fieldset').toggle();
+                drawerContainer.children('.drawer').toggleClass('opened').toggleClass('closed');
             }
         });
 
         $('div.vra-data').on('click', "input.element-add", function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var newElementCount = $(this).siblings('div.vra-element-inputs.new').length;
-            var nameBase = $(this).data('namebase');
-            var omekaElementName = $(this).data('omeka-element-name');
+            var addButton = $(this);
+            var newElementCount = addButton.siblings('div.vra-element-inputs.new').length;
+            var nameBase = addButton.data('namebase');
+            var omekaElementName = addButton.data('omeka-element-name');
             var data = {
                     'newElementCount'  : newElementCount,
                     'nameBase'         : nameBase,
@@ -48,17 +36,20 @@
 
             $.get(OmekaWebDir + '/vra-core/ajax/element', data, function(response, textStatus, jqXHR) {
                 $(e.target).after(response);
+            }).done(function() {
+                addButton.next().children(':focusable').focus();
             });
         });
 
         $('div.vra-data').on('click', "input.subelement-add", function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var newSubelementCount = $(this).siblings('div.vra-subelement.new').length;
-            var nameBase = $(this).data('namebase');
-            var subelementName = $(this).data('subelement-name');
-            var omekaElementName = $(this).data('omeka-element-name');
-            var vraParentId = $(this).data('vra-parent-id');
+            var addButton = $(this);
+            var newSubelementCount = addButton.siblings('div.vra-subelement.new').length;
+            var nameBase = addButton.data('namebase');
+            var subelementName = addButton.data('subelement-name');
+            var omekaElementName = addButton.data('omeka-element-name');
+            var vraParentId = addButton.data('vra-parent-id');
             var data = {
                     'newSubelementCount' : newSubelementCount,
                     'nameBase'        : nameBase,
@@ -72,15 +63,18 @@
             }
             $.get(OmekaWebDir + '/vra-core/ajax/subelement', data, function(response, textStatus, jqXHR) {
                 $(e.target).after(response);
+            }).done(function() {
+                addButton.next().children(':focusable').focus();
             });
         });
 
         $('div.vra-data').on('click', "input.parent-element-add", function(e) {
             e.preventDefault();
             e.stopPropagation();
-            var newElementCount = $(this).siblings('div.vra-element.new').length;
-            var nameBase = $(this).data('namebase');
-            var omekaElementName = $(this).data('omeka-element-name');
+            var addButton = $(this);
+            var newElementCount = addButton.siblings('div.vra-element.new').length;
+            var nameBase = addButton.data('namebase');
+            var omekaElementName = addButton.data('omeka-element-name');
             var data = {
                     'newElementCount' : newElementCount,
                     'nameBase'        : nameBase,
@@ -88,6 +82,8 @@
             };
             $.get(OmekaWebDir + '/vra-core/ajax/parent-element', data, function(response, textStatus, jqXHR) {
                 $(e.target).after(response);
+            }).done(function() {
+                addButton.next().children(':focusable').focus();
             });
         });
 

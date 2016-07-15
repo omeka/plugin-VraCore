@@ -4,10 +4,10 @@
 }
 ?>
 <div class='vra-attributes'>
-    <div class='vra-attributes-header'>
+    <div class='vra-attributes-header' tabindex="0">
         <div class='drawer closed'></div><label class='vra-attributes-label'><?php echo $label; ?></label>
     </div>
-    <fieldset class='vra-attributes' style='display: none;'>
+    <fieldset class='vra-attributes drawer-contents' style='display: none;'>
         <?php foreach($attributeNames as $attributeName): ?>
             <div class='vra-attribute'>
                 <label><?php echo $attributeName; ?></label>
@@ -17,7 +17,7 @@
                           $inputType = 'text';
                       }
                 ?>
-                
+
                 <?php if (isset($vraElementObject)): ?>
                         <?php if (is_object($vraElementObject) && isset($attributeObjects[$vraElementObject->id][$attributeName])):?>
                             <?php $attributeObject = $attributeObjects[$vraElementObject->id][$attributeName]; ?>

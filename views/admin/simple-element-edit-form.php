@@ -4,7 +4,7 @@
 
 <div class='vra-data'>
 <!-- Display Element Attributes -->
-        <?php  echo $this->partial('element-attribute-form.php', 
+        <?php  echo $this->partial('element-attribute-form.php',
                 array(
                      'attributeNames'   => $globalAttributes,
                      'attributeObjects' => $attributeObjects,
@@ -14,16 +14,16 @@
                      )
                 );
         ?>
-    
+
     <?php $notes = $notesObject ? $notesObject->content : ''; ?>
     <div class='vra-element'>
-        <div class='vra-element-header'>
+        <div class='vra-element-header' tabindex="0">
             <div class='drawer closed'></div><label class='vra-notes-element-label'><?php echo __('Notes'); ?></label>
         </div>
-        <fieldset style='display: none'>
+        <fieldset class="drawer-contents" style='display: none'>
             <div class='vra-element-inputs'>
                 <textarea name='<?php echo $nameBase; ?>[notes][content]' value='<?php echo $notes; ?>'><?php echo $notes; ?></textarea>
-                        <?php echo $this->partial('element-attribute-form.php', 
+                        <?php echo $this->partial('element-attribute-form.php',
                                 array(
                                      'attributeNames'   => $globalAttributes,
                                      'attributeObjects' => $attributeObjects,
@@ -38,16 +38,16 @@
     </div>
 
     <div class='vra-element'>
-        <div class='vra-element-header'>
+        <div class='vra-element-header' tabindex="0">
             <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElement->name; ?> Elements</label>
         </div>
-        <fieldset style='display: none'>
+        <fieldset class="drawer-contents" style='display: none'>
             <input class='element-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
             <?php if (empty($vraElementObjects)): ?>
             <div class='vra-element-inputs new'>
                 <textarea class='vra-new' name='<?php echo $nameBase; ?>[newElements][0][content]' value=''></textarea>
                 <input type='hidden' class='vra-new' name='<?php echo $nameBase; ?>[newElements][0][name]' value='<?php echo $omekaElement->name; ?>'></input>
-                    <?php echo $this->partial('element-attribute-form.php', 
+                    <?php echo $this->partial('element-attribute-form.php',
                             array(
                                  'attributeNames'   => $attributeNames,
                                  'attributeObjects' => $attributeObjects,
@@ -63,7 +63,7 @@
             <?php foreach($vraElementObjects as $vraElementObject): ?>
                     <div class='vra-element-inputs'>
                         <textarea name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]' value='<?php echo $vraElementObject->content; ?>'><?php echo $vraElementObject->content; ?></textarea>
-                            <?php echo $this->partial('element-attribute-form.php', 
+                            <?php echo $this->partial('element-attribute-form.php',
                                     array(
                                          'attributeNames'   => $attributeNames,
                                          'attributeObjects' => $attributeObjects,

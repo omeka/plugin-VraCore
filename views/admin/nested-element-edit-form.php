@@ -68,7 +68,7 @@ $omekaElementName = $omekaElement->name;
         <?php foreach($elementsData[$omekaElementName]['subelements'] as $subelementName): ?>
             <?php if($subelementName == 'dates'): ?>
             <div class='vra-subelement-container'>
-                <div class='vra-element-header'>
+                <div class='vra-element-header' tabindex="0">
                     <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
                 </div>
                 <fieldset class="drawer-contents" style='display:none'>
@@ -103,7 +103,7 @@ $omekaElementName = $omekaElement->name;
             </div>
             <?php else: ?>
             <div class='vra-subelement-container'>
-                <div class='vra-element-header'>
+                <div class='vra-element-header' tabindex="0">
                     <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
                 </div>
                 <fieldset class="drawer-contents" style='display: none'>
@@ -187,7 +187,7 @@ $omekaElementName = $omekaElement->name;
 
                 <?php if($subelementName == 'dates') :?>
                     <div class='vra-subelement-container'>
-                        <div class='vra-element-header'>
+                        <div class='vra-element-header' tabindex="0">
                             <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
                         </div>
                         <fieldset class="drawer-contents" style='display:none'>
@@ -258,7 +258,7 @@ $omekaElementName = $omekaElement->name;
 
                 <?php else: ?>
                         <div class='vra-subelement-container'>
-                            <div class='vra-element-header'>
+                            <div class='vra-element-header' tabindex="0">
                                 <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
                             </div>
                             <fieldset class="drawer-contents" style='display: none'>

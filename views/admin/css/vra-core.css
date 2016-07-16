@@ -145,8 +145,12 @@ span.vra-core-attribute-name {
 }
 
 .show h5.vra-core-element-name,
-h5.vra-core-element-name + .vra-element-text {
+.show h5.vra-core-element-name + .vra-element-text {
     display: inline-block;
+}
+
+.show h5.vra-core-element-name + .vra-element-text:after {
+    margin: 0;
 }
 
 .show .vra-subelements > .vra-element > .vra-element {

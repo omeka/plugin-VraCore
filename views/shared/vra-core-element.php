@@ -1,6 +1,8 @@
 <div class='element vra-element'>
     <h5 class='vra-core-element-name'><?php echo $elementName; ?></h5>
+    <?php if ($elementContent = metadata($element, 'content')): ?>
     <div class='element-text vra-element-text'><?php echo metadata($element, 'content'); ?></div>
+    <?php endif; ?>
     <?php $elementAttributes = $element->getAttributes(); ?>
     <?php
     echo $this->partial('vra-core-attributes.php', array(

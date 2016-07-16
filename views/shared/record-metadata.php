@@ -20,7 +20,7 @@ if($setName == 'VRA Core') {
                     'vra_element_id' => false,
                     );
             $recordLevelAttrs = $db->getTable('VraCoreAttribute')->findBy($params);
-            
+
             switch($recordType) {
             case 'Item':
                 $label = __('Work Attributes');
@@ -51,22 +51,19 @@ if($setName == 'VRA Core') {
     <div id="<?php echo text_to_id(html_escape("$setName $elementName")); ?>" class="<?php echo $class; ?>">
         <h3><?php echo html_escape(__($elementName)); ?></h3>
         <?php foreach ($elementInfo['texts'] as $text): ?>
-            <div class="element-text"><?php echo $text; ?></div>
-        <?php endforeach; ?>
-        <div class='element-text'>
-            <div class='vra-subelements'>
-            <?php
-                    fire_plugin_hook('elements_show',
-                                    array('view' => $this,
-                                         'elementInfo' => $elementInfo,
-                                         'record' => $record
-                                         )
-                                   );
-            ?>
-            <!-- end vra-subelements -->
+            <div class="element-text">
+                <?php echo $text; ?>
+                <?php
+                fire_plugin_hook('elements_show', array(
+                    'view' => $this,
+                    'elementInfo' => $elementInfo,
+                    'record' => $record
+                    )
+                );
+                ?>
             </div>
-        </div>
-    </div><!-- end element -->
+        <?php endforeach; ?>
+    </div>
     <?php endforeach; ?>
 </div><!-- end element-set -->
 <?php endforeach;

@@ -25,7 +25,7 @@
                             <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='hidden' value='delete'></input>
                             <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' checked='checked'></input>
                             <?php else: ?>
-                            <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' value='<?php echo $attributeObject->content; ?>'></input>
+                            <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' value='<?php echo metadata($attributeObject, 'content'); ?>'></input>
                             <?php endif; ?>
                         <?php else: ?>
                             <input class='vra-new' name='<?php echo $nameBase; ?>[attrs][new][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' ></input>
@@ -37,7 +37,7 @@
                         <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='hidden' value='delete' ></input>
                         <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' checked='checked' ></input>
                         <?php else: ?>
-                        <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' value='<?php echo $attributeObject->content; ?>'></input>
+                        <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' value='<?php echo metadata($attributeObject, 'content'); ?>'></input>
                         <?php endif; ?>
                     <?php else: ?>
                         <input class='vra-new' name='<?php echo $nameBase; ?>[attrs][new][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' ></input>

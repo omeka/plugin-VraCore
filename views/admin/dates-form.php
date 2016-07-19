@@ -88,7 +88,7 @@ if(!isset($agentId)) {
         <?php if(isset($earliestDateObject)): ?>
         <div class="vra-subelement vra-element-inputs">
             <label><?php echo __('Earliest Date'); ?></label>
-            <textarea name='<?php echo $nameBase; ?>[<?php echo $earliestDateObject->id; ?>][content]'><?php echo $earliestDateObject->content; ?></textarea>
+            <textarea name='<?php echo $nameBase; ?>[<?php echo $earliestDateObject->id; ?>][content]'><?php echo metadata($earliestDateObject, 'content'); ?></textarea>
                 <?php echo $this->partial('element-attribute-form.php', 
                         array(
                              'attributeNames'   => array_merge(array('circa'), $attributeNames),
@@ -127,7 +127,7 @@ if(!isset($agentId)) {
         <?php if(isset($latestDateObject)): ?>
         <div class='vra-subelement vra-element-inputs'>
             <label><?php echo __('Latest Date'); ?></label>
-            <textarea name='<?php echo $nameBase; ?>[<?php echo $latestDateObject->id; ?>][content]'><?php echo $latestDateObject->content; ?></textarea>
+            <textarea name='<?php echo $nameBase; ?>[<?php echo $latestDateObject->id; ?>][content]'><?php echo metadata($latestDateObject, 'content'); ?></textarea>
                 <?php echo $this->partial('element-attribute-form.php', 
                         array(
                              'attributeNames'   => array_merge(array('circa'), $attributeNames),

@@ -18,7 +18,7 @@
                 );
         ?>
 
-    <?php $notes = $notesObject ? $notesObject->content : ''; ?>
+    <?php $notes = $notesObject ? metadata($notesObject, 'content') : ''; ?>
     <div class='vra-element'>
         <div class='vra-element-header' tabindex="0">
             <div class='drawer closed'></div><label class='vra-notes-element-label'><?php echo __('Notes'); ?></label>
@@ -290,7 +290,7 @@ $omekaElementName = $omekaElement->name;
                                 <div class='vra-subelement vra-element-inputs existing'>
                                 <?php foreach($vraSubElementObjects as $vraSubElementObject): ?>
                                     <?php
-                                        $content = $vraSubElementObject->content ? $vraSubElementObject->content : '';
+                                        $content = $vraSubElementObject->content ? metadata($vraSubElementObject, 'content') : '';
                                     ?>
                                     <?php if($vraSubElementObject->name == $subelementName): ?>
 

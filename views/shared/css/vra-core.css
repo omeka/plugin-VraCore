@@ -1,8 +1,63 @@
-span.name-data {
-    font-size: small;
-    font-weight: initial;
+span.vra-core-attribute-name {
+    padding-right: 5px;
 }
 
-.dates-subelements {
-    margin-left: 25px;
+span.vra-core-attribute-name:after {
+    content: ":";
+}
+
+ul.vra-core-attributes {
+    list-style: none;
+    margin-top: 0;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+ul.vra-core-attributes li {
+    list-style-type: none;
+}
+
+ul.vra-core-attributes li:before {
+    content: "\2014";
+    display: inline-block;
+    width: 1em;
+}
+
+.vra-core-element-name {
+    padding-right: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+div.vra-element.element {
+    display: block;
+    border: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+h5.vra-core-element-name,
+h5.vra-core-element-name + .vra-element-text {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.vra-subelements {
+    padding: 0;
+}
+
+.vra-subelements > .vra-element > .vra-element {
+    margin-bottom: 0;
+}
+
+.vra-subelements .vra-element {
+    padding-left: 1.25em;
+}
+
+.vra-subelements > .vra-element {
+    padding-left: 0;
+}
+
+.vra-subelements > .vra-element:last-child {
+    margin-bottom: 0;
 }

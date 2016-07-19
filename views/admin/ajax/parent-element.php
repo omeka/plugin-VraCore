@@ -9,12 +9,23 @@ if (! isset($parentVraElementId)) {
 
 <div class='vra-element new added'>
     <div class='vra-element-header' tabindex="0">
-        <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElementName . ' ' . __('Subelements'); ?></label>
+        <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElementName . ' ' . __('attributes and subelements'); ?></label>
     </div>
     <fieldset class="drawer-contents" style='display: none;'>
         <input class='vra-new' type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][name]' value='<?php echo $omekaElementName; ?>'></input>
         <input class='vra-new' type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][hasSubelements]' value='1'></input>
         <div class='vra-subelements'>
+        
+        <?php echo $this->partial('element-attribute-form.php',
+                array(
+                     'attributeNames'   => $attributeNames,
+                     'attributeObjects' => array(),
+                     'nameBase'         => $nameBase . "[newElements][$newElementCount]",
+                     'label'            => __('Attributes'),
+                     )
+                );
+        ?>
+        
         <?php foreach($elementsData[$omekaElementName]['subelements'] as $subelementName): ?>
             <?php if($subelementName == 'dates'): ?>
             <div class='vra-subelement-container'>

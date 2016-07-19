@@ -68,7 +68,7 @@ $omekaElementName = $omekaElement->name;
                      'attributeNames'   => $attributeNames,
                      'attributeObjects' => $attributeObjects,
                      'nameBase'         => $nameBase . "[newElements][$newElementCount]",
-                     'label'            => __('%s Attributes', $omekaElementName),
+                     'label'            => __('Attributes'),
                      )
                 );
         ?>
@@ -164,7 +164,7 @@ $omekaElementName = $omekaElement->name;
 
     <div class='vra-element'>
         <div class='vra-element-header' tabindex="0">
-            <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElement->name . ' ' . __('Subelements'); ?></label>
+            <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElement->name . ' ' . __('attributes and subelements'); ?></label>
         </div>
         <fieldset class="drawer-contents" style='display: none;'>
             <?php echo $this->partial('element-attribute-form.php',

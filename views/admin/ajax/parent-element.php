@@ -21,7 +21,7 @@ if (! isset($parentVraElementId)) {
                      'attributeNames'   => $attributeNames,
                      'attributeObjects' => array(),
                      'nameBase'         => $nameBase . "[newElements][$newElementCount]",
-                     'label'            => __('Attributes'),
+                     'label'            => __('%s Attributes', $omekaElementName),
                      )
                 );
         ?>
@@ -46,7 +46,7 @@ if (! isset($parentVraElementId)) {
                     <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementLabel; ?></label>
                 </div>
                 <fieldset style='display:none'>
-                    <input class='subelement-add' type='submit' value='Add Dates Element'  data-newAgentIndex='<?php echo $newAgentCount; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
+                    <input class='subelement-add' type='submit' value='Add VRA Dates Element'  data-newAgentIndex='<?php echo $newAgentCount; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
                     <?php echo $this->partial('element-attribute-form.php',
                             array(
                                  'attributeNames'   => $attributeNames,

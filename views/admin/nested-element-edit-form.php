@@ -80,10 +80,10 @@ $omekaElementName = $omekaElement->name;
                     <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo ucfirst($subelementName); ?></label>
                 </div>
                 <fieldset class="drawer-contents" style='display:none'>
-                    <input class='subelement-add' type='submit' value='Add VRA  Dates Element' data-newAgentIndex='<?php echo $newAgentCount; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
+                    <input class='subelement-add' type='submit' value='Add VRA Dates Element' data-newAgentIndex='<?php echo $newAgentCount; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
                     <?php echo $this->partial('element-attribute-form.php',
                             array(
-                                 'attributeNames'   => $attributeNames,
+                                 'attributeNames'   => array_merge(array('type'), $attributeNames),
                                  //kind of a cheat. put true at the front to produce a new set of attributes for new element
                                  'vraElementObjects' => array(true),
                                  'nameBase'         => $nameBase . "[newElements][$newAgentCount][newSubelements][$subelementName][0]",

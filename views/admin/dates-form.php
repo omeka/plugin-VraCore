@@ -22,13 +22,14 @@ if(!isset($agentId)) {
     $agentId = 'newElements';
 }
 
+$attributeNames = array_unique($attributeNames);
 
 ?>
 <div class='vra-element-inputs vra-subelement <?php echo $classes; ?>'>
     <?php if ($classes == 'added new') {
             echo $this->partial('element-attribute-form.php', 
                     array(
-                         'attributeNames'   => $attributeNames,
+                         'attributeNames'   => array_merge(array('type'), $attributeNames),
                          'attributeObjects' => $attributeObjects,
                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                          'vraElementObjects' => array(true),

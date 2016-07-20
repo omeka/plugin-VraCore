@@ -1,4 +1,13 @@
 <?php if ($subelementName == 'dates'): ?>
+
+
+    <?php
+        //somehow type is getting added twice, so clear it out here
+        if (($key = array_search('type', $attributeNames)) !== false) {
+            unset($attributeNames[$key]);
+        }
+    ?>
+
     <?php echo $this->partial('dates-form.php',
                           array(
                               'elementsData'     => $this->elementsData,

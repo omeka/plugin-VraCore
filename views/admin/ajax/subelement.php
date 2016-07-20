@@ -19,6 +19,22 @@
     ?>
 
 <?php else: ?>
+
+
+<?php
+    switch($subelementName) {
+        case 'earliestDate':
+            $subelementLabel = __('Earliest Date');
+        break;
+        case 'latestDate':
+            $subelementLabel = __('Latest Date');
+        break;
+        default:
+            $subelementLabel = ucfirst(__($subelementName));
+        break;
+    }
+?>
+
 <div class='vra-subelement vra-element-inputs new added'>
     <textarea class='vra-new' name='<?php echo $nameBase; ?>[<?php echo $vraParentId; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][content]'></textarea>
         <?php echo $this->partial('element-attribute-form.php', 
@@ -28,7 +44,7 @@
                      //kind of a cheat. put true at the front to produce a new set of attributes for new element
                      'vraElementObjects' => array(true),
                      'nameBase'         => $nameBase . "[$vraParentId][newSubelements][$subelementName][$newSubelementCount]",
-                     'label'            => __('Attributes')
+                     'label'            => __('%s Attributes', $subelementLabel)
                      )
                 );
         ?>

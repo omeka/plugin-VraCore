@@ -9,7 +9,7 @@
                      'attributeNames'   => $globalAttributes,
                      'attributeObjects' => $attributeObjects,
                      'nameBase'         => $nameBase . "[display]",
-                     'label'            => __('Display Element Attributes'),
+                     'label'            => __('Display Attributes'),
                      'topLevel'         => 'display'
                      )
                 );

@@ -33,7 +33,7 @@ if(!isset($agentId)) {
                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                          'vraElementObjects' => array(true),
                          'nameBase'         => $nameBase . "[$agentId][$newAgentIndex][newSubelements][$subelementName][0]",
-                         'label'            => __('Dates Element Attributes')
+                         'label'            => __('Dates Attributes')
                          )
                     );
     }
@@ -51,7 +51,7 @@ if(!isset($agentId)) {
                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                          'vraElementObjects' => array(true),
                          'nameBase'         => $nameBase . "[$agentId][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][earliestDate]",
-                         'label'            => __('Attributes')
+                         'label'            => __('Earliest Date Attributes')
                          )
                     );
             ?>
@@ -67,7 +67,7 @@ if(!isset($agentId)) {
                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                          'vraElementObjects' => array(true),
                          'nameBase'         => $nameBase . "[$agentId][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][latestDate]",
-                         'label'            => __('Attributes')
+                         'label'            => __('Latest Date Attributes')
                          )
                     );
             ?>
@@ -97,7 +97,7 @@ if(!isset($agentId)) {
                              //kind of a cheat. put true at the front to produce a new set of attributes for new element
                              'vraElementObjects' => array(true),
                              'nameBase'         => $nameBase . "[{$earliestDateObject->id}]",
-                             'label'            => __('Attributes')
+                             'label'            => __('Earliest Date Attributes')
                              )
                         );
                 ?>
@@ -116,7 +116,7 @@ if(!isset($agentId)) {
                              //kind of a cheat. put true at the front to produce a new set of attributes for new element
                              'vraElementObjects' => array(true),
                              'nameBase'         => $nameBase . "[existingDates][earliestDate]",
-                             'label'            => __('Attributes')
+                             'label'            => __('Earliest Date Attributes')
                              )
                         );
                 ?>
@@ -136,7 +136,7 @@ if(!isset($agentId)) {
                              //kind of a cheat. put true at the front to produce a new set of attributes for new element
                              'vraElementObjects' => array(true),
                              'nameBase'         =>  $nameBase . "[{$latestDateObject->id}]",
-                             'label'            => __('Attributes')
+                             'label'            => __('Latest Date Attributes')
                              )
                         );
                 ?>
@@ -155,7 +155,7 @@ if(!isset($agentId)) {
                              //kind of a cheat. put true at the front to produce a new set of attributes for new element
                              'vraElementObjects' => array(true),
                              'nameBase'         => $nameBase . "[existingDates][latestDate]",
-                             'label'            => __('Attributes')
+                             'label'            => __('Latest Date Attributes')
                              )
                         );
                 ?>

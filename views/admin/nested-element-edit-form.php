@@ -12,7 +12,7 @@
                      'attributeNames'   => $globalAttributes,
                      'attributeObjects' => $attributeObjects,
                      'nameBase'         => $nameBase . "[display]",
-                     'label'            => __('Display Element Attributes'),
+                     'label'            => __('Display Attributes'),
                      'topLevel'         => 'display',
                      )
                 );
@@ -55,7 +55,7 @@ $omekaElementName = $omekaElement->name;
 ?>
 <div class='vra-element new'>
     <div class='vra-element-header' tabindex="0">
-        <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElementName . ' ' . __('attributes and subelements'); ?></label>
+        <div class='drawer closed'></div><label class='vra-elements-label'><?php echo __('%s Attributes and Subelements', $omekaElementName); ?></label>
     </div>
     <fieldset class="drawer-contents" style='display: none;'>
         <input type='hidden' class='vra-new' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][name]' value='<?php echo $omekaElementName; ?>'></input>
@@ -68,7 +68,7 @@ $omekaElementName = $omekaElement->name;
                      'attributeNames'   => $attributeNames,
                      'attributeObjects' => $attributeObjects,
                      'nameBase'         => $nameBase . "[newElements][$newElementCount]",
-                     'label'            => __('Attributes'),
+                     'label'            => __('%s Attributes', $omekaElementName),
                      )
                 );
         ?>
@@ -77,7 +77,7 @@ $omekaElementName = $omekaElement->name;
             <?php if($subelementName == 'dates'): ?>
             <div class='vra-subelement-container'>
                 <div class='vra-element-header' tabindex="0">
-                    <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
+                    <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo ucfirst($subelementName); ?></label>
                 </div>
                 <fieldset class="drawer-contents" style='display:none'>
                     <input class='subelement-add' type='submit' value='Add VRA  Dates Element' data-newAgentIndex='<?php echo $newAgentCount; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
@@ -87,7 +87,7 @@ $omekaElementName = $omekaElement->name;
                                  //kind of a cheat. put true at the front to produce a new set of attributes for new element
                                  'vraElementObjects' => array(true),
                                  'nameBase'         => $nameBase . "[newElements][$newAgentCount][newSubelements][$subelementName][0]",
-                                 'label'            => __('Attributes')
+                                 'label'            => __('%s Attributes', ucfirst($subelementName))
                                  )
                             );
                     ?>
@@ -112,7 +112,20 @@ $omekaElementName = $omekaElement->name;
             <?php else: ?>
             <div class='vra-subelement-container'>
                 <div class='vra-element-header' tabindex="0">
-                    <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
+                    <?php
+                        switch($subelementName) {
+                            case 'earliestDate':
+                                $subelementLabel = __('Earliest Date');
+                            break;
+                            case 'latestDate':
+                                $subelementLabel = __('Latest Date');
+                            break;
+                            default:
+                                $subelementLabel = ucfirst(__($subelementName));
+                            break;
+                        }
+                    ?>
+                    <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementLabel; ?></label>
                 </div>
                 <fieldset class="drawer-contents" style='display: none'>
                     <?php if($subelementName != 'earliestDate' && $subelementName != 'latestDate'): ?>
@@ -136,7 +149,7 @@ $omekaElementName = $omekaElement->name;
                                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                                          'vraElementObjects' => array(true),
                                          'nameBase'         => $nameBase . "[newElements][$newElementCount][newSubelements][$subelementName][0]",
-                                         'label'            => __('Attributes')
+                                         'label'            => __('%s Attributes', $subelementLabel)
                                          )
                                     );
                             ?>
@@ -175,7 +188,7 @@ $omekaElementName = $omekaElement->name;
                          'vraElementObjects' => array(true),
                          'vraElementObject' => $parentObject,
                          'nameBase'         => $nameBase . "[{$parentObject->id}]",
-                         'label'            => __('Attributes'),
+                         'label'            => __('%s Attributes', $omekaElement->name),
                          )
                     );
             ?>
@@ -189,14 +202,25 @@ $omekaElementName = $omekaElement->name;
                     } else {
                         $attributeNames = $globalAttributes;
                     }
-                ?>
+                    switch($subelementName) {
+                        case 'earliestDate':
+                            $subelementLabel = __('Earliest Date');
+                        break;
+                        case 'latestDate':
+                            $subelementLabel = __('Latest Date');
+                        break;
+                        default:
+                            $subelementLabel = ucfirst(__($subelementName));
+                        break;
+                    }
+                    ?>
 
                 <!--  begin dates -->
 
                 <?php if($subelementName == 'dates') :?>
                     <div class='vra-subelement-container'>
                         <div class='vra-element-header' tabindex="0">
-                            <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
+                            <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementLabel; ?></label>
                         </div>
                         <fieldset class="drawer-contents" style='display:none'>
                             <input class='subelement-add'
@@ -267,7 +291,7 @@ $omekaElementName = $omekaElement->name;
                 <?php else: ?>
                         <div class='vra-subelement-container'>
                             <div class='vra-element-header' tabindex="0">
-                                <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementName; ?></label>
+                                <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementLabel; ?></label>
                             </div>
                             <fieldset class="drawer-contents" style='display: none'>
                                 <?php
@@ -304,7 +328,7 @@ $omekaElementName = $omekaElement->name;
                                                          'vraElementObject' => $vraSubElementObject,
                                                          'vraElementObjects' => $vraSubElementObjects,
                                                          'nameBase'         => $nameBase . "[{$vraSubElementObject->id}]",
-                                                         'label'            => __('Attributes')
+                                                         'label'            => __('%s Attributes', $subelementLabel)
                                                          )
                                                     );
                                             ?>
@@ -320,7 +344,7 @@ $omekaElementName = $omekaElement->name;
                                                          'vraElementObject' => $parentObject,
                                                          'vraElementObjects' => $vraSubElementObjects,
                                                          'nameBase'         => $nameBase . "[{$parentObject->id}][newSubelements][$subelementName][0]",
-                                                         'label'            => __('Attributes')
+                                                         'label'            => __('%s Attributes', $subelementLabel)
                                                          )
                                                     );
                                             ?>

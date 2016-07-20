@@ -78,12 +78,12 @@ $attributeNames = array_unique($attributeNames);
     <?php foreach($datesElementObjects as $datesElementObject):?>
         <?php
             $earliestDateObjects = $datesElementObject->getSubelements('earliestDate');
-            if (! empty($earliestDateObjects)) {
-                $earliestDateObject = $earliestDateObjects[0];
+            if (! empty($earliestDateObjects['earliestDate'])) {
+                $earliestDateObject = $earliestDateObjects['earliestDate'];
             }
             $latestDateObjects = $datesElementObject->getSubelements('latestDate');
-            if (! empty($latestDateObjects)) {
-                $latestDateObject = $latestDateObjects[0];
+            if (! empty($latestDateObjects['latestDate'])) {
+                $latestDateObject = $latestDateObjects['latestDate'];
             }
         ?>
         <?php if(isset($earliestDateObject)): ?>

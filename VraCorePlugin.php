@@ -555,6 +555,9 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         //it's own subelements. No other subelements go down this many levels
         if($subelementName == 'dates') {
             foreach($subelementsData as $datesSubelements) {
+                if (empty($datesSubelements['earliestDate']['content']) && empty($datesSubelements['latestDate']['content'])) {
+                    continue;
+                }
                 $datesSubelementData = array(
                         'name'  => 'dates',
                         'attrs' => $datesSubelements['attrs'],

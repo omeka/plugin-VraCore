@@ -41,7 +41,6 @@ $attributeNames = array_unique($attributeNames);
     ?>
 
     <?php if(empty($datesElementObjects)): ?>
-
     <div class='vra-subelement vra-element-inputs new'>
         <label><?php echo __('Earliest Date'); ?></label>
         <textarea name='<?php echo $nameBase; ?>[<?php echo $agentId; ?>][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][earliestDate][content]'></textarea>
@@ -74,7 +73,6 @@ $attributeNames = array_unique($attributeNames);
             ?>
     </div>
     <?php else: ?>
-
     <?php foreach($datesElementObjects as $datesElementObject):?>
         <?php
             $earliestDateObjects = $datesElementObject->getSubelements('earliestDate');

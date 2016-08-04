@@ -122,6 +122,15 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
         }
     }
     
+    protected function afterSave($args)
+    {
+        // update the dataDate on all parent elements
+        $parentElements = $this->getParentElements();
+        foreach ($parentElements as $parentElement) {
+            $parentElement->updateDataDate();
+        }
+    }
+    
     protected function beforeSave($args)
     {
         $this->content = trim($this->content);

@@ -321,7 +321,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     
     public function filterResponseContexts($contexts)
     {
-        debug('response contexts');
         $contexts['vra'] = array('suffix' => 'vra', 
                                  'headers' => array('Content-Type' => 'text/xml'));
         return $contexts;

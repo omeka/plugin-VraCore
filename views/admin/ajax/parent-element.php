@@ -49,7 +49,7 @@ if (! isset($parentVraElementId)) {
                     <input class='subelement-add' type='submit' value='Add VRA Dates Element'  data-newAgentIndex='<?php echo $newAgentCount; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
                     <?php echo $this->partial('element-attribute-form.php',
                             array(
-                                 'attributeNames'   => $attributeNames,
+                                 'attributeNames'   => array_merge(array('type'), $attributeNames),
                                  //kind of a cheat. put true at the front to produce a new set of attributes for new element
                                  'vraElementObjects' => array(true),
                                  'nameBase'         => $nameBase . "[newElements][$newElementCount][newSubelements][$subelementName][0]",

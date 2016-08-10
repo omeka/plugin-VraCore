@@ -48,6 +48,10 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
         }
         $subelements = $this->getDb()->getTable('VraCoreElement')
             ->findBy($params);
+        
+        //@TODO do I really need them keyed?
+        return $subelements;
+        
         $keyedSubelements = array();
         foreach($subelements as $subelement) {
             $keyedSubelements[$subelement->name] = $subelement;

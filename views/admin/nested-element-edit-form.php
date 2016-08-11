@@ -244,17 +244,7 @@ $omekaElementName = $omekaElement->name;
                                    data-omeka-element-name='<?php echo $omekaElement->name; ?>'
                                    data-vra-parent-id='<?php echo $parentObject->id ?>' >
                            </input>
-                            <?php echo $this->partial('element-attribute-form.php',
-                                    array(
-                                         'attributeNames'   => $attributeNames,
-                                         'attributeObjects' => $attributeObjects,
-                                         'vraElementObject' => $vraSubElementObject,
-                                         'vraElementObjects' => $vraSubElementObjects,
-                                         'nameBase'         => $nameBase . "[{$vraSubElementObject->id}]",
-                                         'label'            => __('Dates Element Attributes')
-                                         )
-                                    );
-                            ?>
+
                         <?php
                             if (empty($vraSubElementObjects) || ! $hasDatesObject) {
                                     echo $this->partial('dates-form.php',
@@ -279,6 +269,17 @@ $omekaElementName = $omekaElement->name;
                                 if ($subElementObject->name != 'dates') {
                                     continue;
                                 }
+                                 echo $this->partial('element-attribute-form.php',
+                                    array(
+                                         'attributeNames'   => $attributeNames,
+                                         'attributeObjects' => $attributeObjects,
+                                         'vraElementObject' => $subElementObject,
+                                         'vraElementObjects' => $vraSubElementObjects,
+                                         'nameBase'         => $nameBase . "[{$subElementObject->id}]",
+                                         'label'            => __('Dates Element Attributes')
+                                         )
+                                    );
+
                                 echo $this->partial('dates-form.php',
                                     array('omekaElement'     => $omekaElement,
                                           'record'           => $record,

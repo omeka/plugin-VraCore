@@ -25,7 +25,7 @@ if(!isset($agentId)) {
 $attributeNames = array_unique($attributeNames);
 
 ?>
-<div class='vra-element-inputs vra-subelement <?php echo $classes; ?>'>
+<div class='vra-element-inputs vra-subelement dates <?php echo $classes; ?>'>
     <?php if ($classes == 'added new') {
             echo $this->partial('element-attribute-form.php', 
                     array(

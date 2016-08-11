@@ -164,3 +164,7 @@ span.vra-core-attribute-name {
 .show .vra-subelements > .vra-element {
     padding-left: 0;
 }
+
+.vra-subelement.dates {
+    border-bottom: 1px solid grey;
+}

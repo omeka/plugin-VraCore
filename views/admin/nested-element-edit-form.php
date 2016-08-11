@@ -276,7 +276,7 @@ $omekaElementName = $omekaElement->name;
                                          'vraElementObject' => $subElementObject,
                                          'vraElementObjects' => $vraSubElementObjects,
                                          'nameBase'         => $nameBase . "[{$subElementObject->id}]",
-                                         'label'            => __('Dates Element Attributes')
+                                         'label'            => __('Dates Attributes')
                                          )
                                     );
 

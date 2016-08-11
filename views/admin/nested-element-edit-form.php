@@ -218,6 +218,19 @@ $omekaElementName = $omekaElement->name;
                 <!--  begin dates -->
 
                 <?php if($subelementName == 'dates') :?>
+                
+                <?php
+                    //loop through to see if an actual object is set
+                    $hasDatesObject = false;
+                    foreach ($vraSubElementObjects as $obj) {
+                        if ($obj->name == 'dates') {
+                            $hasDatesObject = true;
+                            break;
+                        }
+                    }
+                
+                ?>
+                
                     <div class='vra-subelement-container'>
                         <div class='vra-element-header' tabindex="0">
                             <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementLabel; ?></label>
@@ -243,13 +256,14 @@ $omekaElementName = $omekaElement->name;
                                     );
                             ?>
                         <?php
-                            if (empty($vraSubElementObjects)) {
+                            if (empty($vraSubElementObjects) || ! $hasDatesObject) {
                                     echo $this->partial('dates-form.php',
                                         array('omekaElement'     => $omekaElement,
                                               'record'           => $record,
                                               'elementsData'     => $this->elementsData,
                                               'subelementsData'  => $this->subelementsData,
                                               'subelementName'   => $subelementName,
+                                              'agentId'          => $parentObject->id,
                                               'nameBase'         => $nameBase,
                                               'vraElementObjects' => $vraElementObjects,
                                                 //@todo : how many of these are still actually used?

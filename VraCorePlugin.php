@@ -676,7 +676,6 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 if($subelementName == 'dates') {
                     foreach($subelementData as $datesData) {
                         if (!empty($datesData['content'])) {
-                            debug(print_r($datesData, true));
                             return true;
                         }
                     }

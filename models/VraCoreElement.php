@@ -87,7 +87,7 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
             $allParentElements = array_merge($allParentElements, $parentElements);
         }
         //agent can go more than one level deep, so add those in, too
-        foreach($parentElements as $parentElement) {
+        foreach($allParentElements as $parentElement) {
             if ($parentElement->vra_element_id) {
                 $superParentElements = $this->getDb()->getTable('VraCoreElement')
                     ->findBy(array('id' => $parentElement->vra_element_id));

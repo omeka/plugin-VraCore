@@ -621,6 +621,11 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                               'Subject',
                               'Textref');
         $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
+        
+        //possible that an element was already deleted, so skip if not found
+        if (! $vraElementObject) {
+            return;
+        }
         if($vraElementObject->name == 'Agent') {
             foreach($elementData as $key=>$subElementData) {
                 if(is_numeric($key)) {

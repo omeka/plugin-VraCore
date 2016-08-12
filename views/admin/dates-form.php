@@ -33,7 +33,7 @@ $attributeNames = array_unique($attributeNames);
                          'attributeObjects' => $attributeObjects,
                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                          'vraElementObjects' => array(true),
-                         'nameBase'         => $nameBase . "[$agentId][$newAgentIndex][newSubelements][$subelementName][0]",
+                         'nameBase'         => $nameBase . "[$agentId][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount]",
                          'label'            => __('Dates Attributes')
                          )
                     );

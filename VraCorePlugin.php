@@ -211,6 +211,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         set_option('vra-core-ignore-elements', $post['vra-core-ignore-elements']);
         set_option('vra-core-hide-public-details', $post['vra-core-hide-public-details']);
         set_option('vra-core-hide-public-attributes', $post['vra-core-hide-public-attributes']);
+        set_option('vra-core-hide-public-datadate', $post['vra-core-hide-public-datadate']);
     }
 
     public function hookConfigForm($args)

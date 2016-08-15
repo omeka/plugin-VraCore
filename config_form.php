@@ -4,10 +4,10 @@
     </div>
     <div class="inputs five columns omega">
         <p class="explanation"><?php echo __(
-            "If checked, VRA input forms will only ask for a display value and element values, not attributes."
+            'If checked, VRA input forms will only ask for a display value and element values, not attributes.'
         ); ?></p>
         <?php echo get_view()->formCheckbox('vra-core-ignore-attributes', true,
-        array('checked'=>(boolean)get_option('vra-core-ignore-attributes'))); ?>
+        array('checked' => (boolean) get_option('vra-core-ignore-attributes'))); ?>
     </div>
 </div>
 
@@ -17,10 +17,10 @@
     </div>
     <div class="inputs five columns omega">
         <p class="explanation"><?php echo __(
-            "If checked, VRA input forms will only ask for a display value, not members of a VRA Element Set."
+            'If checked, VRA input forms will only ask for a display value, not members of a VRA Element Set.'
         ); ?></p>
         <?php echo get_view()->formCheckbox('vra-core-ignore-elements', true,
-        array('checked'=>(boolean)get_option('vra-core-ignore-elements'))); ?>
+        array('checked' => (boolean) get_option('vra-core-ignore-elements'))); ?>
     </div>
 </div>
 
@@ -30,10 +30,10 @@
     </div>
     <div class="inputs five columns omega">
         <p class="explanation"><?php echo __(
-            "If checked, only VRA Core display data will be shown publicly."
+            'If checked, only VRA Core display data will be shown publicly.'
         ); ?></p>
         <?php echo get_view()->formCheckbox('vra-core-hide-public-details', true,
-        array('checked'=>(boolean)get_option('vra-core-hide-public-details'))); ?>
+        array('checked' => (boolean) get_option('vra-core-hide-public-details'))); ?>
     </div>
 </div>
 
@@ -43,10 +43,10 @@
     </div>
     <div class="inputs five columns omega">
         <p class="explanation"><?php echo __(
-            "If checked, and the details setting above is not checked, the VRA Core attribute data will not be displayed publicly."
+            'If checked, and the details setting above is not checked, the VRA Core attribute data will not be displayed publicly.'
         ); ?></p>
         <?php echo get_view()->formCheckbox('vra-core-hide-public-attributes', true,
-        array('checked'=>(boolean)get_option('vra-core-hide-public-attributes'))); ?>
+        array('checked' => (boolean) get_option('vra-core-hide-public-attributes'))); ?>
     </div>
 </div>
 
@@ -56,9 +56,9 @@
     </div>
     <div class="inputs five columns omega">
         <p class="explanation"><?php echo __(
-            "If checked, and the details setting above is not checked, the VRA Core dataDate attribute will not be displayed publicly."
+            'If checked, and the details setting above is not checked, the VRA Core dataDate attribute will not be displayed publicly.'
         ); ?></p>
         <?php echo get_view()->formCheckbox('vra-core-hide-public-datadate', true,
-        array('checked'=>(boolean)get_option('vra-core-hide-public-datadate'))); ?>
+        array('checked' => (boolean) get_option('vra-core-hide-public-datadate'))); ?>
     </div>
 </div>

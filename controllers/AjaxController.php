@@ -1,4 +1,5 @@
 <?php
+
 class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
 {
     public function elementAction()
@@ -16,7 +17,7 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
         $this->view->attributeNames = $attributeNames;
         $this->view->nameBase = $nameBase;
         $this->view->omekaElementName = $omekaElementName;
-        $this->view->newElementCount  = $newElementCount;
+        $this->view->newElementCount = $newElementCount;
     }
 
     public function subelementAction()
@@ -44,7 +45,7 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
         $this->view->attributeNames = $attributeNames;
         $this->view->nameBase = $nameBase;
         $this->view->subelementName = $subelementName;
-        $this->view->newSubelementCount  = $newSubelementCount;
+        $this->view->newSubelementCount = $newSubelementCount;
         $this->view->newAgentIndex = $newAgentIndex;
         $this->view->vraParentId = $vraParentId;
     }
@@ -63,7 +64,7 @@ class VraCore_AjaxController extends Omeka_Controller_AbstractActionController
         $this->view->attributeNames = $attributeNames;
         $this->view->nameBase = $nameBase;
         $this->view->omekaElementName = $omekaElementName;
-        $this->view->newElementCount  = $newElementCount;
+        $this->view->newElementCount = $newElementCount;
         $this->view->elementsData = $elementsData;
         $this->view->subelementsData = $subelementsData;
         $this->view->globalAttrs = $globalAttrs;

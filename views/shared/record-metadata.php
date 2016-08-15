@@ -1,6 +1,6 @@
 <?php foreach ($elementsForDisplay as $setName => $setElements): ?>
 <?php
-if($setName == 'VRA Core') {
+if ($setName == 'VRA Core') {
     $class = 'element';
 } else {
     $class = 'element';
@@ -10,18 +10,18 @@ if($setName == 'VRA Core') {
     <?php if ($showElementSetHeadings): ?>
     <h2><?php echo html_escape(__($setName)); ?></h2>
     <?php endif; ?>
-    <?php if($setName == 'VRA Core') {
-            $db = get_db();
-            $recordType = get_class($record);
-            $params = array(
-                    'record_id'      => $record->id,
-                    'record_type'    => $recordType,
-                    'element_id'     => false,
+    <?php if ($setName == 'VRA Core') {
+    $db = get_db();
+    $recordType = get_class($record);
+    $params = array(
+                    'record_id' => $record->id,
+                    'record_type' => $recordType,
+                    'element_id' => false,
                     'vra_element_id' => false,
                     );
-            $recordLevelAttrs = $db->getTable('VraCoreAttribute')->findBy($params);
+    $recordLevelAttrs = $db->getTable('VraCoreAttribute')->findBy($params);
 
-            switch($recordType) {
+    switch ($recordType) {
             case 'Item':
                 $label = __('Work Attributes');
             break;
@@ -32,14 +32,14 @@ if($setName == 'VRA Core') {
                 $label = __('Collection Attributes');
             break;
             }
-        }
+}
     ?>
 
-    <?php if(! get_option('vra-core-hide-public-attributes' ) && isset($recordLevelAttrs)): ?>
+    <?php if (!get_option('vra-core-hide-public-attributes') && isset($recordLevelAttrs)): ?>
         <div>
             <h3><?php echo $label; ?></h3>
             <ul class='vra-core-attributes'>
-            <?php foreach($recordLevelAttrs as $attribute): ?>
+            <?php foreach ($recordLevelAttrs as $attribute): ?>
                 <li><span class='vra-core-attribute-name'>@<?php echo metadata($attribute, 'name'); ?></span>
                     <?php echo metadata($attribute, 'content'); ?>
                 </li>
@@ -57,7 +57,7 @@ if($setName == 'VRA Core') {
                 fire_plugin_hook('elements_show', array(
                     'view' => $this,
                     'elementInfo' => $elementInfo,
-                    'record' => $record
+                    'record' => $record,
                     )
                 );
                 ?>

@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://www.vraweb.org/vracore4.htm http://www.loc.gov/standards/vracore/vra.xsd">
 
 
-<?php  echo $this->partial('record-xml-partial.php', 
+<?php  echo $this->partial('record-xml-partial.php',
         array(
                 'record' => $item,
              )

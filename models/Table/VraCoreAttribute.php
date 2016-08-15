@@ -15,9 +15,10 @@ class Table_VraCoreAttribute extends Omeka_Db_Table
             $nulledColumns[] = 'element_id';
         }
         $select = parent::getSelectForFindBy($params);
-        foreach($nulledColumns as $nulledColumn) {
+        foreach ($nulledColumns as $nulledColumn) {
             $select->where("$nulledColumn IS NULL");
         }
+
         return $select;
     }
 
@@ -25,12 +26,13 @@ class Table_VraCoreAttribute extends Omeka_Db_Table
     {
         $select = $this->getSelectForFindBy(array(
                     'vra_element_id' => $vraElement->id,
-                    'name'           => 'dataDate',
-                    'element_id'     => $vraElement->element_id,
-                    'record_type'    => $vraElement->record_type,
-                    'record_id'      => $vraElement->record_id,
+                    'name' => 'dataDate',
+                    'element_id' => $vraElement->element_id,
+                    'record_type' => $vraElement->record_type,
+                    'record_id' => $vraElement->record_id,
                     )
                 );
+
         return $this->fetchObject($select);
     }
 }

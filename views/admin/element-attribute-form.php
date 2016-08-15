@@ -1,5 +1,5 @@
-<?php if(! get_option('vra-core-ignore-attributes')): ?>
-<?php if (! isset($topLevel)) {
+<?php if (!get_option('vra-core-ignore-attributes')): ?>
+<?php if (!isset($topLevel)) {
     $topLevel = false;
 }
 ?>
@@ -8,20 +8,20 @@
         <div class='drawer closed'></div><label class='vra-attributes-label'><?php echo $label; ?></label>
     </div>
     <fieldset class='vra-attributes drawer-contents' style='display: none;'>
-        <?php foreach($attributeNames as $attributeName): ?>
+        <?php foreach ($attributeNames as $attributeName): ?>
             <div class='vra-attribute'>
                 <label><?php echo $attributeName; ?></label>
                 <?php if ($attributeName == 'circa') {
-                        $inputType = 'checkbox';
-                      } else {
-                          $inputType = 'text';
-                      }
+    $inputType = 'checkbox';
+} else {
+    $inputType = 'text';
+}
                 ?>
 
                 <?php if (isset($vraElementObject)): ?>
                         <?php if (is_object($vraElementObject) && isset($attributeObjects[$vraElementObject->id][$attributeName])):?>
                             <?php $attributeObject = $attributeObjects[$vraElementObject->id][$attributeName]; ?>
-                            <?php if($inputType == 'checkbox'): ?>
+                            <?php if ($inputType == 'checkbox'): ?>
                             <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='hidden' value='delete'></input>
                             <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' checked='checked'></input>
                             <?php else: ?>
@@ -33,7 +33,7 @@
                 <?php else: ?>
                     <?php if ($topLevel && isset($attributeObjects[$topLevel][$attributeName])) : ?>
                         <?php $attributeObject = $attributeObjects[$topLevel][$attributeName]; ?>
-                        <?php if($inputType == 'checkbox'): ?>
+                        <?php if ($inputType == 'checkbox'): ?>
                         <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='hidden' value='delete' ></input>
                         <input name='<?php echo $nameBase; ?>[attrs][<?php echo $attributeObject->id; ?>][<?php echo $attributeName; ?>]' type='<?php echo $inputType?>' checked='checked' ></input>
                         <?php else: ?>

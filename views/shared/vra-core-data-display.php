@@ -2,7 +2,7 @@
 //check if public side, and if attributes should be shown
 if (is_admin_theme()) {
     $showAttributes = true;
-} elseif (get_option('vra-core-hide-public-attributes' )) {
+} elseif (get_option('vra-core-hide-public-attributes')) {
     $showAttributes = false;
 } else {
     $showAttributes = true;
@@ -13,19 +13,19 @@ if (is_admin_theme()) {
     <?php
     echo $this->partial('vra-core-attributes.php', array(
             'showAttributes' => $showAttributes,
-            'attributes' => $attributes
+            'attributes' => $attributes,
          )
     );
     ?>
 
-    <?php if(isset($groupedElements['notes'])): ?>
+    <?php if (isset($groupedElements['notes'])): ?>
         <?php $notesElement = $groupedElements['notes'][0]; ?>
         <?php
         echo $this->partial('vra-core-element.php', array(
                 'element' => $notesElement,
                 'elementName' => __('Notes'),
                 'subelements' => false,
-                'showAttributes' => $showAttributes
+                'showAttributes' => $showAttributes,
              )
         );
         ?>
@@ -34,8 +34,8 @@ if (is_admin_theme()) {
 
     <?php if (count($groupedElements) != 0): ?>
         <h4>Elements</h4>
-        <?php foreach($groupedElements as $name => $elements): ?>
-            <?php foreach($elements as $element): ?>
+        <?php foreach ($groupedElements as $name => $elements): ?>
+            <?php foreach ($elements as $element): ?>
                 <?php $subelements = $element->getSubelements(); ?>
                 <?php if (empty($subelements)): ?>
                     <?php $subelements = false; ?>
@@ -45,7 +45,7 @@ if (is_admin_theme()) {
                         'element' => $element,
                         'elementName' => $name,
                         'subelements' => $subelements,
-                        'showAttributes' => $showAttributes
+                        'showAttributes' => $showAttributes,
                      )
                 );
                 ?>

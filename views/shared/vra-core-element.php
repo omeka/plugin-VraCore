@@ -7,13 +7,13 @@
     <?php
     echo $this->partial('vra-core-attributes.php', array(
             'showAttributes' => $showAttributes,
-            'attributes' => $elementAttributes
+            'attributes' => $elementAttributes,
          )
     );
     ?>
     <?php if ($subelements): ?>
         <?php foreach ($subelements as $subelement): ?>
-            <?php if(metadata($subelement, 'name') == 'dates'): ?>
+            <?php if (metadata($subelement, 'name') == 'dates'): ?>
                 <?php $datesSubelements = $subelement->getSubelements(); ?>
             <?php else: ?>
                 <?php $datesSubelements = false; ?>
@@ -23,7 +23,7 @@
                     'element' => $subelement,
                     'elementName' => metadata($subelement, 'name'),
                     'subelements' => $datesSubelements,
-                    'showAttributes' => $showAttributes
+                    'showAttributes' => $showAttributes,
                  )
             );
             ?>

@@ -2,7 +2,6 @@
 
 class VraCoreElement extends Omeka_Record_AbstractRecord
 {
-
     public $record_id;
 
     public $record_type;
@@ -21,20 +20,22 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
 
     public function getAttributes()
     {
-        if(! $this->attributes) {
+        if (!$this->attributes) {
             $this->attributes = $this->getDb()->getTable('VraCoreAttribute')
                 ->findBy(array('vra_element_id' => $this->id));
         }
+
         return $this->attributes;
     }
-    
+
     public function getAttributesAsHtml()
     {
         $attrs = $this->getAttributes();
         $attrsHtml = ' ';
-        foreach($attrs as $attr) {
-            $attrsHtml .= $attr->name . "='{$attr->content}' ";
+        foreach ($attrs as $attr) {
+            $attrsHtml .= $attr->name."='{$attr->content}' ";
         }
+
         return $attrsHtml;
     }
 
@@ -48,7 +49,7 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
         }
         $subelements = $this->getDb()->getTable('VraCoreElement')
             ->findBy($params);
-        
+
         return $subelements;
     }
 
@@ -60,9 +61,10 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
         }
         $count = $this->subelements = $this->getDb()->getTable('VraCoreElement')
             ->count($params);
+
         return $count !== 0;
     }
-    
+
     public function hasAttributes()
     {
         $attributes = $this->getAttributes();
@@ -73,27 +75,29 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
                 $hasAttributes = false;
             }
         }
+
         return $hasAttributes;
     }
-    
+
     public function getParentElements()
     {
         $allParentElements = array();
-        
-        if($this->vra_element_id) {
+
+        if ($this->vra_element_id) {
             $params = array('id' => $this->vra_element_id);
             $parentElements = $this->getDb()->getTable('VraCoreElement')
                 ->findBy($params);
             $allParentElements = array_merge($allParentElements, $parentElements);
         }
         //agent can go more than one level deep, so add those in, too
-        foreach($allParentElements as $parentElement) {
+        foreach ($allParentElements as $parentElement) {
             if ($parentElement->vra_element_id) {
                 $superParentElements = $this->getDb()->getTable('VraCoreElement')
                     ->findBy(array('id' => $parentElement->vra_element_id));
                 $allParentElements = array_merge($allParentElements, $superParentElements);
             }
         }
+
         return $allParentElements;
     }
 
@@ -114,7 +118,7 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
             $dataDateAttr->save();
         }
     }
-    
+
     protected function afterSave($args)
     {
         // update the dataDate on all parent elements
@@ -123,7 +127,7 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
             $parentElement->updateDataDate();
         }
     }
-    
+
     protected function beforeSave($args)
     {
         $this->content = trim($this->content);
@@ -133,18 +137,16 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
     {
         $attributes = $this->getAttributes();
         $subElements = $this->getSubelements();
-        foreach($subElements as $subelement) {
+        foreach ($subElements as $subelement) {
             $subelement->delete();
         }
-        foreach($attributes as $attribute)
-        {
+        foreach ($attributes as $attribute) {
             $attribute->delete();
         }
-        
-        $parentElements = $this->getParentElements();
-        foreach($parentElements as $parentElement) {
 
-            if (! $parentElement->hasSubElements() && ! $parentElement->hasAttributes()) {
+        $parentElements = $this->getParentElements();
+        foreach ($parentElements as $parentElement) {
+            if (!$parentElement->hasSubElements() && !$parentElement->hasAttributes()) {
                 $parentElement->delete();
             }
         }

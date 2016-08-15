@@ -1,5 +1,5 @@
 # plugin-VraCore
-Use the (VRA Core metadata standard in Omeka.
+Use the VRA Core metadata standard in Omeka.
 
 # Installation
 Usual Omeka installation procedure. A "VRA Core" Element Set will be installed, as well as tables for VRA Elements and Attributes data.
@@ -8,8 +8,8 @@ Usual Omeka installation procedure. A "VRA Core" Element Set will be installed, 
 ## Simplest settings
 If you only want to use the display values (equivalent to the `<display>` element of a VRA `elementSet`), check all the boxes in the configuration form. This will hide all VRA cataloging data from forms and display.
 
-## Medium settings
-If you do not want to store or show attribute data, check the "Hide Attributes" configuration option.
+## More complex settings
+You can configure the plugin to note use the full depth of VRA core by hiding element and attribute inputs on the admin side. If you want to add that data, but not display it publicly, check the boxes for public side settings. Finally, since `@dataDate` values are created automatically and can cause clutter, you can hide only those values on the public side.
 
 ## VRA Core XML and Omeka data correspondences
 

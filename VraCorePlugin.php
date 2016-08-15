@@ -25,6 +25,14 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             'response_contexts',
             );
 
+    public $_options = array(
+            'vra-core-ignore-attributes',
+            'vra-core-ignore-elements',
+            'vra-core-hide-public-details',
+            'vra-core-hide-public-attributes',
+            'vra-core-hide-public-datadate',
+            );
+
     protected $searchTexts = '';
 
     protected $elementsData = array(
@@ -180,6 +188,8 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $db->query($sql);
         $sql = "DROP TABLE `$db->VraCoreElement`";
         $db->query($sql);
+        
+        $this->_uninstallOptions();
     }
 
     public function hookUpgrade($args)

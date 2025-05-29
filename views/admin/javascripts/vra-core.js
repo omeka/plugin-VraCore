@@ -12,15 +12,6 @@
             });
         });
 
-        $('div#vra-core-metadata').on('keydown click', 'div.vra-element-header, div.vra-attributes-header', function(e) {
-            if(e.type == "click" || e.keyCode == 13) {
-                e.stopPropagation();
-                var drawerContainer = $(this);
-                drawerContainer.siblings('fieldset').toggle();
-                drawerContainer.children('.drawer').toggleClass('opened').toggleClass('closed');
-            }
-        });
-
         $('div.vra-data').on('click', "input.element-add", function(e) {
             e.preventDefault();
             e.stopPropagation();

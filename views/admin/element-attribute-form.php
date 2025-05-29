@@ -3,11 +3,12 @@
     $topLevel = false;
 }
 ?>
-<div class='vra-attributes'>
-    <div class='vra-attributes-header' tabindex="0">
-        <div class='drawer closed'></div><label class='vra-attributes-label'><?php echo $label; ?></label>
+<div class='vra-attributes vra-drawer'>
+    <div class='vra-attributes-header drawer'>
+        <label class='vra-attributes-label drawer-name'><?php echo $label; ?></label>
+        <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
     </div>
-    <fieldset class='vra-attributes drawer-contents' style='display: none;'>
+    <fieldset class='vra-attributes drawer-contents'>
         <?php foreach ($attributeNames as $attributeName): ?>
             <div class='vra-attribute'>
                 <label><?php echo $attributeName; ?></label>

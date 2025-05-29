@@ -19,11 +19,12 @@
         ?>
 
     <?php $notes = $notesObject ? metadata($notesObject, 'content') : ''; ?>
-    <div class='vra-element'>
-        <div class='vra-element-header' tabindex="0">
-            <div class='drawer closed'></div><label class='vra-notes-element-label'><?php echo __('Notes'); ?></label>
+    <div class='vra-element vra-drawer'>
+        <div class='vra-element-header drawer'>
+            <label class='vra-notes-element-label drawer-name'><?php echo __('Notes'); ?></label>
+            <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
         </div>
-        <fieldset class="drawer-contents" style='display: none'>
+        <fieldset class="drawer-contents">
             <div class='vra-element-inputs'>
                 <textarea name='<?php echo $nameBase; ?>[notes][content]'><?php echo $notes; ?></textarea>
                         <?php echo $this->partial('element-attribute-form.php',
@@ -53,11 +54,12 @@ if (!isset($parentVraElementId)) {
 $newElementCount = 0;
 $omekaElementName = $omekaElement->name;
 ?>
-<div class='vra-element new'>
-    <div class='vra-element-header' tabindex="0">
-        <div class='drawer closed'></div><label class='vra-elements-label'><?php echo __('%s Attributes and Subelements', $omekaElementName); ?></label>
+<div class='vra-element vra-drawer'>
+    <div class='vra-element-header drawer'>
+        <label class='vra-elements-label drawer-name'><?php echo __('%s Attributes and Subelements', $omekaElementName); ?></label>
+        <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
     </div>
-    <fieldset class="drawer-contents" style='display: none;'>
+    <fieldset class="drawer-contents">
         <input type='hidden' class='vra-new' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][name]' value='<?php echo $omekaElementName; ?>'></input>
         <input type='hidden' class='vra-new' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][hasSubelements]' value='1'></input>
 
@@ -75,11 +77,12 @@ $omekaElementName = $omekaElement->name;
 
         <?php foreach ($elementsData[$omekaElementName]['subelements'] as $subelementName): ?>
             <?php if ($subelementName == 'dates'): ?>
-            <div class='vra-subelement-container'>
-                <div class='vra-element-header' tabindex="0">
-                    <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo ucfirst($subelementName); ?></label>
+            <div class='vra-subelement-container vra-drawer'>
+                <div class='vra-element-header drawer'>
+                    <label class='vra-subelement-label drawer-name'><?php echo ucfirst($subelementName); ?></label>
+                    <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
                 </div>
-                <fieldset class="drawer-contents" style='display:none'>
+                <fieldset class="drawer-contents">
                     <input class='subelement-add' type='submit' value='Add VRA Dates Element' data-newAgentIndex='<?php echo $newAgentCount; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
                     <?php echo $this->partial('element-attribute-form.php',
                             array(
@@ -110,8 +113,8 @@ $omekaElementName = $omekaElement->name;
                 </fieldset>
             </div>
             <?php else: ?>
-            <div class='vra-subelement-container'>
-                <div class='vra-element-header' tabindex="0">
+            <div class='vra-subelement-container vra-drawer'>
+                <div class='vra-element-header drawer'>
                     <?php
                         switch ($subelementName) {
                             case 'earliestDate':
@@ -125,9 +128,10 @@ $omekaElementName = $omekaElement->name;
                             break;
                         }
                     ?>
-                    <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementLabel; ?></label>
+                    <label class='vra-subelement-label drawer-name'><?php echo $subelementLabel; ?></label>
+                    <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
                 </div>
-                <fieldset class="drawer-contents" style='display: none'>
+                <fieldset class="drawer-contents">
                     <?php if ($subelementName != 'earliestDate' && $subelementName != 'latestDate'): ?>
                         <input class='subelement-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElementName; ?>'></input>
                     <?php endif; ?>
@@ -175,11 +179,12 @@ $omekaElementName = $omekaElement->name;
     ?>
 
 
-    <div class='vra-element'>
-        <div class='vra-element-header' tabindex="0">
-            <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElement->name.' '.__('attributes and subelements'); ?></label>
+    <div class='vra-element vra-drawer'>
+        <div class='vra-element-header drawer'>
+            <label class='vra-elements-label drawer-name'><?php echo $omekaElement->name.' '.__('attributes and subelements'); ?></label>
+            <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
         </div>
-        <fieldset class="drawer-contents" style='display: none;'>
+        <fieldset class="drawer-contents">
             <?php echo $this->partial('element-attribute-form.php',
                     array(
                          'attributeNames' => $attributeNames,
@@ -231,11 +236,12 @@ $omekaElementName = $omekaElement->name;
 
                 ?>
                 
-                    <div class='vra-subelement-container'>
-                        <div class='vra-element-header' tabindex="0">
-                            <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementLabel; ?></label>
+                    <div class='vra-subelement-container vra-drawer'>
+                        <div class='vra-element-header drawer'>
+                            <label class='vra-subelement-label drawer-name'><?php echo $subelementLabel; ?></label>
+                            <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
                         </div>
-                        <fieldset class="drawer-contents" style='display:none'>
+                        <fieldset class="drawer-contents">
                             <input class='subelement-add'
                                    type='submit'
                                    value='Add VRA  Dates Element'
@@ -304,11 +310,12 @@ $omekaElementName = $omekaElement->name;
                 <!-- end dates -->
 
                 <?php else: ?>
-                        <div class='vra-subelement-container'>
-                            <div class='vra-element-header' tabindex="0">
-                                <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementLabel; ?></label>
+                        <div class='vra-subelement-container vra-drawer'>
+                            <div class='vra-element-header drawer'>
+                                <label class='vra-subelement-label drawer-name'><?php echo $subelementLabel; ?></label>
+                                <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
                             </div>
-                            <fieldset class="drawer-contents" style='display: none'>
+                            <fieldset class="drawer-contents">
                                 <?php
                                 //ugh, this is ughly
                                 //roll through all the objects to just check if there is one extant,

@@ -16,11 +16,12 @@
         ?>
 
     <?php $notes = $notesObject ? metadata($notesObject, 'content') : ''; ?>
-    <div class='vra-element'>
-        <div class='vra-element-header' tabindex="0">
-            <div class='drawer closed'></div><label class='vra-notes-element-label'><?php echo __('Notes'); ?></label>
+    <div class='vra-element vra-drawer'>
+        <div class='vra-element-header drawer'>
+            <label class='vra-notes-element-label drawer-name'><?php echo __('Notes'); ?></label>
+            <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
         </div>
-        <fieldset class="drawer-contents" style='display: none'>
+        <fieldset class="drawer-contents">
             <div class='vra-element-inputs'>
                 <textarea name='<?php echo $nameBase; ?>[notes][content]'><?php echo $notes; ?></textarea>
                         <?php echo $this->partial('element-attribute-form.php',
@@ -37,11 +38,12 @@
         </fieldset>
     </div>
 
-    <div class='vra-element'>
-        <div class='vra-element-header' tabindex="0">
-            <div class='drawer closed'></div><label class='vra-elements-label'><?php echo $omekaElement->name; ?> Elements</label>
+    <div class='vra-element vra-drawer'>
+        <div class='vra-element-header drawer'>
+            <label class='vra-elements-label drawer-name'><?php echo $omekaElement->name; ?> Elements</label>
+            <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
         </div>
-        <fieldset class="drawer-contents" style='display: none'>
+        <fieldset class="drawer-contents">
             <input class='element-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
             <?php if (empty($vraElementObjects)): ?>
             <div class='vra-element-inputs new'>

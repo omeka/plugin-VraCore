@@ -1,170 +1,21 @@
-div.vra-attributes,
-div.vra-attribute {
-    margin-bottom: 10px;
+.vra-drawer,
+.vra-attribute {
+    margin-bottom: 1rem;
 }
 
-div.vra-data {
-    clear: both;
+.vra-drawer .vra-drawer,
+.vra-subelement + .vra-subelement,
+.vra-element-inputs + .vra-element-inputs {
+    margin-top: 1rem;
 }
 
-.vra-data > .vra-attributes {
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), 0 -1px 0 0 rgba(0, 0, 0, 0.07) inset;
-    clear: both;
+.vra-drawer .vra-drawer,
+.inputs .vra-drawer label {
+    margin-bottom: 0;
 }
 
-div.vra-data label {
-    float: none;
-    cursor: pointer;
+.inputs .vra-drawer button.drawer-toggle,
+.inputs .vra-drawer label.drawer-name {
     margin-bottom: 0;
     padding-bottom: 0;
-}
-
-form div.vra-element {
-    margin-bottom: 10px;
-    border-radius: 2px;
-    background-color: #fbfbf9;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), 0 -1px 0 0 rgba(0, 0, 0, 0.07) inset;
-    border-width: 0 1px;
-}
-
-.vra-element > div.vra-element-header,
-.vra-attributes > div.vra-attributes-header {
-	background: transparent linear-gradient(to bottom, #F5F3EC, #E9E5DA) repeat scroll 0% 0%;
-	border: 1px solid #D6D5C2;
-	border-radius: 2px;
-	padding: 10px;
-	margin: 0px;
-    padding: 10px;
-    z-index: 0;
-    border-top: 1px solid #D6D5C2;
-}
-
-div.vra-element-header,
-div.vra-attributes-header {
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-}
-
-div.vra-element-inputs {
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
-span.vra-core-attribute-name {
-    padding-right: 5px;
-}
-
-ul.vra-core-attributes {
-    list-style: none;
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
-
-.vra-core-element-name {
-    padding-right: 5px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
-
-span.name-data {
-    font-size: small;
-    font-weight: initial;
-    margin-left: 4px;
-}
-
-
-.dates-subelements {
-    margin-left: 25px;
-}
-
-.drawer-contents div.vra-attributes {
-    margin-bottom: 0;
-}
-
-.drawer-contents .vra-element > div.vra-element-header,
-.drawer-contents .vra-attributes > div.vra-attributes-header {
-    background: transparent;
-    border: 0;
-    padding: 0;
-    margin: 0;
-}
-
-.drawer-contents .vra-element:not(:first-child) > div.vra-element-header,
-.drawer-contents .vra-attributes:not(:first-child) > div.vra-attributes-header {
-    margin-top: 10px;
-}
-
-.drawer-contents .drawer-contents {
-    padding: 5px 0 0 20px;
-    box-shadow: none;
-    border: 0;
-    border-top: 3px solid #F5F3EC;
-    margin-top: 5px;
-}
-
-span.vra-core-attribute-name {
-    padding-right: 5px;
-}
-
-.show .vra-element h5 {
-    font-family: "Cabin", sans-serif;
-    font-size: 14px;
-}
-
-.show span.vra-core-attribute-name:after {
-    content: ":";
-}
-
-.show ul.vra-core-attributes {
-    list-style: none;
-    margin-top: 0;
-    padding-left: 0;
-}
-
-.show ul.vra-core-attributes li:before {
-    content: "\2014";
-    display: inline-block;
-    width: 1em;
-}
-
-.show .vra-core-element-name {
-    padding-right: 5px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
-
-.show span.name-data {
-    font-size: small;
-    font-weight: initial;
-    margin-left: 4px;
-}
-
-.show div.vra-element {
-    display: block;
-}
-
-.show h5.vra-core-element-name,
-.show h5.vra-core-element-name + .vra-element-text {
-    display: inline-block;
-}
-
-.show h5.vra-core-element-name + .vra-element-text:after {
-    margin: 0;
-}
-
-.show .vra-subelements > .vra-element > .vra-element {
-    margin-bottom: 0;
-}
-
-.show .vra-subelements .vra-element {
-    padding-left: 1.25em;
-}
-
-.show .vra-subelements > .vra-element {
-    padding-left: 0;
-}
-
-.vra-subelement.dates {
-    border-bottom: 1px solid grey;
 }

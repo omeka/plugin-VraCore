@@ -6,11 +6,12 @@ if (!isset($parentVraElementId)) {
 
 ?>
 
-<div class='vra-element new added'>
-    <div class='vra-element-header' tabindex="0">
-        <div class='drawer closed'></div><label class='vra-elements-label'><?php echo __('%s Attributes and Subelements', $omekaElementName); ?></label>
+<div class='vra-element new added vra-drawer'>
+    <div class='vra-element-header drawer'>
+        <label class='vra-elements-label drawer-name'><?php echo __('%s Attributes and Subelements', $omekaElementName); ?></label>
+        <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
     </div>
-    <fieldset class="drawer-contents" style='display: none;'>
+    <fieldset class="drawer-contents">
         <input class='vra-new' type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][name]' value='<?php echo $omekaElementName; ?>'></input>
         <input class='vra-new' type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][hasSubelements]' value='1'></input>
         <div class='vra-subelements'>
@@ -40,11 +41,12 @@ if (!isset($parentVraElementId)) {
                 }
             ?>
             <?php if ($subelementName == 'dates'): ?>
-            <div class='vra-subelement-container'>
-                <div class='vra-element-header' tabindex="0">
-                    <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementLabel; ?></label>
+            <div class='vra-subelement-container vra-drawer'>
+                <div class='vra-element-header drawer'>
+                    <label class='vra-subelement-label drawer-name'><?php echo $subelementLabel; ?></label>
+                    <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
                 </div>
-                <fieldset style='display:none'>
+                <fieldset class="drawer-contents">
                     <input class='subelement-add' type='submit' value='Add VRA Dates Element'  data-newAgentIndex='<?php echo $newAgentCount; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
                     <?php echo $this->partial('element-attribute-form.php',
                             array(
@@ -74,11 +76,12 @@ if (!isset($parentVraElementId)) {
                 </fieldset>
             </div>
             <?php else: ?>
-            <div class='vra-subelement-container'>
-                <div class='vra-element-header' tabindex="0">
-                    <div class='drawer closed'></div><label class='vra-subelement-label'><?php echo $subelementLabel; ?></label>
+            <div class='vra-subelement-container vra-drawer'>
+                <div class='vra-element-header drawer'>
+                    <label class='vra-subelement-label drawer-name'><?php echo $subelementLabel; ?></label>
+                    <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
                 </div>
-                <fieldset style='display: none'>
+                <fieldset class="drawer-contents">
                     <?php if ($subelementName != 'earliestDate' && $subelementName != 'latestDate'): ?>
                         <input class='subelement-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElementName; ?>'></input>
                     <?php endif; ?>

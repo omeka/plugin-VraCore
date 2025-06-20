@@ -19,9 +19,9 @@
         ?>
 
     <?php $notes = $notesObject ? metadata($notesObject, 'content') : ''; ?>
-    <div class='vra-element vra-drawer'>
+    <div class='vra-element vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-notes-label">
         <div class='vra-element-header drawer'>
-            <label class='vra-notes-element-label drawer-name'><?php echo __('Notes'); ?></label>
+            <label id="<?php echo $nameBase; ?>-notes-label" class='vra-notes-element-label drawer-name'><?php echo __('Notes'); ?></label>
             <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
         </div>
         <fieldset class="drawer-contents">
@@ -54,9 +54,9 @@ if (!isset($parentVraElementId)) {
 $newElementCount = 0;
 $omekaElementName = $omekaElement->name;
 ?>
-<div class='vra-element vra-drawer'>
+<div class='vra-element vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-element-label">
     <div class='vra-element-header drawer'>
-        <label class='vra-elements-label drawer-name'><?php echo __('%s Attributes and Subelements', $omekaElementName); ?></label>
+        <label id="<?php echo $nameBase; ?>-element-label" class='vra-elements-label drawer-name'><?php echo __('%s Attributes and Subelements', $omekaElementName); ?></label>
         <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
     </div>
     <fieldset class="drawer-contents">
@@ -77,9 +77,9 @@ $omekaElementName = $omekaElement->name;
 
         <?php foreach ($elementsData[$omekaElementName]['subelements'] as $subelementName): ?>
             <?php if ($subelementName == 'dates'): ?>
-            <div class='vra-subelement-container vra-drawer'>
+            <div class='vra-subelement-container vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label">
                 <div class='vra-element-header drawer'>
-                    <label class='vra-subelement-label drawer-name'><?php echo ucfirst($subelementName); ?></label>
+                    <label id="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label" class='vra-subelement-label drawer-name'><?php echo ucfirst($subelementName); ?></label>
                     <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
                 </div>
                 <fieldset class="drawer-contents">
@@ -113,7 +113,7 @@ $omekaElementName = $omekaElement->name;
                 </fieldset>
             </div>
             <?php else: ?>
-            <div class='vra-subelement-container vra-drawer'>
+            <div class='vra-subelement-container vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label">
                 <div class='vra-element-header drawer'>
                     <?php
                         switch ($subelementName) {
@@ -128,7 +128,7 @@ $omekaElementName = $omekaElement->name;
                             break;
                         }
                     ?>
-                    <label class='vra-subelement-label drawer-name'><?php echo $subelementLabel; ?></label>
+                    <label id="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label" class='vra-subelement-label drawer-name'><?php echo $subelementLabel; ?></label>
                     <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
                 </div>
                 <fieldset class="drawer-contents">
@@ -179,9 +179,9 @@ $omekaElementName = $omekaElement->name;
     ?>
 
 
-    <div class='vra-element vra-drawer'>
+    <div class='vra-element vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-element-label">
         <div class='vra-element-header drawer'>
-            <label class='vra-elements-label drawer-name'><?php echo $omekaElement->name.' '.__('attributes and subelements'); ?></label>
+            <label id="<?php echo $nameBase; ?>-element-label" class='vra-elements-label drawer-name'><?php echo $omekaElement->name.' '.__('attributes and subelements'); ?></label>
             <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
         </div>
         <fieldset class="drawer-contents">
@@ -236,9 +236,9 @@ $omekaElementName = $omekaElement->name;
 
                 ?>
                 
-                    <div class='vra-subelement-container vra-drawer'>
+                    <div class='vra-subelement-container vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label">
                         <div class='vra-element-header drawer'>
-                            <label class='vra-subelement-label drawer-name'><?php echo $subelementLabel; ?></label>
+                            <label id="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label" class='vra-subelement-label drawer-name'><?php echo $subelementLabel; ?></label>
                             <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
                         </div>
                         <fieldset class="drawer-contents">
@@ -310,9 +310,9 @@ $omekaElementName = $omekaElement->name;
                 <!-- end dates -->
 
                 <?php else: ?>
-                        <div class='vra-subelement-container vra-drawer'>
+                        <div class='vra-subelement-container vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-ssubelement-label">
                             <div class='vra-element-header drawer'>
-                                <label class='vra-subelement-label drawer-name'><?php echo $subelementLabel; ?></label>
+                                <label id="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label" class='vra-subelement-label drawer-name'><?php echo $subelementLabel; ?></label>
                                 <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
                             </div>
                             <fieldset class="drawer-contents">

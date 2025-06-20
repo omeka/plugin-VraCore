@@ -16,12 +16,12 @@
         ?>
 
     <?php $notes = $notesObject ? metadata($notesObject, 'content') : ''; ?>
-    <div class='vra-element vra-drawer'>
+    <div class='vra-element vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-notes-label" ">
         <div class='vra-element-header drawer'>
-            <label class='vra-notes-element-label drawer-name'><?php echo __('Notes'); ?></label>
-            <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
+            <label id="<?php echo $nameBase; ?>-notes-label" class='vra-notes-element-label drawer-name'><?php echo __('Notes'); ?></label>
+            <button type="button" aria-expanded="false" aria-controls="<?php echo $nameBase; ?>-drawer" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
         </div>
-        <fieldset class="drawer-contents">
+        <fieldset class="drawer-contents" id="<?php echo $nameBase; ?>-drawer">
             <div class='vra-element-inputs'>
                 <textarea name='<?php echo $nameBase; ?>[notes][content]'><?php echo $notes; ?></textarea>
                         <?php echo $this->partial('element-attribute-form.php',
@@ -39,8 +39,8 @@
     </div>
 
     <div class='vra-element vra-drawer'>
-        <div class='vra-element-header drawer'>
-            <label class='vra-elements-label drawer-name'><?php echo $omekaElement->name; ?> Elements</label>
+        <div class='vra-element-header drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label">
+            <label id="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label" class='vra-elements-label drawer-name'><?php echo $omekaElement->name; ?> Elements</label>
             <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
         </div>
         <fieldset class="drawer-contents">

@@ -59,7 +59,9 @@
             });
         });
 
-        $('div.vra-data').on('click', ".parent-element-add", function(e) {
+        $('div.vra-data').on('click', "input.parent-element-add", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             var addButton = $(this);
             var newElementCount = addButton.siblings('div.vra-element.new').length;
             var nameBase = addButton.data('namebase');

@@ -25,8 +25,8 @@
             <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
         </div>
         <fieldset class="drawer-contents">
-            <div class='vra-element-inputs'>
-                <textarea name='<?php echo $nameBase; ?>[notes][content]'><?php echo $notes; ?></textarea>
+            <div class='vra-element-inputs' role='group' id='<?php echo $nameBase; ?>-notes-content-label>
+                <textarea aria-label="<?php echo __('Content'); ?>" name='<?php echo $nameBase; ?>[notes][content]'><?php echo $notes; ?></textarea>
                         <?php echo $this->partial('element-attribute-form.php',
                                 array(
                                      'attributeNames' => $globalAttributes,
@@ -144,7 +144,7 @@ $omekaElementName = $omekaElement->name;
                                 $attributeNames = $globalAttributes;
                             }
                         ?>
-                        <textarea class='vra-new' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]'></textarea>
+                        <textarea class='vra-new' aria-label="<?php echo __('Content'); ?>" name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]'></textarea>
                         <input type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][parent_id]' value='<?php echo $parentVraElementId; ?>'></input>
                             <?php echo $this->partial('element-attribute-form.php',
                                     array(
@@ -357,7 +357,7 @@ $omekaElementName = $omekaElement->name;
                                         </div>
                                         <?php elseif (!$hasVraElementObject): ?>
                                         <div class='vra-element-inputs'>
-                                            <textarea name='<?php echo $nameBase; ?>[<?php echo $parentObject->id; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]'></textarea>
+                                            <textarea aria-label="<?php echo __('Content'); ?> name='<?php echo $nameBase; ?>[<?php echo $parentObject->id; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]'></textarea>
 
                                             <?php echo $this->partial('element-attribute-form.php',
                                                     array(

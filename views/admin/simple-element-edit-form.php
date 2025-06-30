@@ -23,7 +23,7 @@
         </div>
         <fieldset class="drawer-contents" id="<?php echo $nameBase; ?>-drawer">
             <div class='vra-element-inputs'>
-                <textarea name='<?php echo $nameBase; ?>[notes][content]'><?php echo $notes; ?></textarea>
+                <textarea aria-label="<?php echo __('Content'); ?>" name='<?php echo $nameBase; ?>[notes][content]'><?php echo $notes; ?></textarea>
                         <?php echo $this->partial('element-attribute-form.php',
                                 array(
                                      'attributeNames' => $globalAttributes,
@@ -39,15 +39,15 @@
     </div>
 
     <div class='vra-element vra-drawer'>
-        <div class='vra-element-header drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label">
-            <label id="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label" class='vra-elements-label drawer-name'><?php echo $omekaElement->name; ?> Elements</label>
+        <div class='vra-element-header drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-element-label">
+            <label id="<?php echo $nameBase; ?>-element-label" class='vra-elements-label drawer-name'><?php echo $omekaElement->name; ?> Elements</label>
             <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
         </div>
         <fieldset class="drawer-contents">
             <input class='element-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
             <?php if (empty($vraElementObjects)): ?>
             <div class='vra-element-inputs new'>
-                <textarea class='vra-new' name='<?php echo $nameBase; ?>[newElements][0][content]'></textarea>
+                <textarea aria-label="<?php echo __('Content'); ?>" class='vra-new' name='<?php echo $nameBase; ?>[newElements][0][content]'></textarea>
                 <input type='hidden' class='vra-new' name='<?php echo $nameBase; ?>[newElements][0][name]' value='<?php echo $omekaElement->name; ?>'></input>
                     <?php echo $this->partial('element-attribute-form.php',
                             array(
@@ -64,7 +64,7 @@
             <?php endif; ?>
             <?php foreach ($vraElementObjects as $vraElementObject): ?>
                     <div class='vra-element-inputs'>
-                        <textarea name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]'><?php echo metadata($vraElementObject, 'content'); ?></textarea>
+                        <textarea aria-label="<?php echo __('Content'); ?>" name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]'><?php echo metadata($vraElementObject, 'content'); ?></textarea>
                             <?php echo $this->partial('element-attribute-form.php',
                                     array(
                                          'attributeNames' => $attributeNames,

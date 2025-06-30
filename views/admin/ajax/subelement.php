@@ -45,7 +45,7 @@
 ?>
 
 <div class='vra-subelement vra-element-inputs new added'>
-    <textarea class='vra-new' name='<?php echo $nameBase; ?>[<?php echo $vraParentId; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][content]'></textarea>
+    <textarea class='vra-new' aria-label="<?php echo __('Content %', $newSubelementCount + 1); ?>" name='<?php echo $nameBase; ?>[<?php echo $vraParentId; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][content]'></textarea>
         <?php echo $this->partial('element-attribute-form.php',
                 array(
                      'attributeNames' => $attributeNames,

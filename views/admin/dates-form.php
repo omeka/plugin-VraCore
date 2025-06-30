@@ -42,35 +42,38 @@ $attributeNames = array_unique($attributeNames);
 
     <?php if (empty($datesElementObjects)): ?>
     <div class='vra-subelement vra-element-inputs new'>
-        <label><?php echo __('Earliest Date'); ?></label>
-        <textarea name='<?php echo $nameBase; ?>[<?php echo $agentId; ?>][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][earliestDate][content]'></textarea>
-            <?php echo $this->partial('element-attribute-form.php',
-                    array(
-                         'attributeNames' => array_merge(array('circa'), $attributeNames),
-                         'attributeObjects' => $attributeObjects,
-                         //kind of a cheat. put true at the front to produce a new set of attributes for new element
-                         'vraElementObjects' => array(true),
-                         'nameBase' => $nameBase."[$agentId][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][earliestDate]",
-                         'label' => __('Earliest Date Attributes'),
-                         )
-                    );
-            ?>
+        <label>
+            <?php echo __('Earliest Date'); ?>
+            <textarea name='<?php echo $nameBase; ?>[<?php echo $agentId; ?>][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][earliestDate][content]'></textarea>
+        </label>
+        <?php echo $this->partial('element-attribute-form.php',
+                array(
+                        'attributeNames' => array_merge(array('circa'), $attributeNames),
+                        'attributeObjects' => $attributeObjects,
+                        //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                        'vraElementObjects' => array(true),
+                        'nameBase' => $nameBase."[$agentId][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][earliestDate]",
+                        'label' => __('Earliest Date Attributes'),
+                        )
+                );
+        ?>
     </div>
     <div class='vra-subelement vra-element-inputs new'>
-    
-        <label><?php echo __('Latest Date'); ?></label>
-        <textarea name='<?php echo $nameBase; ?>[<?php echo $agentId;?>][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][latestDate][content]'></textarea>
-            <?php echo $this->partial('element-attribute-form.php',
-                    array(
-                         'attributeNames' => array_merge(array('circa'), $attributeNames),
-                         'attributeObjects' => $attributeObjects,
-                         //kind of a cheat. put true at the front to produce a new set of attributes for new element
-                         'vraElementObjects' => array(true),
-                         'nameBase' => $nameBase."[$agentId][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][latestDate]",
-                         'label' => __('Latest Date Attributes'),
-                         )
-                    );
-            ?>
+        <label>
+            <?php echo __('Latest Date'); ?>
+            <textarea name='<?php echo $nameBase; ?>[<?php echo $agentId;?>][<?php echo $newAgentIndex; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][latestDate][content]'></textarea>
+        </label>
+        <?php echo $this->partial('element-attribute-form.php',
+                array(
+                        'attributeNames' => array_merge(array('circa'), $attributeNames),
+                        'attributeObjects' => $attributeObjects,
+                        //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                        'vraElementObjects' => array(true),
+                        'nameBase' => $nameBase."[$agentId][$newAgentIndex][newSubelements][$subelementName][$newSubelementCount][latestDate]",
+                        'label' => __('Latest Date Attributes'),
+                        )
+                );
+        ?>
     </div>
     <?php else: ?>
     <?php foreach ($datesElementObjects as $datesElementObject):?>
@@ -86,26 +89,30 @@ $attributeNames = array_unique($attributeNames);
         ?>
         <?php if (isset($earliestDateObject)): ?>
         <div class="vra-subelement vra-element-inputs">
-            <label><?php echo __('Earliest Date'); ?></label>
-            <textarea name='<?php echo $nameBase; ?>[<?php echo $earliestDateObject->id; ?>][content]'><?php echo metadata($earliestDateObject, 'content'); ?></textarea>
-                <?php echo $this->partial('element-attribute-form.php',
-                        array(
-                             'attributeNames' => array_merge(array('circa'), $attributeNames),
-                             'attributeObjects' => $attributeObjects,
-                             'vraElementObject' => $earliestDateObject,
-                             //kind of a cheat. put true at the front to produce a new set of attributes for new element
-                             'vraElementObjects' => array(true),
-                             'nameBase' => $nameBase."[{$earliestDateObject->id}]",
-                             'label' => __('Earliest Date Attributes'),
-                             )
-                        );
-                ?>
+            <label>
+                <?php echo __('Earliest Date'); ?>
+                <textarea name='<?php echo $nameBase; ?>[<?php echo $earliestDateObject->id; ?>][content]'><?php echo metadata($earliestDateObject, 'content'); ?></textarea>
+            </label>
+            <?php echo $this->partial('element-attribute-form.php',
+                    array(
+                            'attributeNames' => array_merge(array('circa'), $attributeNames),
+                            'attributeObjects' => $attributeObjects,
+                            'vraElementObject' => $earliestDateObject,
+                            //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                            'vraElementObjects' => array(true),
+                            'nameBase' => $nameBase."[{$earliestDateObject->id}]",
+                            'label' => __('Earliest Date Attributes'),
+                            )
+                    );
+            ?>
         </div>
         
         <?php else: ?>
         <div class='vra-subelement vra-element-inputs new'>
-            <label><?php echo __('Earliest Date'); ?></label>
-            <textarea name='<?php echo $nameBase; ?>[existingDates][earliestDate][content]'></textarea>
+            <label>
+                <?php echo __('Earliest Date'); ?>
+                <textarea name='<?php echo $nameBase; ?>[existingDates][earliestDate][content]'></textarea>
+            </label>
             <input type='hidden'
                    name='<?php echo $nameBase; ?>[existingDates][earliestDate][dateId]' value='<?php echo $datesElementObject->id; ?>'></input>
                 <?php echo $this->partial('element-attribute-form.php',
@@ -125,26 +132,30 @@ $attributeNames = array_unique($attributeNames);
         <!-- latest dates -->
         <?php if (isset($latestDateObject)): ?>
         <div class='vra-subelement vra-element-inputs'>
-            <label><?php echo __('Latest Date'); ?></label>
-            <textarea name='<?php echo $nameBase; ?>[<?php echo $latestDateObject->id; ?>][content]'><?php echo metadata($latestDateObject, 'content'); ?></textarea>
-                <?php echo $this->partial('element-attribute-form.php',
-                        array(
-                             'attributeNames' => array_merge(array('circa'), $attributeNames),
-                             'attributeObjects' => $attributeObjects,
-                             'vraElementObject' => $latestDateObject,
-                             //kind of a cheat. put true at the front to produce a new set of attributes for new element
-                             'vraElementObjects' => array(true),
-                             'nameBase' => $nameBase."[{$latestDateObject->id}]",
-                             'label' => __('Latest Date Attributes'),
-                             )
-                        );
-                ?>
+            <label>
+                <?php echo __('Latest Date'); ?>
+                <textarea name='<?php echo $nameBase; ?>[<?php echo $latestDateObject->id; ?>][content]'><?php echo metadata($latestDateObject, 'content'); ?></textarea>
+            </label>
+            <?php echo $this->partial('element-attribute-form.php',
+                    array(
+                            'attributeNames' => array_merge(array('circa'), $attributeNames),
+                            'attributeObjects' => $attributeObjects,
+                            'vraElementObject' => $latestDateObject,
+                            //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                            'vraElementObjects' => array(true),
+                            'nameBase' => $nameBase."[{$latestDateObject->id}]",
+                            'label' => __('Latest Date Attributes'),
+                            )
+                    );
+            ?>
         </div>
         <?php else: ?>
         <div class='vra-subelement vra-element-inputs new'>
         
-            <label><?php echo __('Latest Date'); ?></label>
-            <textarea name='<?php echo $nameBase; ?>[existingDates][latestDate][content]'></textarea>
+            <label>
+                <?php echo __('Latest Date'); ?>
+                <textarea name='<?php echo $nameBase; ?>[existingDates][latestDate][content]'></textarea>
+            </label>
             <input type='hidden'
                    name='<?php echo $nameBase; ?>[existingDates][latestDate][dateId]' value='<?php echo $datesElementObject->id; ?>'></input>
                 <?php echo $this->partial('element-attribute-form.php',

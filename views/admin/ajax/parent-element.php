@@ -94,7 +94,7 @@ if (!isset($parentVraElementId)) {
                                 $attributeNames = $globalAttrs;
                             }
                         ?>
-                        <textarea class='vra-new' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
+                        <textarea aria-label="<?php echo __('Content %s', $newElementCount); ?>" class='vra-new' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
                         <input class='vra-new' type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][parent_id]' value='<?php echo $parentVraElementId; ?>'></input>
                             <?php echo $this->partial('element-attribute-form.php',
                                     array(

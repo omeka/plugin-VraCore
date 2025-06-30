@@ -59,9 +59,7 @@
             });
         });
 
-        $('div.vra-data').on('click', "input.parent-element-add", function(e) {
-            e.preventDefault();
-            e.stopPropagation();
+        $('div.vra-data').on('click', ".parent-element-add", function(e) {
             var addButton = $(this);
             var newElementCount = addButton.siblings('div.vra-element.new').length;
             var nameBase = addButton.data('namebase');
@@ -91,6 +89,10 @@
                 newInput.insertAfter(target);
                 target.data('changed', true);
             }
+        });
+
+        $(document).ready(function() {
+            Omeka.manageDrawers('.vra-data', '.vra-drawer');
         });
     });
 }(jQuery));

@@ -175,9 +175,3 @@ $attributeNames = array_unique($attributeNames);
     <?php endforeach; ?>
 <?php endif; ?>
 </div>
-
-<script>
-jQuery(document).ready(function() {
-    Omeka.manageDrawers('.vra-data', '.vra-drawer');
-});
-</script>

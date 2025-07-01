@@ -5,7 +5,9 @@
 
 .vra-drawer .vra-drawer,
 .vra-subelement + .vra-subelement,
-.vra-element-inputs + .vra-element-inputs {
+.vra-element-inputs + .vra-element-inputs,
+.element-add,
+.subelement-add {
     margin-top: 1rem;
 }
 

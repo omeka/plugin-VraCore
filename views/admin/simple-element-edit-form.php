@@ -44,7 +44,6 @@
             <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
         </div>
         <fieldset class="drawer-contents">
-            <input class='element-add' type='submit' value='Add Input' data-namebase='<?php echo $nameBase; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'></input>
             <?php if (empty($vraElementObjects)): ?>
             <div class='vra-element-inputs new'>
                 <textarea aria-label="<?php echo __('Content'); ?>" class='vra-new' name='<?php echo $nameBase; ?>[newElements][0][content]'></textarea>
@@ -78,6 +77,7 @@
                             ?>
                     </div>
             <?php endforeach;?>
+            <button class='element-add' type='button' data-namebase='<?php echo $nameBase; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'><?php echo __('Add Input'); ?></button>
         </fieldset>
     </div>
 </div>

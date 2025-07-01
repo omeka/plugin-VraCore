@@ -12,71 +12,35 @@
             });
         });
 
-        $('div.vra-data').on('click', "input.element-add", function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            var addButton = $(this);
-            var newElementCount = addButton.siblings('div.vra-element-inputs.new').length;
-            var nameBase = addButton.data('namebase');
-            var omekaElementName = addButton.data('omeka-element-name');
-            var data = {
-                    'newElementCount'  : newElementCount,
-                    'nameBase'         : nameBase,
-                    'omekaElementName' : omekaElementName
-            };
+        const setupAddElement = function(elementType) {
+            $('div.vra-data').on('click', '.' + elementType + '-add', function() {
+                var addButton = $(this);
+                var elementContainer = addButton.parents('.vra-drawer').first();
+                var newElementCount = elementContainer.children('.new.vra-' + elementType).length;
+                var nameBase = addButton.data('namebase');
+                var omekaElementName = addButton.data('omeka-element-name');
+                var data = {
+                        'newElementCount'  : newElementCount,
+                        'nameBase'         : nameBase,
+                        'omekaElementName' : omekaElementName
+                };
 
-            $.get(OmekaWebDir + '/vra-core/ajax/element', data, function(response, textStatus, jqXHR) {
-                $(e.target).after(response);
-            }).done(function() {
-                addButton.next().children(':focusable').focus();
+                if (elementType == 'subelement') {
+                    var subelementName = addButton.data('subelement-name');
+                    data.subelementName = subelementName;
+                    data.vraParentId = addButton.data('vra-parent-id');
+                    if ($subelementName == 'dates') {
+                        data.newAgentIndex = addButton.data('newagentindex');
+                    }
+                }
+
+                $.get(OmekaWebDir + '/vra-core/ajax/' + elementType, data, function(response) {
+                    addButton.before(response);
+                }).done(function() {
+                    addButton.prev().find('button').first().focus();
+                });
             });
-        });
-
-        $('div.vra-data').on('click', "input.subelement-add", function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            var addButton = $(this);
-            var newSubelementCount = addButton.siblings('div.vra-subelement.new').length;
-            var nameBase = addButton.data('namebase');
-            var subelementName = addButton.data('subelement-name');
-            var omekaElementName = addButton.data('omeka-element-name');
-            var vraParentId = addButton.data('vra-parent-id');
-            var data = {
-                    'newSubelementCount' : newSubelementCount,
-                    'nameBase'        : nameBase,
-                    'omekaElementName' : omekaElementName,
-                    'subelementName'  : subelementName,
-                    'vraParentId'     : vraParentId,
-            };
-
-            if (subelementName === 'dates') {
-                data.newAgentIndex = $(this).data('newagentindex');
-            }
-            $.get(OmekaWebDir + '/vra-core/ajax/subelement', data, function(response, textStatus, jqXHR) {
-                $(e.target).after(response);
-            }).done(function() {
-                addButton.next().children(':focusable').focus();
-            });
-        });
-
-        $('div.vra-data').on('click', "input.parent-element-add", function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            var addButton = $(this);
-            var newElementCount = addButton.siblings('div.vra-element.new').length;
-            var nameBase = addButton.data('namebase');
-            var omekaElementName = addButton.data('omeka-element-name');
-            var data = {
-                    'newElementCount' : newElementCount,
-                    'nameBase'        : nameBase,
-                    'omekaElementName' : omekaElementName,
-            };
-            $.get(OmekaWebDir + '/vra-core/ajax/parent-element', data, function(response, textStatus, jqXHR) {
-                $(e.target).after(response);
-            }).done(function() {
-                addButton.next().children(':focusable').focus();
-            });
-        });
+        }
 
         //mark changed display elements so @dataDate can be updated
         $('#vra-core-metadata').on('keypress', 'div.input textarea', function(e) {
@@ -95,6 +59,9 @@
 
         $(document).ready(function() {
             Omeka.manageDrawers('.vra-data', '.vra-drawer');
+            setupAddElement('element');
+            setupAddElement('parent-element');
+            setupAddElement('subelement');
         });
     });
 }(jQuery));

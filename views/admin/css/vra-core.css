@@ -1,11 +1,17 @@
 .vra-drawer,
-.vra-attribute {
+.vra-attribute,
+.vra-drawer textarea {
     margin-bottom: 1rem;
 }
 
-.vra-drawer .vra-drawer,
 .vra-subelement + .vra-subelement,
-.vra-element-inputs + .vra-element-inputs,
+.vra-element-inputs + .vra-element-inputs {
+    margin-top: 1rem;
+    border-top: 1px solid #dfdfdf;
+    padding-top: 1rem;
+}
+
+.vra-drawer .vra-drawer + .vra-drawer,
 .element-add,
 .subelement-add {
     margin-top: 1rem;

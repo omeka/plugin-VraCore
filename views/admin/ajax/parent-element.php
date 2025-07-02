@@ -6,9 +6,10 @@ if (!isset($parentVraElementId)) {
 
 ?>
 
-<div class='vra-element new added vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-element-label">
+<div class='vra-parent-element new added vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-element-label">
     <div class='vra-element-header drawer'>
-        <label id="<?php echo $nameBase; ?>-element-label" class='vra-elements-label drawer-name'><?php echo __('%s Attributes and Subelements', $omekaElementName); ?></label>
+        <?php $drawerLabel = ($newElementCount > 0) ? __('%s Attributes and Subelements (%s)', $omekaElementName, $newElementCount) : __('%s Attributes and Subelements', $omekaElementName) ?>
+        <label id="<?php echo $nameBase; ?>-element-label" class='vra-elements-label drawer-name'><?php echo $drawerLabel; ?></label>
         <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
     </div>
     <fieldset class="drawer-contents">

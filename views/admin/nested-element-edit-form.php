@@ -75,7 +75,7 @@ $omekaElementName = $omekaElement->name;
 
         <?php foreach ($elementsData[$omekaElementName]['subelements'] as $subelementName): ?>
             <?php if ($subelementName == 'dates'): ?>
-            <div class='vra-subelement-container vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label">
+            <div class='vra-subelement-container vra-drawer new' role="group" aria-labelledby="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label">
                 <div class='vra-element-header drawer'>
                     <label id="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label" class='vra-subelement-label drawer-name'><?php echo ucfirst($subelementName); ?></label>
                     <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
@@ -111,7 +111,7 @@ $omekaElementName = $omekaElement->name;
                 </fieldset>
             </div>
             <?php else: ?>
-            <div class='vra-subelement-container vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label">
+            <div class='vra-subelement-container vra-drawer new' role="group" aria-labelledby="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label">
                 <div class='vra-element-header drawer'>
                     <?php
                         switch ($subelementName) {
@@ -154,7 +154,7 @@ $omekaElementName = $omekaElement->name;
                             ?>
                     </div>
                     <?php if ($subelementName != 'earliestDate' && $subelementName != 'latestDate'): ?>
-                        <button class='subelement-add' type='button' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElementName; ?>'><?php echo __('Add Input'); ?></button>
+                        <button class='subelement-add' type='button' data-vra-parent-id='<?php echo $omekaElement->id; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElementName; ?>' data-newagentindex='<?php echo $newAgentCount; ?>'><?php echo __('Add Input'); ?></button>
                     <?php endif; ?>
                 </fieldset>
             </div>
@@ -176,8 +176,8 @@ $omekaElementName = $omekaElement->name;
     <?php foreach ($vraElementObjects as $parentObject): ?>
     <?php
         $vraSubElementObjects = $parentObject->getSubelements();
+        $parentObjectId = $parentObjectId;
     ?>
-
 
     <div class='vra-element vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-element-label">
         <div class='vra-element-header drawer'>
@@ -192,8 +192,8 @@ $omekaElementName = $omekaElement->name;
                          //kind of a cheat. put true at the front to produce a new set of attributes for new element
                          'vraElementObjects' => array(true),
                          'vraElementObject' => $parentObject,
-                         'nameBase' => $nameBase."[{$parentObject->id}]",
-                         'label' => __('%s Attributes', $omekaElement->name),
+                         'nameBase' => $nameBase."[{$parentObjectId}]",
+                         'label' => __('%s Attributes Test 4', $omekaElement->name),
                          )
                     );
             ?>
@@ -248,7 +248,7 @@ $omekaElementName = $omekaElement->name;
                                    data-namebase='<?php echo $nameBase; ?>'
                                    data-subelement-name='<?php echo $subelementName; ?>'
                                    data-omeka-element-name='<?php echo $omekaElement->name; ?>'
-                                   data-vra-parent-id='<?php echo $parentObject->id ?>' >
+                                   data-vra-parent-id='<?php echo $parentObjectId; ?>' >
                            </input>
 
                         <?php
@@ -259,7 +259,7 @@ $omekaElementName = $omekaElement->name;
                                               'elementsData' => $this->elementsData,
                                               'subelementsData' => $this->subelementsData,
                                               'subelementName' => $subelementName,
-                                              'agentId' => $parentObject->id,
+                                              'agentId' => $parentObjectId,
                                               'nameBase' => $nameBase,
                                               'vraElementObjects' => $vraElementObjects,
                                                 //@todo : how many of these are still actually used?
@@ -310,7 +310,7 @@ $omekaElementName = $omekaElement->name;
                 <!-- end dates -->
 
                 <?php else: ?>
-                        <div class='vra-subelement-container vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-ssubelement-label">
+                        <div class='vra-subelement-container vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label">
                             <div class='vra-element-header drawer'>
                                 <label id="<?php echo $nameBase; ?>-<?php echo $subelementName; ?>-subelement-label" class='vra-subelement-label drawer-name'><?php echo $subelementLabel; ?></label>
                                 <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
@@ -347,14 +347,14 @@ $omekaElementName = $omekaElement->name;
                                                          'vraElementObject' => $vraSubElementObject,
                                                          'vraElementObjects' => $vraSubElementObjects,
                                                          'nameBase' => $nameBase."[{$vraSubElementObject->id}]",
-                                                         'label' => __('%s Attributes', $subelementLabel),
+                                                         'label' => __('%s Attributes Test 5', $subelementLabel),
                                                          )
                                                     );
                                             ?>
                                         </div>
                                         <?php elseif (!$hasVraElementObject): ?>
                                         <div class='vra-element-inputs'>
-                                            <textarea aria-label="<?php echo __('Content'); ?> name='<?php echo $nameBase; ?>[<?php echo $parentObject->id; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]'></textarea>
+                                            <textarea aria-label="<?php echo __('Content'); ?> name='<?php echo $nameBase; ?>[<?php echo $parentObjectId; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]'></textarea>
 
                                             <?php echo $this->partial('element-attribute-form.php',
                                                     array(
@@ -362,8 +362,8 @@ $omekaElementName = $omekaElement->name;
                                                          'attributeObjects' => $attributeObjects,
                                                          'vraElementObject' => $parentObject,
                                                          'vraElementObjects' => $vraSubElementObjects,
-                                                         'nameBase' => $nameBase."[{$parentObject->id}][newSubelements][$subelementName][0]",
-                                                         'label' => __('%s Attributes', $subelementLabel),
+                                                         'nameBase' => $nameBase."[{$parentObjectId}][newSubelements][$subelementName][0]",
+                                                         'label' => __('%s Attributes Test 6', $subelementLabel),
                                                          )
                                                     );
                                             ?>
@@ -373,7 +373,7 @@ $omekaElementName = $omekaElement->name;
                                 <?php endforeach;?>
                                 </div>
                                 <?php if ($subelementName != 'earliestDate' && $subelementName != 'latestDate'): ?>
-                                    <button class='subelement-add' type='button' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-vra-parent-id='<?php echo $parentObject->id; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'><?php echo ('Add Input'); ?></input>
+                                    <button class='subelement-add' type='button' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-vra-parent-id='<?php echo $parentObjectId; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'><?php echo ('Add Input'); ?></input>
                                 <?php endif; ?>
                             </fieldset>
                         </div>

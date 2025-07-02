@@ -15,12 +15,16 @@
         const setupAddElement = function(elementType) {
             $('div.vra-data').on('click', '.' + elementType + '-add', function() {
                 var addButton = $(this);
-                var elementContainer = addButton.parents('.vra-drawer').first();
-                var newElementCount = elementContainer.children('.new.vra-' + elementType).length;
+                if (elementType == 'parent-element') {
+                    var elementContainer = addButton.parents('.vra-data').first();
+                } else {
+                    var elementContainer = addButton.parents('.vra-drawer').first();
+                }
+                var newElementCount = elementContainer.find('.new.vra-' + elementType).length;
                 var nameBase = addButton.data('namebase');
                 var omekaElementName = addButton.data('omeka-element-name');
                 var data = {
-                        'newElementCount'  : newElementCount,
+                        'newElementCount'  : newElementCount + 1,
                         'nameBase'         : nameBase,
                         'omekaElementName' : omekaElementName
                 };
@@ -29,9 +33,7 @@
                     var subelementName = addButton.data('subelement-name');
                     data.subelementName = subelementName;
                     data.vraParentId = addButton.data('vra-parent-id');
-                    if ($subelementName == 'dates') {
-                        data.newAgentIndex = addButton.data('newagentindex');
-                    }
+                    data.newSubelementCount = newElementCount;
                 }
 
                 $.get(OmekaWebDir + '/vra-core/ajax/' + elementType, data, function(response) {

@@ -45,7 +45,7 @@
 ?>
 
 <div class='vra-subelement vra-element-inputs new added'>
-    <textarea class='vra-new' aria-label="<?php echo __('Content %s', $newSubelementCount + 1); ?>" name='<?php echo $nameBase; ?>[<?php echo $vraParentId; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][content]'></textarea>
+    <textarea class='vra-new' aria-label="<?php echo __('Content %s', $newSubelementCount); ?>" name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][<?php echo $newSubelementCount; ?>][content]'></textarea>
         <?php echo $this->partial('element-attribute-form.php',
                 array(
                      'attributeNames' => $attributeNames,
@@ -53,7 +53,8 @@
                      //kind of a cheat. put true at the front to produce a new set of attributes for new element
                      'vraElementObjects' => array(true),
                      'nameBase' => $nameBase."[$vraParentId][newSubelements][$subelementName][$newSubelementCount]",
-                     'label' => __('%s Attributes', $subelementLabel),
+                     'label' => __('%s Attributes (%s)', $subelementLabel, $newSubelementCount),
+                     'parentObjectId' => $vraParentId
                      )
                 );
         ?>

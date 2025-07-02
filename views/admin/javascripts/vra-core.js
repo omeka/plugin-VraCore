@@ -37,7 +37,7 @@
                 $.get(OmekaWebDir + '/vra-core/ajax/' + elementType, data, function(response) {
                     addButton.before(response);
                 }).done(function() {
-                    addButton.prev().find('button').first().focus();
+                    addButton.prev().find('*:focusable').first().focus();
                 });
             });
         }

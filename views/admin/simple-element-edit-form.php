@@ -38,8 +38,8 @@
         </fieldset>
     </div>
 
-    <div class='vra-element vra-drawer'>
-        <div class='vra-element-header drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-element-label">
+    <div class='vra-element vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-element-label">
+        <div class='vra-element-header drawer'>
             <label id="<?php echo $nameBase; ?>-element-label" class='vra-elements-label drawer-name'><?php echo $omekaElement->name; ?> Elements</label>
             <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
         </div>

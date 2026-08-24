@@ -320,6 +320,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         if (in_array($params['controller'], $vraControllers) && $params['action'] == 'show') {
             $type = Inflector::classify($params['controller']);
             $record = $db->getTable($type)->find($params['id']);
+            if (!$record) {
+                return $contexts;
+            }
+
             $vraElementCount = $db->getTable('VraCoreElement')
                                   ->count(array('record_type' => get_class($record),
                                                 'record_id' => $record->id,

@@ -5,11 +5,10 @@
     <?php endif; ?>
     <?php $elementAttributes = $element->getAttributes(); ?>
     <?php
-    echo $this->partial('vra-core-attributes.php', array(
-            'showAttributes' => $showAttributes,
-            'attributes' => $elementAttributes,
-         )
-    );
+    echo $this->partial('vra-core-attributes.php', [
+        'showAttributes' => $showAttributes,
+        'attributes' => $elementAttributes,
+    ]);
     ?>
     <?php if ($subelements): ?>
         <?php foreach ($subelements as $subelement): ?>
@@ -19,13 +18,12 @@
                 <?php $datesSubelements = false; ?>
             <?php endif; ?>
             <?php
-            echo $this->partial('vra-core-element.php', array(
-                    'element' => $subelement,
-                    'elementName' => metadata($subelement, 'name'),
-                    'subelements' => $datesSubelements,
-                    'showAttributes' => $showAttributes,
-                 )
-            );
+            echo $this->partial('vra-core-element.php', [
+                'element' => $subelement,
+                'elementName' => metadata($subelement, 'name'),
+                'subelements' => $datesSubelements,
+                'showAttributes' => $showAttributes,
+            ]);
             ?>
         <?php endforeach; ?>
     <?php endif; ?>

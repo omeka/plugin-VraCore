@@ -2,7 +2,7 @@
 
 class Table_VraCoreElement extends Omeka_Db_Table
 {
-    public function getSelectForFindBy($params = array())
+    public function getSelectForFindBy($params = [])
     {
         if (isset($params['vra_element_id']) && !$params['vra_element_id']) {
             unset($params['vra_element_id']);
@@ -17,12 +17,12 @@ class Table_VraCoreElement extends Omeka_Db_Table
 
     public function findNotesForRecordElement($omekaRecord, $omekaElementId)
     {
-        $params = array(
+        $params = [
                 'record_id' => $omekaRecord->id,
                 'record_type' => get_class($omekaRecord),
                 'name' => 'notes',
                 'element_id' => $omekaElementId,
-                );
+                ];
         $select = $this->getSelectForFindBy($params);
 
         return $this->fetchObject($select);
@@ -30,10 +30,10 @@ class Table_VraCoreElement extends Omeka_Db_Table
 
     public function omekaElementHasVraElements($omekaElement, $omekaRecord)
     {
-        $count = $this->count(array('element_id' => $omekaElement->id,
+        $count = $this->count(['element_id' => $omekaElement->id,
                 'record_id' => $omekaRecord->id,
                 'record_type' => get_class($omekaRecord),
-                ));
+                ]);
         if ($count > 0) {
             return true;
         }

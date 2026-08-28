@@ -16,8 +16,8 @@
                 <?php $inputType = ($attributeName == 'circa') ? 'checkbox' : 'text'; ?>
                 <?php if (isset($vraElementObject)): ?>
                     <?php if (is_object($vraElementObject) && isset($attributeObjects[$vraElementObject->id][$attributeName])):?>
-                        <?php 
-                            $attributeObject = $attributeObjects[$vraElementObject->id][$attributeName]; 
+                        <?php
+                            $attributeObject = $attributeObjects[$vraElementObject->id][$attributeName];
                             $attributeObjectId = $attributeObject->id;
                         ?>
                         <?php if ($inputType == 'checkbox'): ?>

@@ -1,9 +1,7 @@
 <?php
-
 if (!isset($parentVraElementId)) {
     $parentVraElementId = '';
 }
-
 ?>
 
 <div class='vra-parent-element new added vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-element-label">
@@ -17,14 +15,13 @@ if (!isset($parentVraElementId)) {
         <input class='vra-new' type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][hasSubelements]' value='1'></input>
         <div class='vra-subelements'>
         
-        <?php echo $this->partial('element-attribute-form.php',
-                array(
-                     'attributeNames' => $attributeNames,
-                     'attributeObjects' => array(),
-                     'nameBase' => $nameBase."[newElements][$newElementCount]",
-                     'label' => __('%s Attributes', $omekaElementName),
-                     )
-                );
+        <?php
+        echo $this->partial('element-attribute-form.php', [
+            'attributeNames' => $attributeNames,
+            'attributeObjects' => [],
+            'nameBase' => $nameBase."[newElements][$newElementCount]",
+            'label' => __('%s Attributes', $omekaElementName),
+        ]);
         ?>
         
         <?php foreach ($elementsData[$omekaElementName]['subelements'] as $subelementName): ?>
@@ -48,30 +45,25 @@ if (!isset($parentVraElementId)) {
                     <button type="button" aria-expanded="false" aria-label="<?php echo __('Show'); ?>" class="drawer-toggle" data-action-selector="opened" title="<?php echo __('Show'); ?>"><span class="icon"></span></button>
                 </div>
                 <fieldset class="drawer-contents">
-                    <?php echo $this->partial('element-attribute-form.php',
-                            array(
-                                 'attributeNames' => array_merge(array('type'), $attributeNames),
-                                 //kind of a cheat. put true at the front to produce a new set of attributes for new element
-                                 'vraElementObjects' => array(true),
-                                 'nameBase' => $nameBase."[newElements][$newElementCount][newSubelements][$subelementName][0]",
-                                 'label' => __('%s Attributes', $subelementLabel),
-                                 )
-                            );
-                    ?>
                     <?php
-                        echo $this->partial('dates-form.php',
-                            array(
-                                  'elementsData' => $this->elementsData,
-                                  'subelementsData' => $this->subelementsData,
-                                  'subelementName' => $subelementName,
-                                  'newElementCount' => $newElementCount,
-                                  'nameBase' => $nameBase,
-                                    //@todo : how many of these are still actually used?
-                                  'globalAttributes' => $this->globalAttrs,
-                                  'attributeNames' => $attributeNames,
-                                  'attributeObjects' => array(),
-                            )
-                        );
+                    echo $this->partial('element-attribute-form.php', [
+                        'attributeNames' => array_merge(['type'], $attributeNames),
+                        //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                        'vraElementObjects' => [true],
+                        'nameBase' => $nameBase."[newElements][$newElementCount][newSubelements][$subelementName][0]",
+                        'label' => __('%s Attributes', $subelementLabel),
+                    ]);
+                    echo $this->partial('dates-form.php', [
+                        'elementsData' => $this->elementsData,
+                        'subelementsData' => $this->subelementsData,
+                        'subelementName' => $subelementName,
+                        'newElementCount' => $newElementCount,
+                        'nameBase' => $nameBase,
+                        //@todo : how many of these are still actually used?
+                        'globalAttributes' => $this->globalAttrs,
+                        'attributeNames' => $attributeNames,
+                        'attributeObjects' => [],
+                    ]);
                     ?>
                     <button class='subelement-add' type='button' data-newAgentIndex='<?php echo $newAgentCount; ?>' data-namebase='<?php echo $nameBase; ?>' data-subelement-name='<?php echo $subelementName; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'><?php echo __('Add VRA Dates Element'); ?></input>
                 </fieldset>
@@ -89,24 +81,22 @@ if (!isset($parentVraElementId)) {
 
                     <div class='vra-subelement vra-element-inputs new'>
                         <?php
-                            if (isset($subelementsData[$subelementName])) {
-                                $attributeNames = array_merge($subelementsData[$subelementName]['attrs'], $globalAttrs);
-                            } else {
-                                $attributeNames = $globalAttrs;
-                            }
+                        if (isset($subelementsData[$subelementName])) {
+                            $attributeNames = array_merge($subelementsData[$subelementName]['attrs'], $globalAttrs);
+                        } else {
+                            $attributeNames = $globalAttrs;
+                        }
                         ?>
                         <textarea aria-label="<?php echo __('Content %s', $newElementCount); ?>" class='vra-new' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][content]' value=''></textarea>
                         <input class='vra-new' type='hidden' name='<?php echo $nameBase; ?>[newElements][<?php echo $newElementCount; ?>][newSubelements][<?php echo $subelementName; ?>][0][parent_id]' value='<?php echo $parentVraElementId; ?>'></input>
-                            <?php echo $this->partial('element-attribute-form.php',
-                                    array(
-                                         'attributeNames' => $attributeNames,
-                                         'attributeObjects' => array(),
-                                         //kind of a cheat. put true at the front to produce a new set of attributes for new element
-                                         'vraElementObjects' => array(true),
-                                         'nameBase' => $nameBase."[newElements][$newElementCount][newSubelements][$subelementName][0]",
-                                         'label' => __('%s Attributes', $subelementLabel),
-                                         )
-                                    );
+                            <?php echo $this->partial('element-attribute-form.php', [
+                                'attributeNames' => $attributeNames,
+                                'attributeObjects' => [],
+                                //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                                'vraElementObjects' => [true],
+                                'nameBase' => $nameBase."[newElements][$newElementCount][newSubelements][$subelementName][0]",
+                                'label' => __('%s Attributes', $subelementLabel),
+                            ]);
                             ?>
                     </div>
                 </fieldset>

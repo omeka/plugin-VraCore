@@ -1,19 +1,19 @@
 <?php
-    $nameBase = "vra-element[{$omekaElement->id}]";
+$nameBase = "vra-element[{$omekaElement->id}]";
 ?>
 
 <div class='vra-data'>
 <!-- Display Element Attributes -->
-        <?php  echo $this->partial('element-attribute-form.php',
-                array(
-                     'attributeNames' => $globalAttributes,
-                     'attributeObjects' => $attributeObjects,
-                     'nameBase' => $nameBase.'[display]',
-                     'label' => __('Display Attributes'),
-                     'topLevel' => 'display',
-                     )
-                );
-        ?>
+    <?php
+    echo $this->partial('element-attribute-form.php', [
+        'attributeNames' => $globalAttributes,
+        'attributeObjects' => $attributeObjects,
+        'nameBase' => $nameBase.'[display]',
+        'label' => __('Display Attributes'),
+        'topLevel' => 'display',
+        ]
+    );
+    ?>
 
     <?php $notes = $notesObject ? metadata($notesObject, 'content') : ''; ?>
     <div class='vra-element vra-drawer' role="group" aria-labelledby="<?php echo $nameBase; ?>-notes-label" ">
@@ -24,16 +24,15 @@
         <fieldset class="drawer-contents" id="<?php echo $nameBase; ?>-drawer">
             <div class='vra-element-inputs'>
                 <textarea aria-label="<?php echo __('Content'); ?>" name='<?php echo $nameBase; ?>[notes][content]'><?php echo $notes; ?></textarea>
-                        <?php echo $this->partial('element-attribute-form.php',
-                                array(
-                                     'attributeNames' => $globalAttributes,
-                                     'attributeObjects' => $attributeObjects,
-                                     'nameBase' => $nameBase.'[notes]',
-                                     'label' => __('Notes Attributes'),
-                                     'topLevel' => 'notes',
-                                     )
-                                );
-                        ?>
+                <?php
+                echo $this->partial('element-attribute-form.php', [
+                    'attributeNames' => $globalAttributes,
+                    'attributeObjects' => $attributeObjects,
+                    'nameBase' => $nameBase.'[notes]',
+                    'label' => __('Notes Attributes'),
+                    'topLevel' => 'notes',
+                ]);
+                ?>
             </div>
         </fieldset>
     </div>
@@ -48,34 +47,32 @@
             <div class='vra-element-inputs new'>
                 <textarea aria-label="<?php echo __('Content'); ?>" class='vra-new' name='<?php echo $nameBase; ?>[newElements][0][content]'></textarea>
                 <input type='hidden' class='vra-new' name='<?php echo $nameBase; ?>[newElements][0][name]' value='<?php echo $omekaElement->name; ?>'></input>
-                    <?php echo $this->partial('element-attribute-form.php',
-                            array(
-                                 'attributeNames' => $attributeNames,
-                                 'attributeObjects' => $attributeObjects,
-                                 //kind of a cheat. put true at the front to produce a new set of attributes for new element
-                                 'vraElementObjects' => array(true),
-                                 'nameBase' => $nameBase.'[newElements][0]',
-                                 'label' => __('Attributes'),
-                                 )
-                            );
-                    ?>
+                <?php
+                echo $this->partial('element-attribute-form.php', [
+                    'attributeNames' => $attributeNames,
+                    'attributeObjects' => $attributeObjects,
+                    //kind of a cheat. put true at the front to produce a new set of attributes for new element
+                    'vraElementObjects' => [true],
+                    'nameBase' => $nameBase.'[newElements][0]',
+                    'label' => __('Attributes'),
+                ]);
+                ?>
             </div>
             <?php endif; ?>
             <?php foreach ($vraElementObjects as $vraElementObject): ?>
-                    <div class='vra-element-inputs'>
-                        <textarea aria-label="<?php echo __('Content'); ?>" name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]'><?php echo metadata($vraElementObject, 'content'); ?></textarea>
-                            <?php echo $this->partial('element-attribute-form.php',
-                                    array(
-                                         'attributeNames' => $attributeNames,
-                                         'attributeObjects' => $attributeObjects,
-                                         'vraElementObject' => $vraElementObject,
-                                         'vraElementObjects' => $vraElementObjects,
-                                         'nameBase' => $nameBase."[{$vraElementObject->id}]",
-                                         'label' => __('Attributes'),
-                                         )
-                                    );
-                            ?>
-                    </div>
+            <div class='vra-element-inputs'>
+                <textarea aria-label="<?php echo __('Content'); ?>" name='<?php echo $nameBase; ?>[<?php echo $vraElementObject->id; ?>][content]'><?php echo metadata($vraElementObject, 'content'); ?></textarea>
+                <?php
+                echo $this->partial('element-attribute-form.php', [
+                    'attributeNames' => $attributeNames,
+                    'attributeObjects' => $attributeObjects,
+                    'vraElementObject' => $vraElementObject,
+                    'vraElementObjects' => $vraElementObjects,
+                    'nameBase' => $nameBase."[{$vraElementObject->id}]",
+                    'label' => __('Attributes'),
+                ]);
+                ?>
+            </div>
             <?php endforeach;?>
             <button class='element-add' type='button' data-namebase='<?php echo $nameBase; ?>' data-omeka-element-name='<?php echo $omekaElement->name; ?>'><?php echo __('Add Input'); ?></button>
         </fieldset>

@@ -1,16 +1,18 @@
 <?php
 $db = get_db();
 $recordType = get_class($record);
-$vraElements = $db->getTable('VraCoreElement')->findBy(array('record_type' => $recordType,
-                                                'record_id' => $record->id,
-                                                'vra_element_id' => false,
-                                    ));
+$vraElements = $db->getTable('VraCoreElement')->findBy([
+    'record_type' => $recordType,
+    'record_id' => $record->id,
+    'vra_element_id' => false,
+]);
 
-$recordAttributes = $db->getTable('VraCoreAttribute')->findBy(array('record_type' => $recordType,
-                                                'record_id' => $record->id,
-                                                'vra_element_id' => false,
-                                                'element_id' => false,
-                                    ));
+$recordAttributes = $db->getTable('VraCoreAttribute')->findBy([
+    'record_type' => $recordType,
+    'record_id' => $record->id,
+    'vra_element_id' => false,
+    'element_id' => false,
+]);
 
 switch ($recordType) {
     case 'Item':
@@ -53,8 +55,8 @@ foreach ($recordAttributes as $vraAttribute) {
     }
 }
 
-$vraElementSets = array();
-$vraNotes = array();
+$vraElementSets = [];
+$vraNotes = [];
 foreach ($vraElements as $vraElement) {
     $elementKey = $vraElement->name;
     //$elName = lcfirst($elName); this gives a whitescreen of death. no idea why
@@ -68,7 +70,7 @@ foreach ($vraElements as $vraElement) {
 //generate existing implicit relations, ie between collections and items, and items and files
 if (isset($relation)) {
     if (!isset($vraElementSets['Relation'])) {
-        $vraElementSets['Relation'] = array();
+        $vraElementSets['Relation'] = [];
     }
     $webRoot = WEB_ROOT; //srsly?
     $relationHtml = "<relation type='{$relation['type']}' source='$webRoot' refid='{$relation['refid']}'></relation>";
@@ -76,31 +78,31 @@ if (isset($relation)) {
 }
 
 //force in a key when a display value is recorded
-$elementData = array(
-            'Title',
-            'Agent',
-            'Cultural Context',
-            'Date',
-            'Description',
-            'Inscription',
-            'Location',
-            'Material',
-            'Measurements',
-            'Relation',
-            'Rights',
-            'Source',
-            'State Edition',
-            'Style Period',
-            'Subject',
-            'Technique',
-            'Textref',
-            'Worktype',
-        );
+$elementData = [
+    'Title',
+    'Agent',
+    'Cultural Context',
+    'Date',
+    'Description',
+    'Inscription',
+    'Location',
+    'Material',
+    'Measurements',
+    'Relation',
+    'Rights',
+    'Source',
+    'State Edition',
+    'Style Period',
+    'Subject',
+    'Technique',
+    'Textref',
+    'Worktype',
+];
 
 foreach ($elementData as $elementKey) {
-    if (!empty(metadata($record, array('VRA Core', $elementKey))) &&
+    if (!empty(metadata($record, ['VRA Core', $elementKey])) &&
          !isset($vraElementSets[$elementKey])) {
-        $vraElementSets[$elementKey] = array();
+        $vraElementSets[$elementKey] = [];
     }
 }
 
@@ -115,21 +117,20 @@ ksort($vraElementSets);
         <?php $elementName = str_replace(' ', '', $elementKey); ?>
         <<?php echo lcfirst($elementName).'Set'; ?>>
             <?php
-                    //wonky workaround to match notes by vra element id
-                    //yes, I've done things I'm not proud of
-                    if (isset($vraElementSet[0])) {
-                        $sampleElement = $vraElementSet[0];
-                        if (is_object($sampleElement)) {
-                            $currentVraElementId = $sampleElement->element_id;
-                        } else {
-                            $currentVraElementId = 'no';
-                        }
-                    } else {
-                        $currentVraElementId = 'no';
-                    }
-
+            //wonky workaround to match notes by vra element id
+            //yes, I've done things I'm not proud of
+            if (isset($vraElementSet[0])) {
+                $sampleElement = $vraElementSet[0];
+                if (is_object($sampleElement)) {
+                    $currentVraElementId = $sampleElement->element_id;
+                } else {
+                    $currentVraElementId = 'no';
+                }
+            } else {
+                $currentVraElementId = 'no';
+            }
             ?>
-            <display><?php echo metadata($record, array('VRA Core', $elementKey)); ?></display>
+            <display><?php echo metadata($record, ['VRA Core', $elementKey]); ?></display>
             <?php if (isset($vraNotes[$currentVraElementId])): ?>
                 <?php $currentVraNotes = $vraNotes[$currentVraElementId]; ?>
             <notes <?php echo $currentVraNotes->getAttributesAsHtml(); ?>  ><?php echo $currentVraNotes->content; ?></notes>
@@ -145,7 +146,7 @@ ksort($vraElementSets);
                 <<?php echo lcfirst($elementName); ?><?php echo $vraElement->getAttributesAsHtml(); ?>>
                     <?php foreach ($subelements as $subelement): ?>
                         <?php if ($subelement->name == 'dates'): ?>
-                            <?php 
+                            <?php
                                 $subDatesElements = $subelement->getSubelements();
                             ?>
                         <<?php echo $subelement->name; echo $subelement->getAttributesAsHtml(); ?>><?php echo $subelement->content; ?>
@@ -167,12 +168,13 @@ ksort($vraElementSets);
 
 <?php
 if ($recordType == 'Item') {
-    $idAttributes = $db->getTable('VraCoreAttribute')->findBy(array('record_type' => 'Item',
-                                                'record_id' => $record->id,
-                                                'name' => 'id',
-                                                'vra_element_id' => false,
-                                                'element_id' => false,
-                                    ));
+    $idAttributes = $db->getTable('VraCoreAttribute')->findBy([
+        'record_type' => 'Item',
+        'record_id' => $record->id,
+        'name' => 'id',
+        'vra_element_id' => false,
+        'element_id' => false,
+    ]);
 
     if (!empty($idAttributes)) {
         $idAttribute = $idAttributes[0];
@@ -182,27 +184,23 @@ if ($recordType == 'Item') {
     }
 
     foreach ($record->Files as $file) {
-        echo $this->partial('record-xml-partial.php',
-            array(
-                    'record' => $file,
-                    'relation' => array('type' => 'imageOf',
-                                         'refid' => $refid,
-                                        ),
-                 )
-            );
+        echo $this->partial('record-xml-partial.php', [
+            'record' => $file,
+            'relation' => ['type' => 'imageOf', 'refid' => $refid],
+        ]);
     }
 }
-
 ?>
 
 <?php
 if ($recordType == 'Collection') {
-    $idAttributes = $db->getTable('VraCoreAttribute')->findBy(array('record_type' => 'Collection',
-                                                'record_id' => $record->id,
-                                                'name' => 'id',
-                                                'vra_element_id' => false,
-                                                'element_id' => false,
-                                    ));
+    $idAttributes = $db->getTable('VraCoreAttribute')->findBy([
+        'record_type' => 'Collection',
+        'record_id' => $record->id,
+        'name' => 'id',
+        'vra_element_id' => false,
+        'element_id' => false,
+    ]);
 
     if (!empty($idAttributes)) {
         $idAttribute = $idAttributes[0];
@@ -211,20 +209,11 @@ if ($recordType == 'Collection') {
         $refid = 'collection_'.$record->id;
     }
 
-    $items = $db->getTable('Item')->findBy(array('collection' => $record));
+    $items = $db->getTable('Item')->findBy(['collection' => $record]);
     foreach ($items as $item) {
-        echo $this->partial('record-xml-partial.php',
-            array(
-                    'record' => $item,
-                    'relation' => array('type' => 'partOf',
-                                         'refid' => $refid,
-                                        ),
-                 )
-            );
+        echo $this->partial('record-xml-partial.php', [
+            'record' => $item,
+            'relation' => ['type' => 'partOf', 'refid' => $refid],
+        ]);
     }
 }
-
-?>
-
-
-

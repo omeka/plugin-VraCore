@@ -2,148 +2,148 @@
 
 class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 {
-    public $_hooks = array(
-            'install',
-            'uninstall',
-            'upgrade',
-            'initialize',
-            'after_save_item',
-            'after_save_collection',
-            'after_save_file',
-            'after_delete_item',
-            'after_delete_collection',
-            'after_delete_file',
-            'elements_show',
-            'config',
-            'config_form',
-            'admin_head',
-            'public_head',
-            );
+    public $_hooks = [
+        'install',
+        'uninstall',
+        'upgrade',
+        'initialize',
+        'after_save_item',
+        'after_save_collection',
+        'after_save_file',
+        'after_delete_item',
+        'after_delete_collection',
+        'after_delete_file',
+        'elements_show',
+        'config',
+        'config_form',
+        'admin_head',
+        'public_head',
+    ];
 
-    public $_filters = array(
-            'action_contexts',
-            'response_contexts',
-            );
+    public $_filters = [
+        'action_contexts',
+        'response_contexts',
+    ];
 
-    public $_options = array(
-            'vra-core-ignore-attributes',
-            'vra-core-ignore-elements',
-            'vra-core-hide-public-details',
-            'vra-core-hide-public-attributes',
-            'vra-core-hide-public-datadate',
-            );
+    public $_options = [
+        'vra-core-ignore-attributes',
+        'vra-core-ignore-elements',
+        'vra-core-hide-public-details',
+        'vra-core-hide-public-attributes',
+        'vra-core-hide-public-datadate',
+    ];
 
     protected $searchTexts = '';
 
-    protected $elementsData = array(
-            'Toplevel' => array('attrs' => array()), //mostly fake, to filter out and allow top-level attributes
-            'Title' => array('attrs' => array('type')),
-            'Agent' => array(
-                    'attrs' => array(),
-                    'subelements' => array('name', 'culture', 'dates', 'role', 'attribution'),
-                    'subelementObjects' => array(),
-                    ),
-            'Cultural Context' => array('attrs' => array()),
-            'Date' => array(
-                    'attrs' => array('type'),
-                    'subelements' => array('earliestDate', 'latestDate'),
-                    'subelementObjects' => array(),
-                    ),
-            'Description' => array('attrs' => array()),
-            'Inscription' => array(
-                    'attrs' => array(),
-                    'subelements' => array('author', 'position', 'text'),
-                    'subelementObjects' => array(),
-                    ),
-            'Location' => array(
-                    'attrs' => array('type'),
-                    'subelements' => array('name', 'refid'),
-                    'subelementObjects' => array(),
-                    ),
-            'Material' => array('attrs' => array('type')),
-            'Measurements' => array('attrs' => array('type', 'unit')),
-            'Relation' => array(
-                    'attrs' => array('type', 'relids'),
-                    ),
-            'Rights' => array(
-                    'attrs' => array('type'),
-                    'subelements' => array('rightsHolder', 'text'),
-                    'subelementObjects' => array(),
-                    ),
-            'Source' => array(
-                    'attrs' => array(),
-                    'subelements' => array('name', 'refid'),
-                    'subelementObjects' => array(),
-                    ),
-            'State Edition' => array(
-                    'attrs' => array('type', 'num', 'count'),
-                    'subelements' => array('name', 'description'),
-                    'subelementObjects' => array(),
-                    ),
-            'Style Period' => array('attrs' => array()),
-            'Subject' => array(
-                    'attrs' => array(),
-                    'subelements' => array('term'),
-                    'subelementObjects' => array(),
-                    ),
-            'Technique' => array('attrs' => array()),
-            'Textref' => array(
-                    'attrs' => array(),
-                    'subelements' => array('name', 'refid'),
-                    'subelementObjects' => array(),
-                    ),
-            'Worktype' => array('attrs' => array()),
-        );
+    protected $elementsData = [
+        'Toplevel' => ['attrs' => []], //mostly fake, to filter out and allow top-level attributes
+        'Title' => ['attrs' => ['type']],
+        'Agent' => [
+            'attrs' => [],
+            'subelements' => ['name', 'culture', 'dates', 'role', 'attribution'],
+            'subelementObjects' => [],
+        ],
+        'Cultural Context' => ['attrs' => []],
+        'Date' => [
+            'attrs' => ['type'],
+            'subelements' => ['earliestDate', 'latestDate'],
+            'subelementObjects' => [],
+        ],
+        'Description' => ['attrs' => []],
+        'Inscription' => [
+            'attrs' => [],
+            'subelements' => ['author', 'position', 'text'],
+            'subelementObjects' => [],
+        ],
+        'Location' => [
+            'attrs' => ['type'],
+            'subelements' => ['name', 'refid'],
+            'subelementObjects' => [],
+        ],
+        'Material' => ['attrs' => ['type']],
+        'Measurements' => ['attrs' => ['type', 'unit']],
+        'Relation' => [
+            'attrs' => ['type', 'relids'],
+        ],
+        'Rights' => [
+            'attrs' => ['type'],
+            'subelements' => ['rightsHolder', 'text'],
+            'subelementObjects' => [],
+        ],
+        'Source' => [
+            'attrs' => [],
+            'subelements' => ['name', 'refid'],
+            'subelementObjects' => [],
+        ],
+        'State Edition' => [
+            'attrs' => ['type', 'num', 'count'],
+            'subelements' => ['name', 'description'],
+            'subelementObjects' => [],
+        ],
+        'Style Period' => ['attrs' => []],
+        'Subject' => [
+            'attrs' => [],
+            'subelements' => ['term'],
+            'subelementObjects' => [],
+        ],
+        'Technique' => ['attrs' => []],
+        'Textref' => [
+            'attrs' => [],
+            'subelements' => ['name', 'refid'],
+            'subelementObjects' => [],
+        ],
+        'Worktype' => ['attrs' => []],
+    ];
 
-    protected $subelementsData = array(
-            'dates' => array(
-                    'attrs' => array('type'),
-                    'subelements' => array('earliestDate', 'latestDate'),
-                    ),
-            'name' => array(
-                    'attrs' => array('type'),
-                    ),
-            'text' => array(
-                    'attrs' => array('type'),
-                    ),
-            'refid' => array(
-                    'attrs' => array('type'),
-                    ),
-            'term' => array(
-                    'attrs' => array('type'),
-                    ),
-            'earliestDate' => array(
-                    'attrs' => array('circa'),
-                    ),
-            'latestDate' => array(
-                    'attrs' => array('circa'),
-                    ),
-            );
+    protected $subelementsData = [
+        'dates' => [
+            'attrs' => ['type'],
+            'subelements' => ['earliestDate', 'latestDate'],
+        ],
+        'name' => [
+            'attrs' => ['type'],
+        ],
+        'text' => [
+            'attrs' => ['type'],
+        ],
+        'refid' => [
+            'attrs' => ['type'],
+        ],
+        'term' => [
+            'attrs' => ['type'],
+        ],
+        'earliestDate' => [
+            'attrs' => ['circa'],
+        ],
+        'latestDate' => [
+            'attrs' => ['circa'],
+        ],
+    ];
 
-    protected $globalAttrs = array(
-            'extent',
-            'href',
-            'pref',
-            'refid',
-            'id',
-            'rules',
-            'source',
-            'vocab',
-            'xml:lang',
-            );
+    protected $globalAttrs = [
+        'extent',
+        'href',
+        'pref',
+        'refid',
+        'id',
+        'rules',
+        'source',
+        'vocab',
+        'xml:lang',
+    ];
 
     public function hookInitialize()
     {
         $elements = array_keys($this->elementsData);
         foreach ($elements as $element) {
             if ($element == 'Toplevel') {
-                add_filter(array('ElementForm', 'Item', 'VRA Core', $element), array($this, 'filterRecordLevelInput'), 1);
-                add_filter(array('ElementForm', 'Collection', 'VRA Core', $element), array($this, 'filterRecordLevelInput'), 1);
-                add_filter(array('ElementForm', 'File', 'VRA Core', $element), array($this, 'filterRecordLevelInput'), 1);
+                add_filter(['ElementForm', 'Item', 'VRA Core', $element], [$this, 'filterRecordLevelInput'], 1);
+                add_filter(['ElementForm', 'Collection', 'VRA Core', $element], [$this, 'filterRecordLevelInput'], 1);
+                add_filter(['ElementForm', 'File', 'VRA Core', $element], [$this, 'filterRecordLevelInput'], 1);
             } else {
-                add_filter(array('ElementForm', 'Item', 'VRA Core', $element), array($this, 'addVraInputs'), 1);
-                add_filter(array('ElementForm', 'Collection', 'VRA Core', $element), array($this, 'addVraInputs'), 1);
-                add_filter(array('ElementForm', 'File', 'VRA Core', $element), array($this, 'addVraInputs'), 1);
+                add_filter(['ElementForm', 'Item', 'VRA Core', $element], [$this, 'addVraInputs'], 1);
+                add_filter(['ElementForm', 'Collection', 'VRA Core', $element], [$this, 'addVraInputs'], 1);
+                add_filter(['ElementForm', 'File', 'VRA Core', $element], [$this, 'addVraInputs'], 1);
             }
         }
     }
@@ -188,7 +188,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $db->query($sql);
         $sql = "DROP TABLE `$db->VraCoreElement`";
         $db->query($sql);
-        
+
         $this->_uninstallOptions();
     }
 
@@ -252,32 +252,31 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $element = $args['elementInfo']['element'];
         $elementSet = $this->_db->getTable('ElementSet')->find($element->element_set_id);
         if ($elementSet->name == 'VRA Core') {
-            $attributes = $this->_db->getTable('VraCoreAttribute')
-                            ->findBy(array('record_id' => $record->id,
-                                           'record_type' => get_class($record),
-                                           'element_id' => $element->id,
-                                           'vra_element_id' => false,
-                               ));
-            $elements = $this->_db->getTable('VraCoreElement')
-                            ->findBy(array('record_id' => $record->id,
-                                           'record_type' => get_class($record),
-                                           'element_id' => $element->id,
-                                           'vra_element_id' => false,
-                               ));
+            $attributes = $this->_db->getTable('VraCoreAttribute')->findBy([
+                'record_id' => $record->id,
+                'record_type' => get_class($record),
+                'element_id' => $element->id,
+                'vra_element_id' => false,
+            ]);
+            $elements = $this->_db->getTable('VraCoreElement')->findBy([
+                'record_id' => $record->id,
+                'record_type' => get_class($record),
+                'element_id' => $element->id,
+                'vra_element_id' => false,
+            ]);
 
             if (empty($attributes) && empty($elements)) {
                 return;
             }
-            $groupedElements = array();
+            $groupedElements = [];
             foreach ($elements as $element) {
                 $groupedElements[$element->name][] = $element;
             }
             $view = get_view();
-            echo $view->partial('vra-core-data-display.php',
-                    array('attributes' => $attributes,
-                          'groupedElements' => $groupedElements,
-                            )
-                    );
+            echo $view->partial('vra-core-data-display.php', [
+                'attributes' => $attributes,
+                'groupedElements' => $groupedElements,
+            ]);
         }
     }
 
@@ -316,7 +315,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $db = get_db();
         $controller = $args['controller'];
         $params = $controller->getAllParams();
-        $vraControllers = array('items', 'files', 'collections');
+        $vraControllers = ['items', 'files', 'collections'];
         if (in_array($params['controller'], $vraControllers) && $params['action'] == 'show') {
             $type = Inflector::classify($params['controller']);
             $record = $db->getTable($type)->find($params['id']);
@@ -324,10 +323,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 return $contexts;
             }
 
-            $vraElementCount = $db->getTable('VraCoreElement')
-                                  ->count(array('record_type' => get_class($record),
-                                                'record_id' => $record->id,
-                                    ));
+            $vraElementCount = $db->getTable('VraCoreElement')->count([
+                'record_type' => get_class($record),
+                'record_id' => $record->id,
+            ]);
             $contexts['show'][] = 'vra';
         }
 
@@ -336,8 +335,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
     public function filterResponseContexts($contexts)
     {
-        $contexts['vra'] = array('suffix' => 'vra',
-                                 'headers' => array('Content-Type' => 'text/xml'), );
+        $contexts['vra'] = [
+            'suffix' => 'vra',
+            'headers' => ['Content-Type' => 'text/xml'],
+        ];
 
         return $contexts;
     }
@@ -367,29 +368,28 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $globalAttributes = $this->getGlobalAttrs();
 
         if ($record->exists()) {
-            $attributeObjects = $db->getTable('VraCoreAttribute')
-                                    ->findBy(array(
-                                         'record_id' => $record->id,
-                                         'record_type' => $recordClass,
-                                         'vra_element_id' => false,
-                                         'element_id' => false,
-                                        ));
-            $keyedAttributeObjects = array('recordLevel' => array());
+            $attributeObjects = $db->getTable('VraCoreAttribute')->findBy([
+                'record_id' => $record->id,
+                'record_type' => $recordClass,
+                'vra_element_id' => false,
+                'element_id' => false,
+            ]);
+            $keyedAttributeObjects = ['recordLevel' => []];
             if (!empty($attributeObjects)) {
                 foreach ($attributeObjects as $attributeObject) {
                     $keyedAttributeObjects['recordLevel'][$attributeObject->name] = $attributeObject;
                 }
             }
         } else {
-            $keyedAttributeObjects = array();
+            $keyedAttributeObjects = [];
         }
-        $partialArgs = array(
-                     'attributeNames' => $globalAttributes,
-                     'attributeObjects' => $keyedAttributeObjects,
-                     'nameBase' => 'vra-element[recordLevel]', //not really element, but forces into the pattern elsewhere
-                     'label' => $label,
-                     'topLevel' => 'recordLevel',
-                     );
+        $partialArgs = [
+            'attributeNames' => $globalAttributes,
+            'attributeObjects' => $keyedAttributeObjects,
+            'nameBase' => 'vra-element[recordLevel]', //not really element, but forces into the pattern elsewhere
+            'label' => $label,
+            'topLevel' => 'recordLevel',
+        ];
         $html = $view->partial('element-attribute-form.php', $partialArgs);
         $components['inputs'] = $html;
 
@@ -404,17 +404,18 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         }
         $record = $args['record'];
         $omekaElement = $args['element'];
-        $attributeObjects = array();
-        $vraElementObjects = array();
+        $attributeObjects = [];
+        $vraElementObjects = [];
         if ($record->exists()) {
             $notesObject = $this->_db->getTable('VraCoreElement')->findNotesForRecordElement($record, $omekaElement->id);
 
             $attributes = $this->_db
                 ->getTable('VraCoreAttribute')
-                ->findBy(array('element_id' => $omekaElement->id,
-                               'record_id' => $record->id,
-                               'record_type' => get_class($record),
-                        ));
+                ->findBy([
+                    'element_id' => $omekaElement->id,
+                    'record_id' => $record->id,
+                    'record_type' => get_class($record),
+                ]);
             foreach ($attributes as $attribute) {
                 if (is_null($attribute->vra_element_id)) {
                     $attributeObjects['display'][$attribute->name] = $attribute;
@@ -425,11 +426,12 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
 
             $elements = $this->_db
                 ->getTable('VraCoreElement')
-                ->findBy(array('element_id' => $omekaElement->id,
-                               'record_id' => $record->id,
-                               'record_type' => get_class($record),
-                               'vra_element_id' => false,
-                        ));
+                ->findBy([
+                    'element_id' => $omekaElement->id,
+                    'record_id' => $record->id,
+                    'record_type' => get_class($record),
+                    'vra_element_id' => false,
+                ]);
 
             foreach ($elements as $element) {
                 //exclude notes element, and align by id
@@ -442,18 +444,18 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $attributeNames = array_merge($this->elementsData[$omekaElement->name]['attrs'], $this->globalAttrs);
 
         $view = get_view();
-        $partialArgs = array(
-                  'omekaElement' => $omekaElement,
-                  'record' => $record,
-                  'elementsData' => $this->elementsData,
-                  'subelementsData' => $this->subelementsData,
-                  'notesObject' => isset($notesObject) ? $notesObject : null,
-                    //@todo : how many of these are still actually used?
-                  'globalAttributes' => $this->globalAttrs,
-                  'attributeNames' => $attributeNames,
-                  'vraElementObjects' => $vraElementObjects,
-                  'attributeObjects' => $attributeObjects,
-            );
+        $partialArgs = [
+            'omekaElement' => $omekaElement,
+            'record' => $record,
+            'elementsData' => $this->elementsData,
+            'subelementsData' => $this->subelementsData,
+            'notesObject' => $notesObject ?? null,
+            //@todo : how many of these are still actually used?
+            'globalAttributes' => $this->globalAttrs,
+            'attributeNames' => $attributeNames,
+            'vraElementObjects' => $vraElementObjects,
+            'attributeObjects' => $attributeObjects,
+        ];
 
         $html = '';
         if (isset($this->elementsData[$omekaElement->name]['subelements'])) {
@@ -532,10 +534,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             $vraElement->record_type = get_class($omekaRecord);
             $vraElement->record_id = $omekaRecord->id;
             $vraElement->element_id = $omekaElementId;
-            $vraElement->vra_element_id = isset($elementData['vra_element_id']) ? $elementData['vra_element_id'] : null;
+            $vraElement->vra_element_id = $elementData['vra_element_id'] ?? null;
             $vraElement->name = $elementData['name'];
         }
-        $vraElement->content = isset($elementData['content']) ? $elementData['content'] : null;
+        $vraElement->content = $elementData['content'] ?? null;
         $this->searchTexts .= ' '.$vraElement->content.' ';
         $vraElement->save();
         $vraElement->updateDataDate();
@@ -550,10 +552,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             $newVraElement = $this->storeElement($elementData, $omekaRecord, $omekaElementId);
             $this->storeAttributes($elementData['attrs'], $omekaRecord, $omekaElementId, $newVraElement->id);
 
-            $this->processNewSubelements($omekaRecord,
-                                         $omekaElementId,
-                                         $elementData['newSubelements'],
-                                         $newVraElement);
+            $this->processNewSubelements($omekaRecord, $omekaElementId, $elementData['newSubelements'], $newVraElement);
         } else {
             if (empty($elementData['content'])) {
                 return;
@@ -569,74 +568,64 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
     {
         foreach ($subelementsData as $subelementName => $subelementsData) {
             //special handling for the dates subelement because it has only
-        //it's own subelements. No other subelements go down this many levels
-        if ($subelementName == 'dates') {
-            foreach ($subelementsData as $datesSubelements) {
-                if (empty($datesSubelements['earliestDate']['content'])
-                    && empty($datesSubelements['latestDate']['content'])) {
-                    continue;
-                }
-                $datesSubelementData = array(
+            //it's own subelements. No other subelements go down this many levels
+            if ($subelementName == 'dates') {
+                foreach ($subelementsData as $datesSubelements) {
+                    if (empty($datesSubelements['earliestDate']['content'])
+                        && empty($datesSubelements['latestDate']['content'])) {
+                        continue;
+                    }
+                    $datesSubelementData = [
                         'name' => 'dates',
                         'attrs' => $datesSubelements['attrs'],
-                        );
-                $datesSubelementObject = $this->processNewSubelement($omekaRecord,
-                                                                     $omekaElementId,
-                                                                     $parentVraElement,
-                                                                     $datesSubelementData);
+                    ];
+                    $datesSubelementObject = $this->processNewSubelement($omekaRecord, $omekaElementId, $parentVraElement, $datesSubelementData);
 
-                $earliestDateData = $datesSubelements['earliestDate'];
-                $earliestDateData['name'] = 'earliestDate';
-                $latestDateData = $datesSubelements['latestDate'];
-                $latestDateData['name'] = 'latestDate';
+                    $earliestDateData = $datesSubelements['earliestDate'];
+                    $earliestDateData['name'] = 'earliestDate';
+                    $latestDateData = $datesSubelements['latestDate'];
+                    $latestDateData['name'] = 'latestDate';
 
-                if (!empty($earliestDateData['content'])) {
-                    $newVraElement = $this->processNewSubelement($omekaRecord,
-                                            $omekaElementId,
-                                            $datesSubelementObject,
-                                            $earliestDateData);
+                    if (!empty($earliestDateData['content'])) {
+                        $newVraElement = $this->processNewSubelement($omekaRecord, $omekaElementId, $datesSubelementObject, $earliestDateData);
+                    }
+                    if (!empty($latestDateData['content'])) {
+                        $newVraElement = $this->processNewSubelement($omekaRecord, $omekaElementId, $datesSubelementObject, $latestDateData);
+                    }
                 }
-                if (!empty($latestDateData['content'])) {
-                    $newVraElement = $this->processNewSubelement($omekaRecord,
-                                            $omekaElementId,
-                                            $datesSubelementObject,
-                                            $latestDateData);
+            } else {
+                foreach ($subelementsData as $subelementData) {
+                    if (empty($subelementData['content'])) {
+                        continue;
+                    }
+
+                    if (isset($subelementData['vra_parent_id']) && is_numeric($subelementData['vra_parent_id'])) {
+                        $parentVraElement = $subelementData['vra_parent_id'];
+                    }
+
+                    $subelementData['name'] = $subelementName;
+                    $this->processNewSubelement($omekaRecord, $omekaElementId, $parentVraElement, $subelementData);
                 }
             }
-        } else {
-            foreach ($subelementsData as $subelementData) {
-                if (empty($subelementData['content'])) {
-                    continue;
-                }
-
-                if (isset($subelementData['vra_parent_id']) && is_numeric($subelementData['vra_parent_id'])) {
-                    $parentVraElement = $subelementData['vra_parent_id'];
-                }
-
-                $subelementData['name'] = $subelementName;
-                $this->processNewSubelement($omekaRecord,
-                                            $omekaElementId,
-                                            $parentVraElement,
-                                            $subelementData);
-            }
-        }
         }
     }
 
     protected function processExistingElement($omekaRecord, $omekaElementId, $vraElementId, $elementData)
     {
-        //elements to skip deletion. these are containers for other elements, so 
+        //elements to skip deletion. these are containers for other elements, so
         //content is alway null
-        $skipElements = array('Agent',
-                              'Date',
-                              'dates',
-                              'Inscription',
-                              'Location',
-                              'Rights',
-                              'Source',
-                              'State Edition',
-                              'Subject',
-                              'Textref', );
+        $skipElements = [
+            'Agent',
+            'Date',
+            'dates',
+            'Inscription',
+            'Location',
+            'Rights',
+            'Source',
+            'State Edition',
+            'Subject',
+            'Textref',
+        ];
         $vraElementObject = $this->_db->getTable('VraCoreElement')->find($vraElementId);
 
         //possible that an element was already deleted, so skip if not found
@@ -646,10 +635,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         if ($vraElementObject->name == 'Agent') {
             foreach ($elementData as $key => $subElementData) {
                 if (is_numeric($key)) {
-                    $this->processNewSubelements($omekaRecord,
-                                                 $omekaElementId,
-                                                 $subElementData['newSubelements'],
-                                                 $vraElementObject);
+                    $this->processNewSubelements($omekaRecord, $omekaElementId, $subElementData['newSubelements'], $vraElementObject);
                 }
             }
         }
@@ -660,10 +646,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 $vraElementObject->updateDataDate();
             }
             $vraElementObject->content = $elementData['content'];
-            $this->processNewSubelements($omekaRecord,
-                                         $omekaElementId,
-                                         $elementData['newSubelements'],
-                                         $vraElementObject);
+            $this->processNewSubelements($omekaRecord, $omekaElementId, $elementData['newSubelements'], $vraElementObject);
 
             //@TODO: reuse the storeElement function if possible, or rename it for clarity
             $vraElementObject->save();
@@ -717,9 +700,10 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
         $omekaRecord = $args['record'];
         $recordType = get_class($omekaRecord);
         $recordId = $omekaRecord->id;
-        $vraElements = get_db()
-                            ->getTable('VraCoreElement')
-                            ->findBy(array('record_type' => $recordType, 'record_id' => $recordId));
+        $vraElements = get_db()->getTable('VraCoreElement')->findBy([
+            'record_type' => $recordType,
+            'record_id' => $recordId
+        ]);
         foreach ($vraElements as $vraElement) {
             $vraElement->delete();
         }
@@ -754,12 +738,12 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
                 //lookup existing @dataDate
                 if (isset($displayAttributes['is-changed'])) {
                     $attrTable = get_db()->getTable('VraCoreAttribute');
-                    $dataDates = $attrTable->findBy(array(
-                            'name' => 'dataDate',
-                            'record_type' => get_class($omekaRecord),
-                            'record_id' => $omekaRecord->id,
-                            'element_id' => $omekaElementId,
-                            ));
+                    $dataDates = $attrTable->findBy([
+                        'name' => 'dataDate',
+                        'record_type' => get_class($omekaRecord),
+                        'record_id' => $omekaRecord->id,
+                        'element_id' => $omekaElementId,
+                    ]);
                     if (empty($dataDates)) {
                         $dataDateAttr = new VraCoreAttribute();
                         $dataDateAttr->name = 'dataDate';
@@ -845,7 +829,7 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             $searchText->record_type = get_class($omekaRecord);
             $searchText->record_id = $omekaRecord->id;
             $searchText->public = $omekaRecord->public;
-            $searchText->title = metadata($omekaRecord, array('Dublin Core', 'Title'));
+            $searchText->title = metadata($omekaRecord, ['Dublin Core', 'Title']);
         }
         $searchText->text .= ' '.$this->searchTexts;
         $searchText->save();
@@ -858,91 +842,88 @@ class VraCorePlugin extends Omeka_Plugin_AbstractPlugin
             return;
         }
 
-        $elementSetMetadata = array(
+        $elementSetMetadata = [
             'name' => 'VRA Core',
-            'description' => 'VRA Core standard for artistic pieces and cultural heritage artifacts.
-                                The first input will be treated as a <display> element. More detailed
-                                VRA Core metadata is available below that input.
-                             ',
-        );
-        $elements = array(
-            array(
+            'description' => 'VRA Core standard for artistic pieces and cultural heritage artifacts. The first input will be treated as a <display> element. More detailed VRA Core metadata is available below that input.',
+        ];
+        $elements = [
+            [
                 'name' => 'ID',
                 'description' => 'The ID to apply to a VRA Work, Image, or Collection (corresponds to vra id attribute).',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Title',
                 'description' => 'The title or identifying phrase given to a Work or an Image.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Agent',
                 'description' => 'The names, appellations, or other identifiers assigned to an individual, group, or corporate body that has contributed to the design, creation, production, manufacture, or alteration of the work or image.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Cultural Context',
                 'description' => 'The name of the culture, people (ethnonym), or adjectival form of a country name fromwhich a Work, Collection, or Image originates, or the cultural context with which the Work, Collection, or Image has been associated.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Date',
                 'description' => 'Date or range of dates associated with the creation, design, production, presentation, performance, construction, or alteration, etc. of the work or image. Dates may be expressed as free text or numerical.  In format yyyy-mm-dd yyyy-mm-dd.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Description',
                 'description' => 'A free-text note about the Work, Collection, or Image, including comments, description, or interpretation, that gives additional information not recorded in other categories.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Inscription',
                 'description' => 'All marks or written words added to the object at the time of production or in its subsequent history, including signatures, dates, dedications, texts, and colophons, as well as marks, such as the stamps of silversmiths, publishers, or printers. ',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Location',
                 'description' => 'The geographic location and/or name of the repository, building, site, or other entity whose boundaries include the Work or Image.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Material',
                 'description' => 'The substance of which a work or an image is composed.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Measurements',
                 'description' => 'The physical size, shape, scale, dimensions, or format of the Work or Image. Dimensions may include such measurements as volume, weight, area or running time.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Relation',
                 'description' => 'Terms or phrases describing the identity of the related work and the relationship between the work being cataloged and the related work or image.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Rights',
                 'description' => 'Information about the copyright status and the rights holder for a work, collection, or image',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Source',
                 'description' => 'A reference to the source of the information recorded about the work or the image.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'State Edition',
                 'description' => 'The identifying number and/or name assigned to the state or edition of a work that exists in more than one form and the placement of that work in the context of prior or later issuances of multiples of the same work.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Style Period',
                 'description' => 'A defined style, historical period, group, school, dynasty, movement, etc. whose characteristics are represented in the Work or Image.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Subject',
                 'description' => 'Terms or phrases that describe, identify, or interpret the Work or Image and what it depicts or expresses. These may include generic terms that describe the work and the elements that it comprises, terms that identify particular people, geographic places, narrative and iconographic themes, or terms that refer to broader concepts or interpretations.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Technique',
                 'description' => 'The production or manufacturing processes, techniques, and methods incorporated in the fabrication or alteration of the work or image.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Textref',
                 'description' => 'Contains the name of a related textual reference and any type of unique identifier that text assigns to a Work or Collection that is independent of any repository.',
-            ),
-            array(
+            ],
+            [
                 'name' => 'Worktype',
                 'description' => 'Identifies the specific type of WORK, COLLECTION, or IMAGE being described in the record.',
-            ),
-        );
+            ],
+        ];
         insert_element_set($elementSetMetadata, $elements);
     }
 }

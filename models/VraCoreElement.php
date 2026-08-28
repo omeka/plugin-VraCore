@@ -22,7 +22,7 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
     {
         if (!$this->attributes) {
             $this->attributes = $this->getDb()->getTable('VraCoreAttribute')
-                ->findBy(array('vra_element_id' => $this->id));
+                ->findBy(['vra_element_id' => $this->id]);
         }
 
         return $this->attributes;
@@ -41,9 +41,9 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
 
     public function getSubelements($name = null)
     {
-        $params = array('vra_element_id' => $this->id,
-                        'sort_field' => 'name',
-                  );
+        $params = ['vra_element_id' => $this->id,
+            'sort_field' => 'name',
+        ];
         if ($name) {
             $params['name'] = $name;
         }
@@ -55,7 +55,7 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
 
     public function hasSubelements($name = null)
     {
-        $params = array('vra_element_id' => $this->id);
+        $params = ['vra_element_id' => $this->id];
         if ($name) {
             $params['name'] = $name;
         }
@@ -81,10 +81,10 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
 
     public function getParentElements()
     {
-        $allParentElements = array();
+        $allParentElements = [];
 
         if ($this->vra_element_id) {
-            $params = array('id' => $this->vra_element_id);
+            $params = ['id' => $this->vra_element_id];
             $parentElements = $this->getDb()->getTable('VraCoreElement')
                 ->findBy($params);
             $allParentElements = array_merge($allParentElements, $parentElements);
@@ -93,7 +93,7 @@ class VraCoreElement extends Omeka_Record_AbstractRecord
         foreach ($allParentElements as $parentElement) {
             if ($parentElement->vra_element_id) {
                 $superParentElements = $this->getDb()->getTable('VraCoreElement')
-                    ->findBy(array('id' => $parentElement->vra_element_id));
+                    ->findBy(['id' => $parentElement->vra_element_id]);
                 $allParentElements = array_merge($allParentElements, $superParentElements);
             }
         }

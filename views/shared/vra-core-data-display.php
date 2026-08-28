@@ -11,23 +11,21 @@ if (is_admin_theme()) {
 ?>
 <div class='vra-subelements'>
     <?php
-    echo $this->partial('vra-core-attributes.php', array(
-            'showAttributes' => $showAttributes,
-            'attributes' => $attributes,
-         )
-    );
+    echo $this->partial('vra-core-attributes.php', [
+        'showAttributes' => $showAttributes,
+        'attributes' => $attributes,
+    ]);
     ?>
 
     <?php if (isset($groupedElements['notes'])): ?>
         <?php $notesElement = $groupedElements['notes'][0]; ?>
         <?php
-        echo $this->partial('vra-core-element.php', array(
-                'element' => $notesElement,
-                'elementName' => __('Notes'),
-                'subelements' => false,
-                'showAttributes' => $showAttributes,
-             )
-        );
+        echo $this->partial('vra-core-element.php', [
+            'element' => $notesElement,
+            'elementName' => __('Notes'),
+            'subelements' => false,
+            'showAttributes' => $showAttributes,
+        ]);
         ?>
         <?php unset($groupedElements['notes']); ?>
     <?php endif;?>
@@ -41,13 +39,12 @@ if (is_admin_theme()) {
                     <?php $subelements = false; ?>
                 <?php endif; ?>
                 <?php
-                echo $this->partial('vra-core-element.php', array(
-                        'element' => $element,
-                        'elementName' => $name,
-                        'subelements' => $subelements,
-                        'showAttributes' => $showAttributes,
-                     )
-                );
+                echo $this->partial('vra-core-element.php', [
+                    'element' => $element,
+                    'elementName' => $name,
+                    'subelements' => $subelements,
+                    'showAttributes' => $showAttributes,
+                ]);
                 ?>
             <?php endforeach; ?>
         <?php endforeach;?>
